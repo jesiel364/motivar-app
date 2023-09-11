@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, Pressable, Image, FlatList, ToastAndroid } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, Pressable, Image, FlatList, ToastAndroid, TouchableOpacity } from 'react-native';
 
 
 const MotiCard = (props: any) => {
@@ -16,6 +17,8 @@ const MotiCard = (props: any) => {
             label: 'Copy'
         },
     ]
+
+    const [selected, setSelected] = useState(false);
 
     // function ifPhrase(){
     //     if(phrase.frases){
@@ -38,11 +41,22 @@ const MotiCard = (props: any) => {
             </Text>
 
             <View style={styles.actions}>
-                {dataSource.map((item, index ) => (
+                {dataSource.map((item, index) => (
                     <Pressable key={index}>
                         <Text style={styles.btnText}>{item.label}</Text>
                     </Pressable>
+
+                    
+
+
                 ))}
+
+                {/* <TouchableOpacity
+                    onPress={() => setSelected(!selected)}
+                    style={{ backgroundColor: selected ? "#eee" : "transparent" }}
+                >
+                    <Text>Press me</Text>
+                </TouchableOpacity> */}
 
             </View>
         </View>
@@ -67,9 +81,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginRight: 'auto',
         marginLeft: 'auto',
-        
+
     },
-    btnText:{
+    btnText: {
         padding: 16
     }
 

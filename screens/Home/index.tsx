@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
 const Home = () => {
 
     const [phraseDay, setPhraseDay] = useState()
+    const author = 'Leandro Karnal'
 
     useEffect(() => {
       
-        fetch('https://pensador-api.vercel.app/?term=Machado+de+Assis&max=5', {
+        fetch(`https://pensador-api.vercel.app/?term=${author}&max=5`, {
             method: 'GET'
         })
             .then(

@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Pressable} from 'react-native';
 import MotiCard from '../../components/MotiCard';
 import { useEffect, useState } from 'react';
 
-const Home = () => {
+const Home = ({navigation}) => {
 
     const [phraseDay, setPhraseDay] = useState()
-    const author = 'Leandro Karnal'
+    const author = 'Jesus Cristo'
 
     useEffect(() => {
       
@@ -27,12 +27,16 @@ const Home = () => {
     function handleScroll(){
          
     }
+    
+    function handleOrder() {
+navigation.navigate('orders')
+    } 
 
     return (
       <View style={styles.container}>
   
      <MotiCard data={phraseDay} />
-
+    
         
         <StatusBar style="auto" />
 

@@ -30,15 +30,15 @@ const MotiCard = (props: any) => {
     return (
         <View style={styles.Card}>
             <Text style={styles.Text}>
-                {/* {JSON.stringify(phrase.frases)} */}
-                {phrase ? phrase.frases[2].texto : null}
-
-
+                
+                {phrase ? phrase.frases[0].texto : null }
             </Text>
-
             <Text style={styles.author}>
-                {phrase ? phrase.frases[0].autor : null}
+                
+                {phrase ? phrase.frases[0].autor : null }
             </Text>
+
+          
 
             <View style={styles.actions}>
                 {dataSource.map((item, index) => (

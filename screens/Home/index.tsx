@@ -10,7 +10,7 @@ const Home = ({navigation}) => {
 
     useEffect(() => {
       
-        fetch(`https://pensador-api.vercel.app/?term=${author}&max=5`, {
+        fetch(`https://pensador-api.vercel.app/?term=${author}&max=20`, {
             method: 'GET'
         })
             .then(

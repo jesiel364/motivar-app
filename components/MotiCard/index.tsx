@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, Pressable, Image, FlatList, ToastAndroid, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, Pressable, Image, FlatList, ToastAndroid, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 
 const MotiCard = (props: any) => {
+
+const random = Math.floor(Math.random() * 20)
 
   const [fav, setFav] = useState(false)
 
@@ -42,8 +44,9 @@ const MotiCard = (props: any) => {
     return (
         <View style={styles.Card}>
             <Text style={styles.Text}>
+           
                 
-                {phrase ? phrase.frases[4].texto : null }
+                {phrase ? phrase.frases[random].texto : <ActivityIndicator style={styles.loading}/> }
                 {fav}
             </Text>
             <Text style={styles.author}>
@@ -87,13 +90,16 @@ const MotiCard = (props: any) => {
 
 const styles = StyleSheet.create({
     Card: {
-        margin: 32
+        margin: 32,
+        
 
 
     },
     Text: {
         fontSize: 22, 
-        color: "#eee"
+        color: "#eee",
+        fontWeight: "600",
+       
     },
     author: {
         fontSize: 16,
@@ -109,6 +115,11 @@ const styles = StyleSheet.create({
     },
     btnText: {
         padding: 16
+    },
+    
+    loading: {
+      marginLeft: 'auto',
+      
     }
 
 })

@@ -47,10 +47,14 @@ navigation.navigate('orders')
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: 'black',
+      color: "white", 
       alignItems: 'center',
       justifyContent: 'center',
     },
+    Text: {
+      color: "#eee"
+    } 
   });
 
   export default Home

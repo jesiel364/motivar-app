@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 const MotiCard = (props: any) => {
 
+  const [fav, setFav] = useState(false)
+
   const showToast = (message) => {
     ToastAndroid.show(message, ToastAndroid.SHORT)
   }
@@ -14,7 +16,7 @@ const MotiCard = (props: any) => {
     const dataSource = [
         {
             label: 'Like', 
-            icon: "heart-outline"
+            icon: fav === true ? "heart" : "heart-outline"
         },
         {
             label: 'Send', 
@@ -30,17 +32,25 @@ const MotiCard = (props: any) => {
 
     function handlePress(item){
       showToast(item)
+      
+      if(item === "Like"){
+        setFav(!fav)
+      }
+      
+      
     } 
     return (
         <View style={styles.Card}>
             <Text style={styles.Text}>
                 
-                {phrase ? phrase.frases[0].texto : null }
+                {phrase ? phrase.frases[4].texto : null }
+                {fav}
             </Text>
             <Text style={styles.author}>
                 
-                {phrase ? phrase.frases[0].autor : null }
+                {phrase ? phrase.frases[4].autor : null }
             </Text>
+            <Text style={styles.Text}>{fav}</Text>
 
           
 
@@ -49,7 +59,7 @@ const MotiCard = (props: any) => {
                     <Pressable onPress={e => handlePress(item.label)} key={index}>
                         <Text style={styles.btnText}
                         >
-                         <Ionicons name={item.icon} size={24} />
+                         <Ionicons name={item.icon} size={32} color="white"/>
                 
                         
                         </Text>
@@ -82,10 +92,12 @@ const styles = StyleSheet.create({
 
     },
     Text: {
-        fontSize: 22
+        fontSize: 22, 
+        color: "#eee"
     },
     author: {
         fontSize: 16,
+        color: "#eee"
     },
     actions: {
         display: 'flex',

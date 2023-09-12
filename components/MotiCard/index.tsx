@@ -1,32 +1,36 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, SafeAreaView, Pressable, Image, FlatList, ToastAndroid, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 
 const MotiCard = (props: any) => {
+
+  const showToast = (message) => {
+    ToastAndroid.show(message, ToastAndroid.SHORT)
+  }
 
     const phrase = props.data
 
     const dataSource = [
         {
-            label: 'Like'
+            label: 'Like', 
+            icon: "heart-outline"
         },
         {
-            label: 'Send'
+            label: 'Send', 
+            icon: "share-outline" 
         },
         {
-            label: 'Copy'
+            label: 'Copy', 
+            icon: "copy-outline"
         },
     ]
 
     const [selected, setSelected] = useState(false);
 
-    // function ifPhrase(){
-    //     if(phrase.frases){
-    //         return true
-    //     }else{
-    //         return false
-    //     }
-    // }
+    function handlePress(item){
+      showToast(item)
+    } 
     return (
         <View style={styles.Card}>
             <Text style={styles.Text}>
@@ -42,8 +46,13 @@ const MotiCard = (props: any) => {
 
             <View style={styles.actions}>
                 {dataSource.map((item, index) => (
-                    <Pressable key={index}>
-                        <Text style={styles.btnText}>{item.label}</Text>
+                    <Pressable onPress={e => handlePress(item.label)} key={index}>
+                        <Text style={styles.btnText}
+                        >
+                         <Ionicons name={item.icon} size={24} />
+                
+                        
+                        </Text>
                     </Pressable>
 
                     
@@ -57,6 +66,9 @@ const MotiCard = (props: any) => {
                 >
                     <Text>Press me</Text>
                 </TouchableOpacity> */}
+                
+               
+               
 
             </View>
         </View>

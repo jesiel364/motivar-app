@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import Orders from './screens/Orders';

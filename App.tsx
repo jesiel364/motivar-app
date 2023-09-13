@@ -47,7 +47,7 @@ function MyTabs() {
           }} />
       <Tab.Screen name="orders" component={Orders} options={{
             title: 'Categorias',
-            headerShown: true
+            headerShown: false
 
           }} />
       <Tab.Screen name="favorites" component={Favorites} options={{

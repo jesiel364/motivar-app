@@ -40,6 +40,27 @@ const Orders = () => {
       icon: '🚀'
     }
   ]
+  
+  const authorsList = [
+    {
+      name: "Jesus Cristo"
+    },
+    {
+      name: "Stevie Jobs"
+    },
+    {
+      name: "Aristoteles"
+    },
+    {
+      name: "Machado de Assis"
+    },
+    {
+      name: "Beatles"
+    },
+    {
+      name: "Seneca"
+    },
+  ]
 
   function handleScroll() {
 
@@ -47,6 +68,8 @@ const Orders = () => {
 
   return (
     <View style={styles.container}>
+    
+    <Text style={styles.title}>Categorias</Text>
 
       <FlatGrid
         style={styles.grid}
@@ -54,8 +77,22 @@ const Orders = () => {
         data={ordersList}
         renderItem={({ item, index }) => (
           <>
-          <Text>{item.icon}</Text>
+          <Text style={styles.gridIcon}>{item.icon}</Text>
           <Text style={styles.gridLabel} key={index}>{item.label}</Text>
+          
+          </>
+          )}
+      />
+    <Text style={styles.title}>Autores</Text>
+
+      <FlatGrid
+        style={styles.grid}
+        itemDimension={100}
+        data={authorsList}
+        renderItem={({ item, index }) => (
+          <>
+         
+          <Text style={styles.authorItem} key={index}>{item.name}</Text>
           
           </>
           )}
@@ -77,19 +114,47 @@ const Orders = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 'auto',
     marginRight: 'auto'
   },
+  
+  title: {
+    color: "#eee",
+    fontSize: 22,
+    fontWeight: "700",
+    marginTop: 64,
+    textAlign: "left",
+    marginRight: "auto",
+    marginLeft: 32,
+    marginBottom: 16
+  },
 
   grid:{
-    backgroundColor: 'red'
+    
   },
 
   gridLabel:{
-    fontSize: 18
+    fontSize: 16,
+    textAlign: 'center',
+    color: "#eee"
+  },
+  authorItem:{
+    fontSize: 16,
+    textAlign: 'center',
+    color: "#eee",
+    backgroundColor: "#282828",
+    borderRadius: 8,
+    padding: 8,
+    paddingTop: 16,
+    paddingBottom: 16,
+    
+  },
+  gridIcon:{
+    fontSize: 26,
+    textAlign: 'center'
   }
 });
 

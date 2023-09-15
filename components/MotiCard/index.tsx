@@ -30,11 +30,7 @@ const random = Math.floor(Math.random() * 20)
             label: 'Copy', 
             icon: "copy-outline",
         },
-        {
-            label: 'Refresh', 
-            icon: "ios-refresh-outline",
-            
-        },
+      
     ]
 
     const [selected, setSelected] = useState(false);
@@ -53,7 +49,7 @@ const random = Math.floor(Math.random() * 20)
             <Text style={styles.Text}>
            
                 
-                {phrase ? phrase.frases[random].texto : <ActivityIndicator style={styles.loading}/> }
+                {phrase ? phrase.frases[0].texto : <ActivityIndicator style={styles.loading}/> }
                 {fav}
             </Text>
             <Text style={styles.author}>
@@ -79,6 +75,15 @@ const random = Math.floor(Math.random() * 20)
 
 
                 ))}
+                
+                 <Pressable onPress={e => props.update()} >
+                        <Text style={styles.btnText}
+                        >
+                         <Ionicons name="ios-refresh-outline" size={32} color="white"/>
+                
+                        
+                        </Text>
+                    </Pressable>
 
                 {/* <TouchableOpacity
                     onPress={() => setSelected(!selected)}

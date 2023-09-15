@@ -8,7 +8,7 @@ const Home = ({navigation}) => {
   const [loading, setLoading] = useState(false)
 
     const [phraseDay, setPhraseDay] = useState()
-    const [author, setAuthor] = useState(Math.floor(Math.random() * 3))
+    const [author, setAuthor] = useState(Math.floor(Math.random() * 4))
 
     const mainAuthors = [
       {
@@ -22,6 +22,12 @@ const Home = ({navigation}) => {
       },
       {
         authName: 'Stevie Jobs'
+      },
+      {
+        authName: 'Platão'
+      },
+      {
+        authName: 'Seneca'
       },
     ]
 
@@ -82,16 +88,12 @@ navigation.navigate('orders')
     return (
       <View style={styles.container}>
   
-     <MotiCard data={phraseDay} />
+     <MotiCard update={GetMessage} data={phraseDay} />
         {/* <Text style={styles.Text}>
         
         </Text> */}
 
-{loading && <ActivityIndicator  />||         <Pressable onPress={GetMessage}>
-          <Text style={styles.Text}>
-            Update
-          </Text>
-        </Pressable>}
+{loading && <ActivityIndicator  />}
 
         {/* <Pressable onPress={GetMessage}>
           <Text style={styles.Text}>

@@ -18,15 +18,22 @@ const random = Math.floor(Math.random() * 20)
     const dataSource = [
         {
             label: 'Like', 
-            icon: fav === true ? "heart" : "heart-outline"
+            icon: fav === true ? "heart" : "heart-outline",
+
         },
         {
             label: 'Send', 
-            icon: "share-outline" 
+            icon: "share-outline" ,
+            
         },
         {
             label: 'Copy', 
-            icon: "copy-outline"
+            icon: "copy-outline",
+        },
+        {
+            label: 'Refresh', 
+            icon: "ios-refresh-outline",
+            
         },
     ]
 

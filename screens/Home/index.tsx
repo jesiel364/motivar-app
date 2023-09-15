@@ -6,11 +6,33 @@ import { useEffect, useState } from 'react';
 const Home = ({navigation}) => {
 
     const [phraseDay, setPhraseDay] = useState()
-    const author = 'Jesus Cristo'
+    const [author, setAuthor] = useState(Math.floor(Math.random() * 3))
+
+    const mainAuthors = [
+      {
+        authName: 'Jesus Cristo'
+      },
+      {
+        authName: 'Machado de Assis'
+      },
+      {
+        authName: 'Beatles'
+      },
+      {
+        authName: 'Stevie Jobs'
+      },
+    ]
+
+
+
+    function updateMessage(max) {
+      setAuthor(Math.floor(Math.random() * max))
+      return
+    }
 
     useEffect(() => {
       
-        fetch(`https://pensador-api.vercel.app/?term=${author}&max=20`, {
+        fetch(`https://pensador-api.vercel.app/?term=${mainAuthors[author].authName}&max=20`, {
             method: 'GET'
         })
             .then(
@@ -36,7 +58,9 @@ navigation.navigate('orders')
       <View style={styles.container}>
   
      <MotiCard data={phraseDay} />
-    
+        {/* <Text style={styles.Text}>
+        
+        </Text> */}
         
         <StatusBar style="auto" />
 

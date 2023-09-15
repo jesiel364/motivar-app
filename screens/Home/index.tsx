@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Pressable} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Pressable, ActivityIndicator} from 'react-native';
 import MotiCard from '../../components/MotiCard';
 import { useEffect, useState } from 'react';
 
 const Home = ({navigation}) => {
+
+  const [loading, setLoading] = useState(false)
 
     const [phraseDay, setPhraseDay] = useState()
     const [author, setAuthor] = useState(Math.floor(Math.random() * 3))
@@ -31,8 +33,8 @@ const Home = ({navigation}) => {
     }
 
     useEffect(() => {
-      
-        fetch(`https://pensador-api.vercel.app/?term=${mainAuthors[author].authName}&max=20`, {
+
+       fetch(`https://pensador-api.vercel.app/?term=${mainAuthors[author].authName}&max=20`, {
             method: 'GET'
         })
             .then(
@@ -45,6 +47,29 @@ const Home = ({navigation}) => {
             )
 
     }, [])
+
+
+
+ async function GetMessage(){
+  setAuthor(Math.floor(Math.random() * 3))
+      setLoading(true)
+       await fetch(`https://pensador-api.vercel.app/?term=${mainAuthors[author].authName}&max=20`, {
+          method: 'GET'
+      })
+          .then(
+              response => response.json(),
+              
+            
+          )
+          .then(
+              json => setPhraseDay(json),
+              
+              
+          ).catch(
+              err => setPhraseDay({err})
+          )
+           setLoading(false) 
+  }
     
     function handleScroll(){
          
@@ -61,6 +86,18 @@ navigation.navigate('orders')
         {/* <Text style={styles.Text}>
         
         </Text> */}
+
+{loading && <ActivityIndicator  />||         <Pressable onPress={GetMessage}>
+          <Text style={styles.Text}>
+            Update
+          </Text>
+        </Pressable>}
+
+        {/* <Pressable onPress={GetMessage}>
+          <Text style={styles.Text}>
+            Update
+          </Text>
+        </Pressable> */}
         
         <StatusBar style="auto" />
 

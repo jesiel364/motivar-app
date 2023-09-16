@@ -110,12 +110,13 @@ const styles = StyleSheet.create({
     Text: {
         fontSize: 22, 
         color: "#eee",
-        fontWeight: "600",
+        fontWeight: "400",
        
     },
     author: {
         fontSize: 16,
-        color: "#eee"
+        color: "#eee",
+        fontWeight: '600'
     },
     actions: {
         display: 'flex',

@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { FlatGrid } from 'react-native-super-grid';
 import { SimpleGrid } from 'react-native-super-grid';
 
 
+
 const Orders = () => {
+
+  const [author, setAuthor] = useState()
 
   const ordersList = [
     {
@@ -52,9 +55,9 @@ const Orders = () => {
     {
       name: "Aristoteles"
     },
-    {
-      name: "Machado de Assis"
-    },
+    // {
+    //   name: "Machado de Assis"
+    // },
     {
       name: "Beatles"
     },
@@ -63,8 +66,9 @@ const Orders = () => {
     },
   ]
 
-  function handleScroll() {
-
+  function handlePress(name) {
+    ToastAndroid.show(name, ToastAndroid.SHORT)
+    setAuthor(name)
   }
 
   return (
@@ -86,14 +90,18 @@ const Orders = () => {
       />
     <Text style={styles.title}>Autores</Text>
 
+    {/* {<Text style={styles.title}>{author}</Text> || null} */}
+
       <FlatGrid
         style={styles.grid}
         itemDimension={100}
         data={authorsList}
         renderItem={({ item, index }) => (
           <>
-         
+         <Pressable onPress={() => handlePress(item.name)}>
           <Text style={styles.authorItem} key={index}>{item.name}</Text>
+          </Pressable>
+          
           
           </>
           )}
@@ -138,12 +146,12 @@ const styles = StyleSheet.create({
   },
 
   gridLabel:{
-    fontSize: 16,
+    fontSize: 12,
     textAlign: 'center',
     color: "#eee"
   },
   authorItem:{
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     color: "#eee",
     backgroundColor: "#282828",
@@ -151,6 +159,7 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingTop: 16,
     paddingBottom: 16,
+    
     
   },
   gridIcon:{

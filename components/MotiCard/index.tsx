@@ -36,7 +36,7 @@ const random = Math.floor(Math.random() * 20)
     const [selected, setSelected] = useState(false);
 
     function handlePress(item){
-      showToast(item)
+    //   showToast(item)
       
       if(item === "Like"){
         setFav(!fav)

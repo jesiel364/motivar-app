@@ -111,11 +111,12 @@ const styles = StyleSheet.create({
         fontSize: 22, 
         color: "#eee",
         fontWeight: "400",
+        
        
     },
     author: {
         fontSize: 16,
-        color: "#eee",
+        color: "#808080",
         fontWeight: '600'
     },
     actions: {

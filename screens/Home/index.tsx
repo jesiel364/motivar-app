@@ -11,30 +11,63 @@ const Home = ({navigation}) => {
     const [author, setAuthor] = useState(Math.floor(Math.random() * 4))
 
     const mainAuthors = [
-      {
-        authName: 'Jesus Cristo'
-      },
+     
       {
         authName: 'Machado de Assis'
       },
-      {
-        authName: 'Beatles'
-      },
+     
       {
         authName: 'Stevie Jobs'
       },
       {
-        authName: 'Platão'
+        authName: 'Mario Quintana'
       },
       {
-        authName: 'Seneca'
+        authName: 'Clarice Lispector'
+      },
+      {
+        authName: 'Oscar Wilde'
+      },
+      {
+        authName: 'Fernando Pessoa'
+      },
+      {
+        authName: 'William Shakespeare'
+      },
+      {
+        authName: 'Augusto Cury'
+      },
+      {
+        authName: 'Luís de Camões'
+      },
+     
+      {
+        authName: 'Carlos Drummond de Andrade'
+      },
+      {
+        authName: 'Pitágoras'
+      },
+      {
+        authName: 'Albert Einstein'
+      },
+      {
+        authName: 'Charles Chaplin'
+      },
+      {
+        authName: 'Leonardo da Vinci'
+      },
+      {
+        authName: 'Vinicius de Moraes'
+      },
+      {
+        authName: 'William James'
       },
     ]
 
 
 
     function updateMessage(max) {
-      setAuthor(Math.floor(Math.random() * max))
+      setAuthor(Math.floor(Math.random() * mainAuthors.length - 1))
       return
     }
 
@@ -47,17 +80,15 @@ const Home = ({navigation}) => {
                 response => response.json()
             )
             .then(
-                json => setPhraseDay(json)
+                json => setPhraseDay(json),
             ).catch(
                 err => setPhraseDay({err})
             )
 
     }, [])
 
-
-
- async function GetMessage(){
-  setAuthor(Math.floor(Math.random() * 3))
+async function updateMsg(){
+  setAuthor(Math.floor(Math.random() * mainAuthors.length - 1))
       setLoading(true)
        await fetch(`https://pensador-api.vercel.app/?term=${mainAuthors[author].authName}&max=20`, {
           method: 'GET'
@@ -68,14 +99,39 @@ const Home = ({navigation}) => {
             
           )
           .then(
-              json => setPhraseDay(json),
+              json => (json !== phraseDay ? setPhraseDay(json) : ''),
               
               
           ).catch(
               err => setPhraseDay({err})
           )
-           setLoading(false) 
+           setLoading(false)
   }
+
+
+ async function GetMessage(){
+  setAuthor(Math.floor(Math.random() * mainAuthors.length - 1 ))
+      setLoading(true)
+       await fetch(`https://pensador-api.vercel.app/?term=${mainAuthors[author].authName}&max=20`, {
+          method: 'GET'
+      })
+          .then(
+              response => response.json(),
+              
+            
+          )
+          .then(
+              json => (json !== phraseDay ? setPhraseDay(json) : updateMsg()),
+              
+              
+          ).catch(
+              err => setPhraseDay({err})
+          )
+           setLoading(false)
+  }
+  
+ 
+ 
     
     function handleScroll(){
          

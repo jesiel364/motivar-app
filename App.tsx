@@ -52,12 +52,12 @@ function MyTabs() {
           }} />
       <Tab.Screen name="favorites" component={Favorites} options={{
             title: 'Favoritos',
-            headerShown: true
+            headerShown: false
 
           }} />
       <Tab.Screen name="settings" component={Settings} options={{
             title: 'Config.',
-            headerShown: true
+            headerShown: false
 
           }} />
     </Tab.Navigator>

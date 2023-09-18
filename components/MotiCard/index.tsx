@@ -43,7 +43,7 @@ const MotiCard = (props: any) => {
         // Clipboard.setString('hello world')
         await Clipboard.setStringAsync(phrase.frases[phrase.frases.length - 1]?.texto)
 
-        // showToast()
+        showToast("Mensagem copiada!")
     }
 
     function handleLikePress() {

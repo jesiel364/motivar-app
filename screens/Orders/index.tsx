@@ -42,6 +42,10 @@ const Orders = () => {
     {
       label: 'Disciplina',
       icon: '🚀'
+    },
+    {
+      label: 'Ver mais',
+      icon: '➕'
     }
   ]
   
@@ -78,7 +82,7 @@ const Orders = () => {
 
       <FlatGrid
         style={styles.grid}
-        itemDimension={100}
+        itemDimension={86}
         data={ordersList}
         renderItem={({ item, index }) => (
           <>
@@ -134,21 +138,21 @@ const styles = StyleSheet.create({
   
   title: {
     color: "#eee",
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "700",
     marginTop: 64,
     textAlign: "left",
     marginRight: "auto",
-    marginLeft: 32,
+    marginLeft: 16,
     marginBottom: 16
   },
 
   grid:{
-    
+
   },
 
   gridLabel:{
-    fontSize: 13,
+    fontSize: 16,
     textAlign: 'center',
     color: "#282828",
     fontWeight: "600"
@@ -173,7 +177,9 @@ const styles = StyleSheet.create({
   orderItem: {
     backgroundColor: "#f9f9f9",
     padding: 16,
-    borderRadius: 16
+    borderRadius: 16,
+    // width: 120,
+    height: 100,
   }
 });
 

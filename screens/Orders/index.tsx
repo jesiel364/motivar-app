@@ -82,8 +82,10 @@ const Orders = () => {
         data={ordersList}
         renderItem={({ item, index }) => (
           <>
+          <Pressable style={styles.orderItem}>
           <Text style={styles.gridIcon}>{item.icon}</Text>
           <Text style={styles.gridLabel} key={index}>{item.label}</Text>
+          </Pressable>
           
           </>
           )}
@@ -146,9 +148,10 @@ const styles = StyleSheet.create({
   },
 
   gridLabel:{
-    fontSize: 12,
+    fontSize: 13,
     textAlign: 'center',
-    color: "#eee"
+    color: "#282828",
+    fontWeight: "600"
   },
   authorItem:{
     fontSize: 14,
@@ -159,12 +162,18 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingTop: 16,
     paddingBottom: 16,
-    
+   
     
   },
   gridIcon:{
     fontSize: 26,
     textAlign: 'center'
+  },
+  
+  orderItem: {
+    backgroundColor: "#f9f9f9",
+    padding: 16,
+    borderRadius: 16
   }
 });
 

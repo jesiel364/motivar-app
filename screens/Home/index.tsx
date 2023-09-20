@@ -87,22 +87,7 @@ const Home = ({ navigation }) => {
   //     .catch((err) => setPhraseDay({ err }));
   // }, []);
 
-  async function updateMsg() {
-  
-  setPhraseDay(undefined)
-  await setAuthor(Math.floor(Math.random() * mainAuthors.length - 1));
-    setLoading(true);
-    await fetch(
-      `https://pensador-api.vercel.app/?term=${mainAuthors[author]?.authName}&max=20`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((json) => setPhraseDay(json))
-      .catch((err) => setPhraseDay({ err }));
-    setLoading(false);
-  }
+ 
   
  
 
@@ -117,6 +102,23 @@ const Home = ({ navigation }) => {
     )
       .then((response) => response.json())
       .then((json) => (json !== phraseDay ? setPhraseDay(json) : updateMsg()))
+      .catch((err) => setPhraseDay({ err }));
+    setLoading(false);
+  }
+  
+   async function updateMsg() {
+  
+  setPhraseDay(undefined)
+  await setAuthor(Math.floor(Math.random() * mainAuthors.length - 1));
+    setLoading(true);
+    await fetch(
+      `https://pensador-api.vercel.app/?term=${mainAuthors[author]?.authName}&max=20`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((json) => setPhraseDay(json))
       .catch((err) => setPhraseDay({ err }));
     setLoading(false);
   }

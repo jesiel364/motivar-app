@@ -130,8 +130,8 @@ const frase = list[rand]
         {fav}
       
       <Text style={styles.author}>
-        {frase ? frase.autor
-          : null}
+        {frase ? frase?.autor
+          : (frase?.texto && frase?.texto === "Undefined" ? "Desconhecido" : null)}
       </Text>
       <Text style={styles.Text}>{fav}</Text>
 

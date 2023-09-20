@@ -1,206 +1,193 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-    StyleSheet,
-    Text,
-    View,
-    Button,
-    TextInput,
-    SafeAreaView,
-    Pressable,
-    Image,
-    FlatList,
-    ToastAndroid,
-    TouchableOpacity,
-    ActivityIndicator,
-    Share,
-    Alert
-
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import * as Clipboard from 'expo-clipboard';
-import * as Sharing from 'expo-sharing';
-
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  SafeAreaView,
+  Pressable,
+  Image,
+  FlatList,
+  ToastAndroid,
+  TouchableOpacity,
+  ActivityIndicator,
+  Share,
+  Alert,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import * as Clipboard from "expo-clipboard";
+import * as Sharing from "expo-sharing";
 
 const MotiCard = (props: any) => {
+  function updateMessage() {
+    setAuthor(Math.floor(Math.random() * mainAuthors.length - 1));
+    return;
+  }
+  
+  const [fav, setFav] = useState(false);
 
+  const showToast = (message: string) => {
+    ToastAndroid.show(message, ToastAndroid.SHORT);
+  };
 
-
-    const [frase, setFrase] = useState(false)
-    const [fav, setFav] = useState(false)
-
-    const showToast = (message: string) => {
-        ToastAndroid.show(message, ToastAndroid.SHORT)
+  const phrase = props.data;
+  
+  
+ 
+ const list = []
+ 
+ 
+  phrase?.frases.map((frase) => {
+    // console.log(frase.texto)
+    list.push(
+    {
+    autor: frase.autor,
+    texto: frase.texto,
+      
     }
+    )
+  })
 
-    const phrase = props.data
 
-    function getMessage(){
-        setFrase(phrase.frases[phrase.frases.length - 1]?.texto)
-        return frase
+let rand = Math.floor(Math.random() * (list.length - 1))
+
+const frase = list[rand]
+  
+  
+  async function copyToClipboard() {
+    // Clipboard.setString('hello world')
+    await Clipboard.setStringAsync(
+      frase.texto
+    );
+
+    showToast("Mensagem copiada!");
+  }
+
+  function handleLikePress() {
+    setFav(!fav);
+  }
+
+  async function send() {
+    try {
+      const result = await Share.share({
+        message: frase.texto,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error: any) {
+      Alert.alert(error.message);
     }
+  }
 
-    async function copyToClipboard() {
-        // Clipboard.setString('hello world')
-        await Clipboard.setStringAsync(phrase.frases[phrase.frases.length - 1]?.texto)
+  const dataSource = [
+    {
+      label: "Like",
+      icon: fav === true ? "heart" : "heart-outline",
+      callback: handleLikePress,
+    },
+    {
+      label: "Send",
+      icon: "share-outline",
+      callback: send,
+    },
+    {
+      label: "Copy",
+      icon: "copy-outline",
+      callback: copyToClipboard,
+    },
+    {
+      label: "Update",
+      icon: "ios-refresh-outline",
+      callback: props.update,
+    },
+  ];
 
-        showToast("Mensagem copiada!")
-    }
+  // const random = Math.floor(Math.random() * phrase.frases.length)
 
-    function handleLikePress() {
-        setFav(!fav)
-    }
+  const [selected, setSelected] = useState(false);
 
-    function share(){
-        Sharing.shareAsync('ddd')
-    }
-
-
-   
-          async  function send(){
-                try {
-                    const result = await Share.share({
-                      message: phrase.frases[phrase.frases.length - 1]?.texto || ''
-                        
-                    });
-                    if (result.action === Share.sharedAction) {
-                      if (result.activityType) {
-                        // shared with activity type of result.activityType
-                      } else {
-                        // shared
-                      }
-                    } else if (result.action === Share.dismissedAction) {
-                      // dismissed
-                    }
-                  } catch (error: any) {
-                    Alert.alert(error.message);
-                  }
-                
-            }
-   
+  return (
+    <View style={styles.Card}>
+     
+        {frase ? 
+        (
+         <Text selectable={true} style={styles.Text}>{
+        frase.texto}
+        </Text>
+        )
         
-           
-        
-    const dataSource = [
-        {
-            label: 'Like',
-            icon: fav === true ? "heart" : "heart-outline",
-            callback: handleLikePress
+       : (
+          <ActivityIndicator style={styles.loading} />
+        )}
+        {fav}
+      
+      <Text style={styles.author}>
+        {frase ? frase.autor
+          : null}
+      </Text>
+      <Text style={styles.Text}>{fav}</Text>
 
-        },
-        {
-            label: 'Send',
-            icon: "share-outline",
-            callback: send
-
-        },
-        {
-            label: 'Copy',
-            icon: "copy-outline",
-            callback: copyToClipboard
-        },
-        {
-            label: 'Update',
-            icon: "ios-refresh-outline",
-            callback: props.update
-
-        },
-
-    ]
-
-    // const random = Math.floor(Math.random() * phrase.frases.length)
-
-    const [selected, setSelected] = useState(false);
-
-
-
-
-
-
-    return (
-        <View style={styles.Card}>
-            <Text selectable={true} style={styles.Text}>
-
-
-                {phrase ? phrase.frases[phrase.frases.length - 1]?.texto : <ActivityIndicator style={styles.loading} />}
-                {fav}
+      <View style={styles.actions}>
+        {dataSource.map((item, index) => (
+          <Pressable
+            onPress={(e) => (item.callback ? item.callback() : null)}
+            key={index}
+          >
+            <Text style={styles.btnText}>
+              <Ionicons name={item.icon} size={32} color="white" />
             </Text>
-            <Text style={styles.author}>
+          </Pressable>
+        ))}
 
-                {phrase ? phrase.frases[phrase.frases.length - 1]?.autor : null}
-            </Text>
-            <Text style={styles.Text}>{fav}</Text>
-
-
-
-            <View style={styles.actions}>
-                {dataSource.map((item, index) => (
-                    <Pressable onPress={e => item.callback ? item.callback() : null} key={index}>
-                        <Text style={styles.btnText}
-                        >
-                            <Ionicons name={item.icon} size={32} color="white" />
-
-
-                        </Text>
-                    </Pressable>
-
-
-
-
-                ))}
-
-
-
-                {/* <TouchableOpacity
+        {/* <TouchableOpacity
                     onPress={() => setSelected(!selected)}
                     style={{ backgroundColor: selected ? "#eee" : "transparent" }}
                 >
                     <Text>Press me</Text>
                 </TouchableOpacity> */}
-
-
-
-
-            </View>
-        </View>
-    )
-}
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    Card: {
-        margin: 32,
+  Card: {
+    margin: 32,
+  },
+  Text: {
+    fontSize: 22,
+    color: "#eee",
+    fontWeight: "400",
+    maxHeight: 400
+  },
+  author: {
+    fontSize: 16,
+    color: "#808080",
+    fontWeight: "600",
+  },
+  actions: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginRight: "auto",
+    marginLeft: "auto",
+  },
+  btnText: {
+    padding: 16,
+  },
 
+  loading: {
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+});
 
-
-    },
-    Text: {
-        fontSize: 22,
-        color: "#eee",
-        fontWeight: "400",
-
-
-    },
-    author: {
-        fontSize: 16,
-        color: "#808080",
-        fontWeight: '600'
-    },
-    actions: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginRight: 'auto',
-        marginLeft: 'auto',
-
-    },
-    btnText: {
-        padding: 16
-    },
-
-    loading: {
-        marginLeft: 'auto',
-
-    }
-
-})
-
-export default MotiCard
+export default MotiCard;

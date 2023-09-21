@@ -3,10 +3,23 @@ import { Pressable, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'rea
 import { useEffect, useState } from 'react';
 import { FlatGrid } from 'react-native-super-grid';
 import { SimpleGrid } from 'react-native-super-grid';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+const Stack = createNativeStackNavigator()
 
+function DetailView({route}){
 
-const Orders = () => {
+  const order = route.params.orderName
+
+  return(
+    <View style={styles.container}>
+    <Text style={styles.title}>{order}</Text>
+    </View>
+  )
+}
+
+const Orders = ({navigation}) => {
 
   const [author, setAuthor] = useState()
 
@@ -73,6 +86,7 @@ const Orders = () => {
   function handlePress(name) {
     ToastAndroid.show(name, ToastAndroid.SHORT)
     setAuthor(name)
+    navigation.navigate('order', {orderName: name})
   }
 
   return (
@@ -86,7 +100,7 @@ const Orders = () => {
         data={ordersList}
         renderItem={({ item, index }) => (
           <>
-          <Pressable style={styles.orderItem}>
+          <Pressable onPress={() => handlePress(item.label)} style={styles.orderItem}>
           <Text style={styles.gridIcon}>{item.icon}</Text>
           <Text style={styles.gridLabel} key={index}>{item.label}</Text>
           </Pressable>
@@ -123,6 +137,37 @@ const Orders = () => {
       <StatusBar style="auto" />
 
     </View>
+  )
+}
+
+export default function OrderView() {
+
+
+
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator>
+      <Stack.Screen
+        name='main'
+        component={Orders}
+        options={{
+          title: 'Feed',
+          headerShown: false
+
+        }}
+      />
+      <Stack.Screen
+        name='order'
+        component={DetailView}
+        options={{
+          title: 'Test2',
+          // headerShown: false
+
+        }}
+      />
+      </Stack.Navigator>
+
+    </NavigationContainer>
   )
 }
 
@@ -183,4 +228,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Orders

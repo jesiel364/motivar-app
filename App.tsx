@@ -4,9 +4,10 @@ import { NavigationContainer } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
-import Orders from './screens/Orders';
+import OrderView from './screens/Orders';
 import Favorites from './screens/Favorites';
 import Settings from './screens/Settings';
+import MessageView from './screens/MessageView';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -45,7 +46,7 @@ function MyTabs() {
             headerShown: false
 
           }} />
-      <Tab.Screen name="orders" component={Orders} options={{
+      <Tab.Screen name="orders" component={OrderView} options={{
             title: 'Categorias',
             headerShown: false
 
@@ -57,6 +58,11 @@ function MyTabs() {
           }} />
       <Tab.Screen name="settings" component={Settings} options={{
             title: 'Config.',
+            headerShown: false
+
+          }} />
+      <Tab.Screen name="teste" component={MessageView} options={{
+            title: 'Teste',
             headerShown: false
 
           }} />

@@ -5,21 +5,39 @@ import { FlatGrid } from 'react-native-super-grid';
 import { SimpleGrid } from 'react-native-super-grid';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MotiCard from '../../components/MotiCard';
+
 
 const Stack = createNativeStackNavigator()
 
-function DetailView({route}){
+function DetailView({ route }) {
 
   const order = route.params.orderName
+  const data =
+    [{
+      frases:
+        [{
+          autor: 'Test',
+          frase: 'Test'
+        },
+        {
+          autor: 'Test2',
+          frase: 'Test2'
+        },]
+    }
 
-  return(
+    ]
+
+
+  return (
     <View style={styles.container}>
-    <Text style={styles.title}>{order}</Text>
+      <Text style={styles.title}>{order}</Text>
+      {/* <MotiCard props={data}></MotiCard> */}
     </View>
   )
 }
 
-const Orders = ({navigation}) => {
+const Orders = ({ navigation }) => {
 
   const [author, setAuthor] = useState()
 
@@ -61,7 +79,7 @@ const Orders = ({navigation}) => {
       icon: '➕'
     }
   ]
-  
+
   const authorsList = [
     {
       name: "Jesus Cristo"
@@ -86,13 +104,13 @@ const Orders = ({navigation}) => {
   function handlePress(name) {
     ToastAndroid.show(name, ToastAndroid.SHORT)
     setAuthor(name)
-    navigation.navigate('order', {orderName: name})
+    navigation.navigate('order', { orderName: name })
   }
 
   return (
     <View style={styles.container}>
-    
-    <Text style={styles.title}>Categorias</Text>
+
+      <Text style={styles.title}>Categorias</Text>
 
       <FlatGrid
         style={styles.grid}
@@ -100,17 +118,17 @@ const Orders = ({navigation}) => {
         data={ordersList}
         renderItem={({ item, index }) => (
           <>
-          <Pressable onPress={() => handlePress(item.label)} style={styles.orderItem}>
-          <Text style={styles.gridIcon}>{item.icon}</Text>
-          <Text style={styles.gridLabel} key={index}>{item.label}</Text>
-          </Pressable>
-          
-          </>
-          )}
-      />
-    <Text style={styles.title}>Autores</Text>
+            <Pressable onPress={() => handlePress(item.label)} style={styles.orderItem}>
+              <Text style={styles.gridIcon}>{item.icon}</Text>
+              <Text style={styles.gridLabel} key={index}>{item.label}</Text>
+            </Pressable>
 
-    {/* {<Text style={styles.title}>{author}</Text> || null} */}
+          </>
+        )}
+      />
+      <Text style={styles.title}>Autores</Text>
+
+      {/* {<Text style={styles.title}>{author}</Text> || null} */}
 
       <FlatGrid
         style={styles.grid}
@@ -118,13 +136,13 @@ const Orders = ({navigation}) => {
         data={authorsList}
         renderItem={({ item, index }) => (
           <>
-         <Pressable onPress={() => handlePress(item.name)}>
-          <Text style={styles.authorItem} key={index}>{item.name}</Text>
-          </Pressable>
-          
-          
+            <Pressable onPress={() => handlePress(item.name)}>
+              <Text style={styles.authorItem} key={index}>{item.name}</Text>
+            </Pressable>
+
+
           </>
-          )}
+        )}
       />
 
       {/* <SimpleGrid
@@ -147,24 +165,24 @@ export default function OrderView() {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
-      <Stack.Screen
-        name='main'
-        component={Orders}
-        options={{
-          title: 'Feed',
-          headerShown: false
+        <Stack.Screen
+          name='main'
+          component={Orders}
+          options={{
+            title: 'Feed',
+            headerShown: false
 
-        }}
-      />
-      <Stack.Screen
-        name='order'
-        component={DetailView}
-        options={{
-          title: 'Test2',
-          // headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name='order'
+          component={DetailView}
+          options={{
+            title: 'Test2',
+            headerShown: false
 
-        }}
-      />
+          }}
+        />
       </Stack.Navigator>
 
     </NavigationContainer>
@@ -175,12 +193,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
+    // minWidth: '100vw'
   },
-  
+
   title: {
     color: "#eee",
     fontSize: 24,
@@ -192,17 +211,17 @@ const styles = StyleSheet.create({
     marginBottom: 16
   },
 
-  grid:{
+  grid: {
 
   },
 
-  gridLabel:{
+  gridLabel: {
     fontSize: 16,
     textAlign: 'center',
     color: "#282828",
     fontWeight: "600"
   },
-  authorItem:{
+  authorItem: {
     fontSize: 14,
     textAlign: 'center',
     color: "#eee",
@@ -211,14 +230,14 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingTop: 16,
     paddingBottom: 16,
-   
-    
+
+
   },
-  gridIcon:{
+  gridIcon: {
     fontSize: 26,
     textAlign: 'center'
   },
-  
+
   orderItem: {
     backgroundColor: "#f9f9f9",
     padding: 16,

@@ -1,5 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  SafeAreaView,
+  Pressable,
+  Image,
+  FlatList,
+  ToastAndroid,
+  TouchableOpacity,
+  ActivityIndicator,
+  Share,
+  Alert,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import * as Clipboard from "expo-clipboard";
+import * as Sharing from "expo-sharing";
 import { useEffect, useState } from 'react';
 import { FlatGrid } from 'react-native-super-grid';
 import { SimpleGrid } from 'react-native-super-grid';
@@ -27,12 +45,65 @@ function DetailView({ route }) {
     }
 
     ]
+    
+      const dataSource = [
+    {
+      label: "Like",
+      icon: "heart-outline",
+      callback: console.log('test'),
+    },
+    {
+      label: "Send",
+      icon: "share-outline",
+      callback: console.log('test'), 
+    },
+    {
+      label: "Copy",
+      icon: "copy-outline",
+      callback: console.log('test'),
+    },
+    {
+      label: "Update",
+      icon: "ios-refresh-outline",
+    },
+      
+  ];
 
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{order}</Text>
       {/* <MotiCard props={data}></MotiCard> */}
+        <View style={styles.Card}>
+   
+   
+         <Text selectable={true} style={styles.Text}>
+         Mensagem
+        </Text>
+      
+          <ActivityIndicator style={styles.loading} />
+      
+      
+      <Text style={styles.author}>
+      Autor desconhecido
+      </Text>
+      <Text style={styles.Text}>fav</Text>
+
+      <View style={styles.actions}>
+        {dataSource.map((item, index) => (
+          <Pressable
+            onPress={(e) => (item.callback ? item.callback() : null)}
+            key={index}
+          >
+            <Text style={styles.btnText}>
+              <Ionicons name={item.icon} size={32} color="white" />
+            </Text>
+          </Pressable>
+        ))}
+
+      
+      </View>
+    </View>
     </View>
   )
 }
@@ -160,11 +231,13 @@ const Orders = ({ navigation }) => {
 
 export default function OrderView() {
 
-
-
   return (
     <NavigationContainer independent={true}>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        headerStyle: styles.header,
+        headerTintColor: '#fff',
+        headerTitleStyle: styles.headerTitle,
+      }}>
         <Stack.Screen
           name='main'
           component={Orders}
@@ -177,11 +250,13 @@ export default function OrderView() {
         <Stack.Screen
           name='order'
           component={DetailView}
+          
           options={{
             title: 'Test2',
-            headerShown: false
+            headerShown: true
 
           }}
+          
         />
       </Stack.Navigator>
 
@@ -190,6 +265,14 @@ export default function OrderView() {
 }
 
 const styles = StyleSheet.create({
+header: {
+    backgroundColor: '#282828',
+  },
+  headerTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: "#fefefe"
+  },
   container: {
     flex: 1,
     backgroundColor: 'black',
@@ -218,7 +301,7 @@ const styles = StyleSheet.create({
   gridLabel: {
     fontSize: 16,
     textAlign: 'center',
-    color: "#282828",
+    color: "#eee",
     fontWeight: "600"
   },
   authorItem: {
@@ -239,11 +322,40 @@ const styles = StyleSheet.create({
   },
 
   orderItem: {
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#282828",
     padding: 16,
     borderRadius: 16,
     // width: 120,
     height: 100,
-  }
+  },
+  Card: {
+    margin: 32,
+  },
+  Text: {
+    fontSize: 22,
+    color: "#fefefe",
+    fontWeight: "400",
+    maxHeight: 400
+  },
+  author: {
+    fontSize: 16,
+    color: "#808080",
+    fontWeight: "600",
+  },
+  actions: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginRight: "auto",
+    marginLeft: "auto",
+  },
+  btnText: {
+    padding: 16,
+  },
+
+  loading: {
+    marginLeft: "auto",
+    marginRight: "auto",
+  }, 
 });
 

@@ -127,7 +127,7 @@ const frase = list[rand]
        : (
           <ActivityIndicator style={styles.loading} />
         )}
-        {fav}
+        
       
       <Text style={styles.author}>
         {frase ? frase?.autor

@@ -10,6 +10,14 @@ import Settings from './screens/Settings';
 import MessageView from './screens/MessageView';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
+export type MsgProps = {
+  id: number,
+  body: string,
+  author: string,
+  label?: string
+}
+
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -61,11 +69,11 @@ function MyTabs() {
             headerShown: false
 
           }} />
-      <Tab.Screen name="teste" component={MessageView} options={{
+      {/* <Tab.Screen name="teste" component={MessageView} options={{
             title: 'Teste',
             headerShown: false
 
-          }} />
+          }} /> */}
     </Tab.Navigator>
   );
 }

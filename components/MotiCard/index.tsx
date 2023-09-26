@@ -18,12 +18,17 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import * as Sharing from "expo-sharing";
+import AsyncStorage, {useAsyncStorage} from "@react-native-async-storage/async-storage"; 
+import uuid from 'react-native-uuid';
+import Toast from "react-native-toast-message";
 
 const MotiCard = (props: any) => {
   function updateMessage() {
     setAuthor(Math.floor(Math.random() * mainAuthors.length - 1));
     return;
   }
+
+  const {getItem, setItem} = useAsyncStorage('@messages:favorites')
   
   const [fav, setFav] = useState(false);
 
@@ -50,6 +55,8 @@ const MotiCard = (props: any) => {
   })
 
 
+
+
 let rand = Math.floor(Math.random() * (list.length - 1))
 
 const frase = list[rand]
@@ -64,8 +71,17 @@ const frase = list[rand]
     showToast("Mensagem copiada!");
   }
 
-  function handleLikePress() {
+
+
+ async function handleLikePress() {
+
+  const response =  await getItem()
+  const previousData = response ? JSON.parse(response) : []
+  const data = [...previousData, frase]
     setFav(!fav);
+    await setItem(JSON.stringify(data))
+    // await AsyncStorage.setItem('@messages:favorites', JSON.stringify(frase))
+    showToast('Adicionado aos favoritos!')
   }
 
   async function send() {

@@ -24,93 +24,22 @@ import { SimpleGrid } from 'react-native-super-grid';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MotiCard from '../../components/MotiCard';
+import MsgView from '../../components/MsgView';
+import { MsgProps } from '../../App';
 
 
 const Stack = createNativeStackNavigator()
 
-function DetailView({ route }) {
-
-  const order = route.params.orderName
-  const data =
-    [{
-      frases:
-        [{
-          autor: 'Test',
-          frase: 'Test'
-        },
-        {
-          autor: 'Test2',
-          frase: 'Test2'
-        },]
-    }
-
-    ]
-    
-      const dataSource = [
-    {
-      label: "Like",
-      icon: "heart-outline",
-      callback: console.log('test'),
-    },
-    {
-      label: "Send",
-      icon: "share-outline",
-      callback: console.log('test'), 
-    },
-    {
-      label: "Copy",
-      icon: "copy-outline",
-      callback: console.log('test'),
-    },
-    {
-      label: "Update",
-      icon: "ios-refresh-outline",
-    },
-      
-  ];
-
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{order}</Text>
-      {/* <MotiCard props={data}></MotiCard> */}
-        <View style={styles.Card}>
-   
-   
-         <Text selectable={true} style={styles.Text}>
-         Mensagem
-        </Text>
-      
-          <ActivityIndicator style={styles.loading} />
-      
-      
-      <Text style={styles.author}>
-      Autor desconhecido
-      </Text>
-      <Text style={styles.Text}>fav</Text>
-
-      <View style={styles.actions}>
-        {dataSource.map((item, index) => (
-          <Pressable
-            onPress={(e) => (item.callback ? item.callback() : null)}
-            key={index}
-          >
-            <Text style={styles.btnText}>
-              <Ionicons name={item.icon} size={32} color="white" />
-            </Text>
-          </Pressable>
-        ))}
-
-      
-      </View>
-    </View>
-    </View>
-  )
-}
-
 const Orders = ({ navigation }) => {
 
   const [author, setAuthor] = useState()
+
+ interface OrdersType {
+    label: string,
+    name: string,
+    icon: string,
+    data?: MsgProps
+  }
 
   const ordersList = [
     {
@@ -172,10 +101,13 @@ const Orders = ({ navigation }) => {
     },
   ]
 
-  function handlePress(name) {
-    ToastAndroid.show(name, ToastAndroid.SHORT)
-    setAuthor(name)
-    navigation.navigate('order', { orderName: name })
+  function handlePress(item: OrdersType) {
+    ToastAndroid.show(item, ToastAndroid.SHORT)
+    setAuthor(item)
+    navigation.navigate('order', {title: item.label , data: {
+      autor: `Leonardo da Vinci`,
+      texto: "A lei suprema da arte é a representação do belo.",
+    } })
   }
 
   return (
@@ -249,10 +181,10 @@ export default function OrderView() {
         />
         <Stack.Screen
           name='order'
-          component={DetailView}
+          component={MsgView}
           
           options={{
-            title: 'Test2',
+            title: 'Categorias',
             headerShown: true
 
           }}
@@ -266,7 +198,7 @@ export default function OrderView() {
 
 const styles = StyleSheet.create({
 header: {
-    backgroundColor: '#282828',
+    backgroundColor: '#40869b',
   },
   headerTitle: {
     fontWeight: 'bold',

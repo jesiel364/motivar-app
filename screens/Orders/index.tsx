@@ -198,7 +198,7 @@ export default function OrderView() {
 
 const styles = StyleSheet.create({
 header: {
-    backgroundColor: '#40869b',
+    backgroundColor: '#282828',
   },
   headerTitle: {
     fontWeight: 'bold',

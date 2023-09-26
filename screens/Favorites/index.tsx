@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   header: {
-    backgroundColor: '#4a934a',
+    backgroundColor: '#282828',
   },
   headerTitle: {
     fontWeight: 'bold',

@@ -45,13 +45,18 @@ function MyTabs() {
             return <Ionicons name={iconName} size={size} color={color} />;
           },
           tabBarActiveTintColor: 'green',
-          tabBarInactiveTintColor: 'gray',
-          tabBarStyle: styles.tab
+          tabBarInactiveTintColor: '#fff',
+          tabBarStyle: styles.tab,
+
+          
+          
         })}
     >
       <Tab.Screen name="home" component={Home} options={{
             title: 'Citações',
-            headerShown: false
+            headerShown: true,
+            headerStyle: styles.headerTab,
+            headerTitleStyle: styles.headerTitleStyle
 
           }} />
       <Tab.Screen name="orders" component={OrderView} options={{
@@ -65,8 +70,10 @@ function MyTabs() {
 
           }} />
       <Tab.Screen name="settings" component={Settings} options={{
-            title: 'Config.',
-            headerShown: false
+            title: 'Configurações',
+            headerShown: true,
+            headerStyle: styles.headerTab,
+            headerTitleStyle: styles.headerTitleStyle
 
           }} />
       {/* <Tab.Screen name="teste" component={MessageView} options={{
@@ -112,6 +119,15 @@ const styles = StyleSheet.create({
   },
   
   tab:{
-    backgroundColor: "black"
+    backgroundColor: "#282828",
+    borderTopColor: "#424242",
+    borderTopWidth: 1,
   } 
+  ,
+  headerTab: {
+    backgroundColor: '#282828'
+  },
+  headerTitleStyle: {
+    color: '#fff'
+  }
 });

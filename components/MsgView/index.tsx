@@ -30,11 +30,11 @@ export default function MsgView({ route }) {
     const data = route.params?.data
       
         const dataSource = [
-      {
-        label: "Like",
-        icon: "heart-outline",
-        callback: console.log('test'),
-      },
+      // {
+      //   label: "Like",
+      //   icon: "heart-outline",
+      //   callback: console.log('test'),
+      // },
       {
         label: "Send",
         icon: "share-outline",

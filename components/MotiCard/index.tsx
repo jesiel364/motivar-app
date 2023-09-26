@@ -77,11 +77,16 @@ const frase = list[rand]
 
   const response =  await getItem()
   const previousData = response ? JSON.parse(response) : []
+  const filt = previousData.filter(item => item.texto === frase.texto )
   const data = [...previousData, frase]
-    setFav(!fav);
-    await setItem(JSON.stringify(data))
+  console.log(filt)
+    // setFav(!fav);
+    if(!!filt){
+      await setItem(JSON.stringify(data))
     // await AsyncStorage.setItem('@messages:favorites', JSON.stringify(frase))
     showToast('Adicionado aos favoritos!')
+    }
+    
   }
 
   async function send() {

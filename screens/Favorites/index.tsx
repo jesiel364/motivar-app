@@ -6,6 +6,7 @@ import {
   View,
   Pressable,
   FlatList,
+  ToastAndroid,
 } from "react-native";
 import MotiCard from "../../components/MotiCard";
 import { useEffect, useState, useCallback } from "react";
@@ -16,6 +17,7 @@ import Toast from 'react-native-toast-message';
 import AsyncStorage, {useAsyncStorage} from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 interface Props{
   item: any
@@ -36,12 +38,16 @@ async function handleFetch() {
  
 }
 
-console.log(data)
 
-useFocusEffect(useCallback(()=> {
+// useFocusEffect(useCallback(()=> {
+//   handleFetch()
+
+// }, []))
+
+useEffect(()=> {
   handleFetch()
+})
 
-}, []))
 
   function handlePress(item:Props) {
 
@@ -54,7 +60,12 @@ useFocusEffect(useCallback(()=> {
     const previousData = response ? JSON.parse(response) : []
     const data = previousData.filter((item) => texto !== item.texto)
     setItem(JSON.stringify(data))
+    ToastAndroid.show('Item excluido', ToastAndroid.SHORT)
     handleFetch()
+  }
+
+  function handleSwipe(){
+    ToastAndroid.show('Right', ToastAndroid.SHORT)
   }
 
   return (
@@ -62,22 +73,25 @@ useFocusEffect(useCallback(()=> {
       
 
 
-{data.length > 0 ? <FlatList
+{data !== undefined || data ? <FlatList
         data={data}
         renderItem={({ item }) => (
           <>
+
           <Pressable onPress={() => handlePress(item)} style={styles.item}>
             <Text style={styles.text}>{item.texto?.length > 100 ? item.texto?.slice(0, 100)+'...' : item.texto }</Text>
             {/* <Text style={styles.text}>{item.texto}</Text> */}
             <Text style={styles.author}>{item.autor}</Text>
-            <Pressable  onPress={() => handleRemove(item.texto)}>
-            <Text style={styles.trash}><Ionicons name='trash' size={32} color="white" /></Text>
+            <Pressable style={styles.trashBtn}  onPress={() => handleRemove(item.texto)}>
+            <Text style={styles.trash}><Ionicons name='trash' size={24} color="#282828" /></Text>
           </Pressable>
           </Pressable>
 
+
           </>
         )}
-      /> : <Text style={styles.text}>Vazio</Text>}
+
+      /> : <Pressable onPress={() => handleFetch()}><Text style={styles.text}>Vazio</Text></Pressable>}
     </View>
   );
 };
@@ -207,7 +221,15 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
   },
   trash: {
-    marginLeft: 'auto'
+    
+  },
+
+  trashBtn: {
+    marginLeft: 'auto',
+    backgroundColor: '#fefefe',
+    padding: 4,
+    borderRadius: 8
+
   },
 
   loading: {

@@ -81,7 +81,7 @@ useEffect(()=> {
           <Pressable onPress={() => handlePress(item)} style={styles.item}>
             <Text style={styles.text}>{item.texto?.length > 100 ? item.texto?.slice(0, 100)+'...' : item.texto }</Text>
             {/* <Text style={styles.text}>{item.texto}</Text> */}
-            <Text style={styles.author}>{item.autor}</Text>
+            {/* <Text style={styles.author}>{item.autor}</Text> */}
             <Pressable style={styles.trashBtn}  onPress={() => handleRemove(item.texto)}>
             <Text style={styles.trash}><Ionicons name='trash' size={24} color="#282828" /></Text>
           </Pressable>

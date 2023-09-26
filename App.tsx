@@ -44,10 +44,12 @@ function MyTabs() {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: 'green',
-          tabBarInactiveTintColor: '#fff',
+          tabBarActiveTintColor: '#000',
+          tabBarInactiveTintColor: '#c4c4c4',
           tabBarStyle: styles.tab,
-
+          freezeOnBlur: true,
+          tabBarActiveBackgroundColor: '#c4c4c4',
+          tabBarItemStyle: styles.tabItem
           
           
         })}
@@ -121,7 +123,8 @@ const styles = StyleSheet.create({
   tab:{
     backgroundColor: "#282828",
     borderTopColor: "#424242",
-    borderTopWidth: 1,
+    borderTopWidth: .5,
+    // borderRadius: 32
   } 
   ,
   headerTab: {
@@ -129,5 +132,10 @@ const styles = StyleSheet.create({
   },
   headerTitleStyle: {
     color: '#fff'
+  },
+  tabItem: {
+    borderBottomLeftRadius: 16,
+    borderTopRightRadius: 16,
   }
+
 });

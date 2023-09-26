@@ -146,7 +146,7 @@ const frase = list[rand]
         )
         
        : (
-          <ActivityIndicator style={styles.loading} />
+          <ActivityIndicator color={"#ffffff"} style={styles.loading} />
         )}
         
       

@@ -26,6 +26,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MotiCard from '../../components/MotiCard';
 import MsgView from '../../components/MsgView';
 import { MsgProps } from '../../App';
+import { styles, Container, Header, Title, OrderItem, GridIcon, GridLabel, AuthorItem } from './style';
 
 
 const Stack = createNativeStackNavigator()
@@ -111,9 +112,9 @@ const Orders = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <Container>
 
-      <Text style={styles.title}>Categorias</Text>
+      <Title>Categorias</Title>
 
       <FlatGrid
         style={styles.grid}
@@ -121,15 +122,15 @@ const Orders = ({ navigation }) => {
         data={ordersList}
         renderItem={({ item, index }) => (
           <>
-            <Pressable onPress={() => handlePress(item.label)} style={styles.orderItem}>
-              <Text style={styles.gridIcon}>{item.icon}</Text>
-              <Text style={styles.gridLabel} key={index}>{item.label}</Text>
-            </Pressable>
+            <OrderItem onPress={() => handlePress(item.label)} >
+              <GridIcon>{item.icon}</GridIcon>
+              <GridLabel key={index}>{item.label}</GridLabel>
+            </OrderItem>
 
           </>
         )}
       />
-      <Text style={styles.title}>Autores</Text>
+      <Title>Autores</Title>
 
       {/* {<Text style={styles.title}>{author}</Text> || null} */}
 
@@ -140,7 +141,7 @@ const Orders = ({ navigation }) => {
         renderItem={({ item, index }) => (
           <>
             <Pressable onPress={() => handlePress(item.name)}>
-              <Text style={styles.authorItem} key={index}>{item.name}</Text>
+              <AuthorItem key={index}>{item.name}</AuthorItem>
             </Pressable>
 
 
@@ -148,16 +149,10 @@ const Orders = ({ navigation }) => {
         )}
       />
 
-      {/* <SimpleGrid
-  itemDimension={80}
-  data={[1,2,3,4,5,6,7,8,9]}
-  renderItem={({ item }) => (<Text key={item}>{item}</Text>)}
-/> */}
-
 
       <StatusBar style="auto" />
 
-    </View>
+    </Container>
   )
 }
 
@@ -196,98 +191,98 @@ export default function OrderView() {
   )
 }
 
-const styles = StyleSheet.create({
-header: {
-    backgroundColor: '#282828',
-  },
-  headerTitle: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: "#fefefe"
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // marginLeft: 'auto',
-    // marginRight: 'auto',
-    // minWidth: '100vw'
-  },
+// const styles = StyleSheet.create({
+// header: {
+//     backgroundColor: '#282828',
+//   },
+//   headerTitle: {
+//     fontWeight: 'bold',
+//     fontSize: 20,
+//     color: "#fefefe"
+//   },
+//   container: {
+//     flex: 1,
+//     backgroundColor: 'black',
+//     // alignItems: 'center',
+//     // justifyContent: 'center',
+//     // marginLeft: 'auto',
+//     // marginRight: 'auto',
+//     // minWidth: '100vw'
+//   },
 
-  title: {
-    color: "#eee",
-    fontSize: 24,
-    fontWeight: "700",
-    marginTop: 64,
-    textAlign: "left",
-    marginRight: "auto",
-    marginLeft: 16,
-    marginBottom: 16
-  },
+//   title: {
+//     color: "#eee",
+//     fontSize: 24,
+//     fontWeight: "700",
+//     marginTop: 64,
+//     textAlign: "left",
+//     marginRight: "auto",
+//     marginLeft: 16,
+//     marginBottom: 16
+//   },
 
-  grid: {
+//   grid: {
 
-  },
+//   },
 
-  gridLabel: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: "#eee",
-    fontWeight: "600"
-  },
-  authorItem: {
-    fontSize: 14,
-    textAlign: 'center',
-    color: "#eee",
-    backgroundColor: "#282828",
-    borderRadius: 8,
-    padding: 8,
-    paddingTop: 16,
-    paddingBottom: 16,
+//   gridLabel: {
+//     fontSize: 16,
+//     textAlign: 'center',
+//     color: "#eee",
+//     fontWeight: "600"
+//   },
+//   authorItem: {
+//     fontSize: 14,
+//     textAlign: 'center',
+//     color: "#eee",
+//     backgroundColor: "#282828",
+//     borderRadius: 8,
+//     padding: 8,
+//     paddingTop: 16,
+//     paddingBottom: 16,
 
 
-  },
-  gridIcon: {
-    fontSize: 26,
-    textAlign: 'center'
-  },
+//   },
+//   gridIcon: {
+//     fontSize: 26,
+//     textAlign: 'center'
+//   },
 
-  orderItem: {
-    backgroundColor: "#282828",
-    padding: 16,
-    borderRadius: 16,
-    // width: 120,
-    height: 100,
-  },
-  Card: {
-    margin: 32,
-  },
-  Text: {
-    fontSize: 22,
-    color: "#fefefe",
-    fontWeight: "400",
-    maxHeight: 400
-  },
-  author: {
-    fontSize: 16,
-    color: "#808080",
-    fontWeight: "600",
-  },
-  actions: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginRight: "auto",
-    marginLeft: "auto",
-  },
-  btnText: {
-    padding: 16,
-  },
+//   orderItem: {
+//     backgroundColor: "#282828",
+//     padding: 16,
+//     borderRadius: 16,
+//     // width: 120,
+//     height: 100,
+//   },
+//   Card: {
+//     margin: 32,
+//   },
+//   Text: {
+//     fontSize: 22,
+//     color: "#fefefe",
+//     fontWeight: "400",
+//     maxHeight: 400
+//   },
+//   author: {
+//     fontSize: 16,
+//     color: "#808080",
+//     fontWeight: "600",
+//   },
+//   actions: {
+//     display: "flex",
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     marginRight: "auto",
+//     marginLeft: "auto",
+//   },
+//   btnText: {
+//     padding: 16,
+//   },
 
-  loading: {
-    marginLeft: "auto",
-    marginRight: "auto",
-  }, 
-});
+//   loading: {
+//     marginLeft: "auto",
+//     marginRight: "auto",
+//   }, 
+// });
 

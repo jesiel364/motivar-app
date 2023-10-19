@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -18,9 +18,11 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import * as Sharing from "expo-sharing";
-import AsyncStorage, {useAsyncStorage} from "@react-native-async-storage/async-storage"; 
+import AsyncStorage, { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import uuid from 'react-native-uuid';
 import Toast from "react-native-toast-message";
+import * as S from './style'
+import { MyContext } from "../../Global/Context";
 
 const MotiCard = (props: any) => {
   function updateMessage() {
@@ -28,8 +30,8 @@ const MotiCard = (props: any) => {
     return;
   }
 
-  const {getItem, setItem} = useAsyncStorage('@messages:favorites')
-  
+  const { getItem, setItem } = useAsyncStorage('@messages:favorites')
+
   const [fav, setFav] = useState(false);
 
   const showToast = (message: string) => {
@@ -37,31 +39,30 @@ const MotiCard = (props: any) => {
   };
 
   const phrase = props.data;
-  
-  
- 
- const list = []
- 
- 
-  phrase?.frases.map((frase) => {
+
+
+  const list = []
+
+
+  phrase?.frases?.map((frase) => {
     // console.log(frase.texto)
     list.push(
-    {
-    autor: frase.autor,
-    texto: frase.texto,
-      
-    }
+      {
+        autor: frase.autor,
+        texto: frase.texto,
+
+      }
     )
   })
 
 
 
 
-let rand = Math.floor(Math.random() * (list.length - 1))
+  let rand = Math.floor(Math.random() * (list.length - 1))
 
-const frase = list[rand]
-  
-  
+  const frase = list[rand]
+
+
   async function copyToClipboard() {
     // Clipboard.setString('hello world')
     await Clipboard.setStringAsync(
@@ -73,26 +74,26 @@ const frase = list[rand]
 
 
 
- async function handleLikePress() {
+  async function handleLikePress() {
 
-  const response =  await getItem()
-  const previousData = response ? JSON.parse(response) : []
-  const filt = previousData.filter(item => item.texto === frase.texto )
-  const data = [...previousData, frase]
-  console.log(filt)
+    const response = await getItem()
+    const previousData = response ? JSON.parse(response) : []
+    const filt = previousData.filter(item => item.texto === frase.texto)
+    const data = [...previousData, frase]
+    // console.log(filt)
     // setFav(!fav);
-    if(!!filt){
+    if (!!filt) {
       await setItem(JSON.stringify(data))
-    // await AsyncStorage.setItem('@messages:favorites', JSON.stringify(frase))
-    showToast('Adicionado aos favoritos!')
+      // await AsyncStorage.setItem('@messages:favorites', JSON.stringify(frase))
+      showToast('Adicionado aos favoritos!')
     }
-    
+
   }
 
   async function send() {
     try {
       const result = await Share.share({
-        message: frase.texto,
+        message: `${frase.texto} - ${frase.autor}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -135,46 +136,61 @@ const frase = list[rand]
 
   const [selected, setSelected] = useState(false);
 
+  // console.log(props.erro)
+
+  const {theme} = useContext(MyContext)
+
   return (
     <View style={styles.Card}>
-     
-        {frase ? 
-        (
-         <Text selectable={true} style={styles.Text}>{
-        frase.texto}
-        </Text>
-        )
-        
-       : (
-          <ActivityIndicator color={"#ffffff"} style={styles.loading} />
-        )}
-        
-      
-      <Text style={styles.author}>
-        {frase ? frase?.autor
-          : (frase?.texto && frase?.texto === "Undefined" ? "Desconhecido" : null)}
-      </Text>
-      <Text style={styles.Text}>{fav}</Text>
+      {!props.erro ?
+        <>
+          {frase ?
+            (
+              <S.Text theme={theme} selectable={true}>{
+                frase.texto}
+              </S.Text>
+            )
 
-      <View style={styles.actions}>
-        {dataSource.map((item, index) => (
-          <Pressable
-            onPress={(e) => (item.callback ? item.callback() : null)}
-            key={index}
-          >
-            <Text style={styles.btnText}>
-              <Ionicons name={item.icon} size={32} color="white" />
-            </Text>
-          </Pressable>
-        ))}
+            : (
+              <ActivityIndicator color={theme === "Dark" ? "#ffffff" : "#000"} style={styles.loading} />
+            )}
 
-        {/* <TouchableOpacity
+
+          <Text style={styles.author}>
+            {frase ? frase?.autor
+              : (frase?.texto && frase?.texto === "Undefined" ? "Desconhecido" : null)}
+          </Text>
+          <Text style={styles.Text}>{fav}</Text>
+
+          <S.ActionsGroup theme={theme}>
+            {dataSource.map((item, index) => (
+              <Pressable
+                onPress={(e) => (item.callback ? item.callback() : null)}
+                key={index}
+              >
+                <Text style={styles.btnText}>
+                  <Ionicons name={item.icon} size={32} color={theme === 'Dark' ? 'white' : 'black'} />
+                </Text>
+              </Pressable>
+            ))}
+
+            {/* <TouchableOpacity
                     onPress={() => setSelected(!selected)}
                     style={{ backgroundColor: selected ? "#eee" : "transparent" }}
                 >
                     <Text>Press me</Text>
                 </TouchableOpacity> */}
-      </View>
+          </S.ActionsGroup>
+
+        </> : (<>
+          <Text style={styles.Text}>Sem conexão</Text>
+          <Text style={{
+            fontSize: 16,
+            color: '#eee',
+            marginTop: 'px',
+          }}>Algumas funções podem não funcionar</Text>
+        </>
+        )}
     </View>
   );
 };
@@ -185,9 +201,10 @@ const styles = StyleSheet.create({
   },
   Text: {
     fontSize: 22,
-    color: "#eee",
-    fontWeight: "400",
-    maxHeight: 400
+    color: "#dbd9d9",
+    fontWeight: "600",
+    maxHeight: 400,
+    textAlign: 'left'
   },
   author: {
     fontSize: 16,

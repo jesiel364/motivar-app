@@ -3,7 +3,8 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: black;
+  background-color: ${(props) =>
+    props.theme === "Light" ? "#fff" : "#000"};
 `;
 
 export const Header = styled.View`
@@ -14,7 +15,7 @@ export const Title = styled.Text`
   color: #eee;
   font-size: 24px;
   font-weight: 700;
-  margin-top: 64px;
+  margin-top: 8px;
   text-align: left;
   margin-right: auto;
   margin-left: 16px;
@@ -33,7 +34,7 @@ export const GridLabel = styled.Text`
     font-size: 16px;
     text-align: center;
     color: #eee;
-    font-weight: 600;
+    font-weight: 200;
 `
 export const GridIcon = styled.Text`
     font-size: 26px;
@@ -42,12 +43,13 @@ export const GridIcon = styled.Text`
 export const AuthorItem = styled.Text`
     font-size: 14px;
     text-align: center;
-    color: #eee;
-    background-color: #282828;
+    background-color: ${(props) =>
+    props.theme === "Light" ? "#f4f4f4" : "#282828"};
+;
     border-radius: 8px;
     padding: 8px;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    display: flex;
+    height: 76px;
 `
 
 export const styles = StyleSheet.create({

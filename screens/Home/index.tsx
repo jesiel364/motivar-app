@@ -8,170 +8,32 @@ import {
   ActivityIndicator,
 } from "react-native";
 import MotiCard from "../../components/MotiCard";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import { useFocusEffect } from "@react-navigation/native";
+import ViewController from "../../ViewController";
+import { HomeStyles } from "./style";
+import { MyContext, MyProvider } from "../../Global/Context";
+import * as S from './style'
 
 const Home = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
 
-  const [phraseDay, setPhraseDay] = useState();
-  const [author, setAuthor] = useState(Math.floor(Math.random() * 4));
 
-  const mainAuthors = [
-    {
-      authName: "Machado de Assis",
-    },
+const {phraseDay, erro, updateMsg} = ViewController()
+const styles = HomeStyles
 
-    {
-      authName: "Stevie Jobs",
-    },
-    {
-      authName: "Mario Quintana",
-    },
-    {
-      authName: "Clarice Lispector",
-    },
-    {
-      authName: "Oscar Wilde",
-    },
-    {
-      authName: "Fernando Pessoa",
-    },
-    {
-      authName: "William Shakespeare",
-    },
-    {
-      authName: "Augusto Cury",
-    },
-    {
-      authName: "Luís de Camões",
-    },
-
-    {
-      authName: "Carlos Drummond de Andrade",
-    },
-    {
-      authName: "Albert Einstein",
-    },
-    {
-      authName: "Charles Chaplin",
-    },
-    {
-      authName: "Leonardo da Vinci",
-    },
-    {
-      authName: "Vinicius de Moraes",
-    },
-    {
-      authName: "Jesus Cristo",
-    },
-    {
-      authName: "Michael Jordan",
-    },
-  ];
-
-  // function updateMessage() {
-  //   setAuthor(Math.floor(Math.random() * mainAuthors.length - 1));
-  //   return;
-  // }
-
-  // useEffect(() => {
-  //   // updateMessage()
-  //   fetch(
-  //     `https://pensador-api.vercel.app/?term=${mainAuthors[author].authName}&max=20`,
-  //     {
-  //       method: "GET",
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then((json) => setPhraseDay(json))
-  //     .catch((err) => setPhraseDay({ err }));
-  // }, []);
-
- 
-  
- 
-
-  async function GetMessage() {
-    setAuthor(Math.floor(Math.random() * mainAuthors.length - 1));
-    setLoading(true);
-    await fetch(
-      `https://pensador-api.vercel.app/?term=${mainAuthors[author]?.authName}&max=20`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((json) => (json !== phraseDay ? setPhraseDay(json) : updateMsg()))
-      .catch((err) => setPhraseDay({ err }));
-    setLoading(false);
-  }
-  
-   async function updateMsg() {
-  
-  setPhraseDay(undefined)
-  await setAuthor(Math.floor(Math.random() * mainAuthors.length - 1));
-    setLoading(true);
-    await fetch(
-      `https://pensador-api.vercel.app/?term=${mainAuthors[author]?.authName}&max=20`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((json) => setPhraseDay(json))
-      .catch((err) => setPhraseDay({ err }));
-    setLoading(false);
-  }
-  
-  
-  useEffect(() => {
-  if(phraseDay === '' || phraseDay === undefined || phraseDay === null){
-    GetMessage()
-  }
-    
-    
-  }, []) 
-    
-    
-
-  function handleScroll() {}
-
-  function handleOrder() {
-    navigation.navigate("orders");
-  }
+const {theme} = useContext(MyContext)
 
   return (
-    <View style={styles.container}>
-      <MotiCard update={updateMsg} data={phraseDay} />
-      {/* <Text style={styles.Text}>
-        
-        </Text> */}
+    <S.HomeContainer theme={theme}>
+      <MotiCard theme={theme} update={updateMsg} data={phraseDay} erro={erro} />
+      {/* <Text style={styles.Text}>{theme}</Text> */}
 
-      
-
-      {/* <Pressable onPress={GetMessage}>
-          <Text style={styles.Text}>
-            Update
-          </Text>
-        </Pressable> */}
 
       <StatusBar style="auto" />
-    </View>
+      </S.HomeContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    color: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  Text: {
-    color: "#eee",
-  },
-});
+
 
 export default Home;

@@ -14,48 +14,42 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MsgView from "../../components/MsgView";
 import Toast from 'react-native-toast-message';
-import AsyncStorage, {useAsyncStorage} from "@react-native-async-storage/async-storage";
-import {useFocusEffect} from '@react-navigation/native'
+import AsyncStorage, { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
-interface Props{
+interface Props {
   item: any
 }
 
 const Stack = createNativeStackNavigator()
 
-const Favorites = ({navigation}) => {
+const Favorites = ({ navigation }:any) => {
 
-  const {getItem, setItem } = useAsyncStorage("@messages:favorites")
+  const { getItem, setItem } = useAsyncStorage("@messages:favorites")
 
-const [data, setData] = useState([])
+  const [data, setData] = useState([])
 
-async function handleFetch() {
-  const response = await getItem()
-  const responseData = JSON.parse(response)
-  setData(responseData)
- 
-}
+  async function handleFetch() {
+    const response:any = await getItem()
+    const responseData = JSON.parse(response)
+    setData(responseData)
 
-
-// useFocusEffect(useCallback(()=> {
-//   handleFetch()
-
-// }, []))
-
-useEffect(()=> {
-  handleFetch()
-})
-
-
-  function handlePress(item:Props) {
-
-    navigation.navigate('favoritesView', {data: item})
-    
   }
 
-  async function handleRemove(texto){
+  useEffect(() => {
+    handleFetch()
+  })
+
+
+  function handlePress(item: Props) {
+
+    navigation.navigate('favoritesView', { data: item })
+
+  }
+
+  async function handleRemove(texto) {
     const response = await getItem()
     const previousData = response ? JSON.parse(response) : []
     const data = previousData.filter((item) => texto !== item.texto)
@@ -64,28 +58,41 @@ useEffect(()=> {
     handleFetch()
   }
 
-  function handleSwipe(){
+  function handleSwipe() {
     ToastAndroid.show('Right', ToastAndroid.SHORT)
   }
 
   return (
     <View style={styles.container}>
-      
 
 
-{data !== undefined || data ? <FlatList
+
+      {data !== undefined || data ? <FlatList
         data={data}
         renderItem={({ item }) => (
           <>
 
-          <Pressable onPress={() => handlePress(item)} style={styles.item}>
-            <Text style={styles.text}>{item.texto?.length > 100 ? item.texto?.slice(0, 100)+'...' : item.texto }</Text>
-            {/* <Text style={styles.text}>{item.texto}</Text> */}
-            {/* <Text style={styles.author}>{item.autor}</Text> */}
-            <Pressable style={styles.trashBtn}  onPress={() => handleRemove(item.texto)}>
-            <Text style={styles.trash}><Ionicons name='trash' size={24} color="#282828" /></Text>
-          </Pressable>
-          </Pressable>
+            <Pressable onPress={() => handlePress(item)} style={styles.item}>
+
+              <View style={{
+                maxWidth: 320,
+                
+              }}>
+                <Text style={styles.text}>{item.texto?.length > 62 ? item.texto?.slice(0, 62) + '...' : item.texto}</Text>
+                <Text style={styles.author}>{item?.autor}</Text>
+              </View>
+
+              <View  style={{
+                maxWidth: 60,
+                marginLeft: 'auto'
+              }}>
+                <Pressable style={styles.trashBtn} onPress={() => handleRemove(item.texto)}>
+                  <Text style={styles.trash}><Ionicons name='trash-outline' size={28} color="#c6c6c6" /></Text>
+
+                </Pressable>
+              </View>
+
+            </Pressable>
 
 
           </>
@@ -123,7 +130,7 @@ export default function FavoritesView() {
 
           }}
         />
-       
+
       </Stack.Navigator>
 
     </NavigationContainer>
@@ -153,7 +160,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 18,
-    color: "#eee",
+    color: "#c6c6c6",
     fontWeight: "400",
   },
 
@@ -163,7 +170,11 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 16,
     minWidth: 360,
-    marginTop: 16
+    marginTop: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    maxHeight: 116
+    
   },
   delete: {
     backgroundColor: "#d10909",
@@ -191,7 +202,7 @@ const styles = StyleSheet.create({
   grid: {
 
   }
-,
+  ,
   gridIcon: {
     fontSize: 26,
     textAlign: 'center'
@@ -221,20 +232,22 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
   },
   trash: {
-    
+
   },
 
   trashBtn: {
     marginLeft: 'auto',
-    backgroundColor: '#fefefe',
+    // backgroundColor: '#7c7c7c',
     padding: 4,
-    borderRadius: 8
+    borderRadius: 4,
+    marginTop: 'auto',
+    marginBottom: 'auto'
 
   },
 
   loading: {
     marginLeft: "auto",
     marginRight: "auto",
-  }, 
+  },
 });
 

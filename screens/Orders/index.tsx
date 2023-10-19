@@ -18,7 +18,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import * as Sharing from "expo-sharing";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { FlatGrid } from 'react-native-super-grid';
 import { SimpleGrid } from 'react-native-super-grid';
 import { NavigationContainer } from '@react-navigation/native';
@@ -27,13 +27,14 @@ import MotiCard from '../../components/MotiCard';
 import MsgView from '../../components/MsgView';
 import { MsgProps } from '../../App';
 import { styles, Container, Header, Title, OrderItem, GridIcon, GridLabel, AuthorItem } from './style';
-
+import { OrderViewController } from './viewController';
+import { MyContext } from '../../Global/Context';
 
 const Stack = createNativeStackNavigator()
 
 const Orders = ({ navigation }) => {
 
-  const [author, setAuthor] = useState()
+
 
  interface OrdersType {
     label: string,
@@ -42,106 +43,38 @@ const Orders = ({ navigation }) => {
     data?: MsgProps
   }
 
-  const ordersList = [
-    {
-      label: 'Em alta',
-      icon: '🔥'
-    },
-    {
-      label: 'Motivação',
-      icon: '💪🏼'
-    },
-    {
-      label: 'Sabedoria',
-      icon: '🧠'
-    },
-    {
-      label: 'Provérbios',
-      icon: '📖'
-    },
-    {
-      label: 'Empreendedorismo',
-      icon: '💰'
-    },
-    {
-      label: 'Reflexão',
-      icon: '🤔'
-    },
-    {
-      label: 'Otimismo',
-      icon: '🤩'
-    },
-    {
-      label: 'Disciplina',
-      icon: '🚀'
-    },
-    {
-      label: 'Ver mais',
-      icon: '➕'
-    }
-  ]
+  const {theme} = useContext(MyContext)
+  const {mainAuthors, getMessageByAuthor, message} = OrderViewController()
+  const {author, setAuthor} = useContext(MyContext)
 
-  const authorsList = [
-    {
-      name: "Jesus Cristo"
-    },
-    {
-      name: "Stevie Jobs"
-    },
-    {
-      name: "Aristoteles"
-    },
-    // {
-    //   name: "Machado de Assis"
-    // },
-    {
-      name: "Beatles"
-    },
-    {
-      name: "Seneca"
-    },
-  ]
+// useEffect(()=> (
+//   console.log(getMessageByAuthor('Stevie Jobs'))
+// ))
 
-  function handlePress(item: OrdersType) {
-    ToastAndroid.show(item, ToastAndroid.SHORT)
+ async function handlePress(item: OrdersType) {
+    // ToastAndroid.show(item, ToastAndroid.SHORT)
     setAuthor(item)
-    navigation.navigate('order', {title: item.label , data: {
+    await getMessageByAuthor(item)
+    console.log(message)
+    navigation.navigate('order', {title: item.label, messages: message , type: 'author' , data: {
       autor: `Leonardo da Vinci`,
       texto: "A lei suprema da arte é a representação do belo.",
     } })
   }
 
+
+
   return (
-    <Container>
-
-      <Title>Categorias</Title>
-
-      <FlatGrid
-        style={styles.grid}
-        itemDimension={86}
-        data={ordersList}
-        renderItem={({ item, index }) => (
-          <>
-            <OrderItem onPress={() => handlePress(item.label)} >
-              <GridIcon>{item.icon}</GridIcon>
-              <GridLabel key={index}>{item.label}</GridLabel>
-            </OrderItem>
-
-          </>
-        )}
-      />
-      <Title>Autores</Title>
-
-      {/* {<Text style={styles.title}>{author}</Text> || null} */}
+    <Container theme={theme}>
 
       <FlatGrid
         style={styles.grid}
         itemDimension={100}
-        data={authorsList}
+        data={mainAuthors}
         renderItem={({ item, index }) => (
           <>
-            <Pressable onPress={() => handlePress(item.name)}>
-              <AuthorItem key={index}>{item.name}</AuthorItem>
+            <Pressable onPress={() => handlePress(item.authName)}>
+              <AuthorItem theme={theme} key={index}>{item.authName}</AuthorItem>
             </Pressable>
 
 
@@ -158,19 +91,34 @@ const Orders = ({ navigation }) => {
 
 export default function OrderView() {
 
+  const {author, setAuthor} = useContext(MyContext)
+  const {theme} = useContext(MyContext)
+
+  const header = {
+    backgroundColor: theme === "Light" ? "#fff" : "#363636",
+  }
+
+  const headerTitle = {
+    color: theme === "Light" ? "#363636" : "#f4f4f4",
+  }
+
+
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator screenOptions={{
         headerStyle: styles.header,
         headerTintColor: '#fff',
         headerTitleStyle: styles.headerTitle,
+        
       }}>
         <Stack.Screen
           name='main'
           component={Orders}
           options={{
-            title: 'Feed',
-            headerShown: false
+            title: 'Categorias',
+            headerShown: true,
+            headerStyle: header,
+            headerTitleStyle: headerTitle
 
           }}
         />
@@ -179,7 +127,7 @@ export default function OrderView() {
           component={MsgView}
           
           options={{
-            title: 'Categorias',
+            title: author,
             headerShown: true
 
           }}
@@ -191,98 +139,4 @@ export default function OrderView() {
   )
 }
 
-// const styles = StyleSheet.create({
-// header: {
-//     backgroundColor: '#282828',
-//   },
-//   headerTitle: {
-//     fontWeight: 'bold',
-//     fontSize: 20,
-//     color: "#fefefe"
-//   },
-//   container: {
-//     flex: 1,
-//     backgroundColor: 'black',
-//     // alignItems: 'center',
-//     // justifyContent: 'center',
-//     // marginLeft: 'auto',
-//     // marginRight: 'auto',
-//     // minWidth: '100vw'
-//   },
-
-//   title: {
-//     color: "#eee",
-//     fontSize: 24,
-//     fontWeight: "700",
-//     marginTop: 64,
-//     textAlign: "left",
-//     marginRight: "auto",
-//     marginLeft: 16,
-//     marginBottom: 16
-//   },
-
-//   grid: {
-
-//   },
-
-//   gridLabel: {
-//     fontSize: 16,
-//     textAlign: 'center',
-//     color: "#eee",
-//     fontWeight: "600"
-//   },
-//   authorItem: {
-//     fontSize: 14,
-//     textAlign: 'center',
-//     color: "#eee",
-//     backgroundColor: "#282828",
-//     borderRadius: 8,
-//     padding: 8,
-//     paddingTop: 16,
-//     paddingBottom: 16,
-
-
-//   },
-//   gridIcon: {
-//     fontSize: 26,
-//     textAlign: 'center'
-//   },
-
-//   orderItem: {
-//     backgroundColor: "#282828",
-//     padding: 16,
-//     borderRadius: 16,
-//     // width: 120,
-//     height: 100,
-//   },
-//   Card: {
-//     margin: 32,
-//   },
-//   Text: {
-//     fontSize: 22,
-//     color: "#fefefe",
-//     fontWeight: "400",
-//     maxHeight: 400
-//   },
-//   author: {
-//     fontSize: 16,
-//     color: "#808080",
-//     fontWeight: "600",
-//   },
-//   actions: {
-//     display: "flex",
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     marginRight: "auto",
-//     marginLeft: "auto",
-//   },
-//   btnText: {
-//     padding: 16,
-//   },
-
-//   loading: {
-//     marginLeft: "auto",
-//     marginRight: "auto",
-//   }, 
-// });
 

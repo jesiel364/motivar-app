@@ -9,7 +9,10 @@ import Favorites from './screens/Favorites';
 import Settings from './screens/Settings';
 import MessageView from './screens/MessageView';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { MyContext, MyProvider } from './Global/Context';
+import { ThemeProvider } from 'styled-components/native';
+import Dark from './Global/dark';
+import { useContext } from 'react';
 
 export type MsgProps = {
   id: number,
@@ -21,6 +24,14 @@ export type MsgProps = {
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+  const {theme, setTheme} = useContext(MyContext)
+
+  const header = {
+    backgroundColor: theme === "Light" ? "#f4f4f4" : "#363636",
+  }
+  const headerTitle = {
+    color: theme === "Light" ? "#363636" : "#f4f4f4",
+  }
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -57,8 +68,8 @@ function MyTabs() {
       <Tab.Screen name="home" component={Home} options={{
             title: 'Citações',
             headerShown: true,
-            headerStyle: styles.headerTab,
-            headerTitleStyle: styles.headerTitleStyle
+            headerStyle: header,
+            headerTitleStyle: headerTitle
 
           }} />
       <Tab.Screen name="orders" component={OrderView} options={{
@@ -74,8 +85,8 @@ function MyTabs() {
       <Tab.Screen name="settings" component={Settings} options={{
             title: 'Configurações',
             headerShown: true,
-            headerStyle: styles.headerTab,
-            headerTitleStyle: styles.headerTitleStyle
+            headerStyle: header,
+            headerTitleStyle: headerTitle
 
           }} />
       {/* <Tab.Screen name="teste" component={MessageView} options={{
@@ -95,18 +106,16 @@ const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
+    <ThemeProvider theme={Dark}>
+    <MyProvider>
     <NavigationContainer>
     
-    
-
-      
            <MyTabs/>
       
-  
-   
-
 
     </NavigationContainer>
+    </MyProvider>
+    </ThemeProvider>
   );
 }
 

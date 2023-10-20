@@ -1,186 +1,142 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native';
-import { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  SafeAreaView,
+  Pressable,
+  Image,
+  FlatList,
+  ToastAndroid,
+  TouchableOpacity,
+  ActivityIndicator,
+  Share,
+  Alert,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import * as Clipboard from "expo-clipboard";
+import * as Sharing from "expo-sharing";
+import { useEffect, useState, useContext } from 'react';
 import { FlatGrid } from 'react-native-super-grid';
 import { SimpleGrid } from 'react-native-super-grid';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MotiCard from '../../components/MotiCard';
+import MsgView from '../../components/MsgView';
+import { MsgProps } from '../../App';
+import { styles, Container, Header, Title, OrderItem, GridIcon, GridLabel, AuthorItem } from './style';
+import { OrderViewController } from './viewController';
+import { MyContext } from '../../Global/Context';
+
+const Stack = createNativeStackNavigator()
+
+const Orders = ({ navigation }) => {
 
 
 
-const Orders = () => {
-
-  const [author, setAuthor] = useState()
-
-  const ordersList = [
-    {
-      label: 'Em alta',
-      icon: '🔥'
-    },
-    {
-      label: 'Motivação',
-      icon: '💪🏼'
-    },
-    {
-      label: 'Sabedoria',
-      icon: '🧠'
-    },
-    {
-      label: 'Provérbios',
-      icon: '📖'
-    },
-    {
-      label: 'Empreendedorismo',
-      icon: '💰'
-    },
-    {
-      label: 'Reflexão',
-      icon: '🤔'
-    },
-    {
-      label: 'Otimismo',
-      icon: '🤩'
-    },
-    {
-      label: 'Disciplina',
-      icon: '🚀'
-    },
-    {
-      label: 'Ver mais',
-      icon: '➕'
-    }
-  ]
-  
-  const authorsList = [
-    {
-      name: "Jesus Cristo"
-    },
-    {
-      name: "Stevie Jobs"
-    },
-    {
-      name: "Aristoteles"
-    },
-    // {
-    //   name: "Machado de Assis"
-    // },
-    {
-      name: "Beatles"
-    },
-    {
-      name: "Seneca"
-    },
-  ]
-
-  function handlePress(name) {
-    ToastAndroid.show(name, ToastAndroid.SHORT)
-    setAuthor(name)
+ interface OrdersType {
+    label: string,
+    name: string,
+    icon: string,
+    data?: MsgProps
   }
 
+  const {theme} = useContext(MyContext)
+  const {mainAuthors, getMessageByAuthor, message} = OrderViewController()
+  const {author, setAuthor} = useContext(MyContext)
+
+// useEffect(()=> (
+//   console.log(getMessageByAuthor('Stevie Jobs'))
+// ))
+
+ async function handlePress(item: OrdersType) {
+    // ToastAndroid.show(item, ToastAndroid.SHORT)
+    setAuthor(item)
+    await getMessageByAuthor(item)
+    console.log(message)
+    navigation.navigate('order', {title: item.label, messages: message , type: 'author' , data: {
+      autor: `Leonardo da Vinci`,
+      texto: "A lei suprema da arte é a representação do belo.",
+    } })
+  }
+
+
+
   return (
-    <View style={styles.container}>
-    
-    <Text style={styles.title}>Categorias</Text>
-
-      <FlatGrid
-        style={styles.grid}
-        itemDimension={86}
-        data={ordersList}
-        renderItem={({ item, index }) => (
-          <>
-          <Pressable style={styles.orderItem}>
-          <Text style={styles.gridIcon}>{item.icon}</Text>
-          <Text style={styles.gridLabel} key={index}>{item.label}</Text>
-          </Pressable>
-          
-          </>
-          )}
-      />
-    <Text style={styles.title}>Autores</Text>
-
-    {/* {<Text style={styles.title}>{author}</Text> || null} */}
+    <Container theme={theme}>
 
       <FlatGrid
         style={styles.grid}
         itemDimension={100}
-        data={authorsList}
+        data={mainAuthors}
         renderItem={({ item, index }) => (
           <>
-         <Pressable onPress={() => handlePress(item.name)}>
-          <Text style={styles.authorItem} key={index}>{item.name}</Text>
-          </Pressable>
-          
-          
-          </>
-          )}
-      />
+            <Pressable onPress={() => handlePress(item.authName)}>
+              <AuthorItem theme={theme} key={index}>{item.authName}</AuthorItem>
+            </Pressable>
 
-      {/* <SimpleGrid
-  itemDimension={80}
-  data={[1,2,3,4,5,6,7,8,9]}
-  renderItem={({ item }) => (<Text key={item}>{item}</Text>)}
-/> */}
+
+          </>
+        )}
+      />
 
 
       <StatusBar style="auto" />
 
-    </View>
+    </Container>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  },
-  
-  title: {
-    color: "#eee",
-    fontSize: 24,
-    fontWeight: "700",
-    marginTop: 64,
-    textAlign: "left",
-    marginRight: "auto",
-    marginLeft: 16,
-    marginBottom: 16
-  },
+export default function OrderView() {
 
-  grid:{
+  const {author, setAuthor} = useContext(MyContext)
+  const {theme} = useContext(MyContext)
 
-  },
-
-  gridLabel:{
-    fontSize: 16,
-    textAlign: 'center',
-    color: "#282828",
-    fontWeight: "600"
-  },
-  authorItem:{
-    fontSize: 14,
-    textAlign: 'center',
-    color: "#eee",
-    backgroundColor: "#282828",
-    borderRadius: 8,
-    padding: 8,
-    paddingTop: 16,
-    paddingBottom: 16,
-   
-    
-  },
-  gridIcon:{
-    fontSize: 26,
-    textAlign: 'center'
-  },
-  
-  orderItem: {
-    backgroundColor: "#f9f9f9",
-    padding: 16,
-    borderRadius: 16,
-    // width: 120,
-    height: 100,
+  const header = {
+    backgroundColor: theme === "Light" ? "#fff" : "#363636",
   }
-});
 
-export default Orders
+  const headerTitle = {
+    color: theme === "Light" ? "#363636" : "#f4f4f4",
+  }
+
+
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator screenOptions={{
+        headerStyle: styles.header,
+        headerTintColor: '#fff',
+        headerTitleStyle: styles.headerTitle,
+        
+      }}>
+        <Stack.Screen
+          name='main'
+          component={Orders}
+          options={{
+            title: 'Categorias',
+            headerShown: true,
+            headerStyle: header,
+            headerTitleStyle: headerTitle
+
+          }}
+        />
+        <Stack.Screen
+          name='order'
+          component={MsgView}
+          
+          options={{
+            title: author,
+            headerShown: true
+
+          }}
+          
+        />
+      </Stack.Navigator>
+
+    </NavigationContainer>
+  )
+}
+
+

@@ -1,68 +1,170 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Pressable} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Pressable, ToastAndroid } from 'react-native';
 import MotiCard from '../../components/MotiCard';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import ViewController from '../../ViewController';
+import { MyContext } from '../../Global/Context';
+import {SettingsContainer, Title, Option} from './style'
+import Dark from '../../Global/dark';
+import {Appearance} from 'react-native';
 
-const Settings = () =>{
-  
+console.log(Appearance.getColorScheme)
+
+const Settings = () => {
+
+//  const {theme, setTheme} = ViewController()
+const {theme, setTheme} = useContext(MyContext)
+
+  function handleTheme(){
+    if(theme === 'Dark'){
+      setTheme('Light')
+    }else{
+      setTheme('Dark')
+    }
+  }
+
+  console.log(theme)
+
+  const settingList = [
+    {
+      title: 'Tema',
+      options: [
+        {
+          label: 'Escuro',
+          callback: handleTheme,
+          value: 'Dark'
+
+        },
+        {
+          label: 'Claro',
+          callback: handleTheme,
+          value: 'Light'
+
+        }
+      ]
+    },
+    {
+      title: 'Notificações',
+      options: [
+        // {
+        //   label: 'Horários',
+        //   callback: undefined
+        // },
+        {
+          label: 'Categorias',
+          callback: undefined
+        }
+      ]
+    },
+    {
+      title: 'Contribua',
+      options: [
+        // {
+        //   label: 'Horários',
+        //   callback: undefined
+        // },
+        {
+          label: 'Avalie o App',
+          callback: undefined
+        },
+        {
+          label: 'Envie sua mensagem',
+          callback: undefined
+        },
+        {
+          label: 'Reportar erro',
+          callback: undefined
+        },
+      ]
+    },
+  ]
+
+
+  function textColor(){
+    return theme === 'Dark' ? '#fff' : '#000'
+  }
+
   return (
-  <View style={styles.container}>
-      <Text style={styles.title}>Configurações</Text>
+    <SettingsContainer theme={theme}>
+
+
+    {
+      settingList.map((item, index) => (
+        <>
+       <Title theme={theme} key={item.title}>{item.title}</Title>
+       {
+        item.options.map((option, index) => (
+          <>
+          <Option theme={theme} key={option.label} onPress={()=> option.callback ? option.callback() : null}>
+          <Text style={{
+            color: theme === option.value ? Dark.COLORS.GREEN : textColor(),
+            fontSize: 16,
+            fontWeight: "400",
+            padding: 16
+          }}>{option.label}</Text>
+       </Option>
+          </>
+        ))
+
+       }
+       
+       </>
+       )
+      )
+    }
       
-      
-        <Text style={styles.subtitle} >
-          Tema
-        </Text>
+
       
    
   
   
-  </View>
-  ) 
-} 
+  </SettingsContainer>
+  )
+}
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(
+  
+  {
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: Dark.COLORS.BACKGROUND,
     alignItems: "center",
-    justifyContent: "center",
-    // marginLeft: 'auto',
-    // marginRight: 'auto'
+    padding: 16,
+
   },
 
   title: {
-    color: "#eee",
+    color: Dark.COLORS.TEXT_PRIMARY,
     fontSize: 22,
     fontWeight: "600",
-    marginTop: 64,
+    marginTop: 8,
     textAlign: "left",
     marginRight: "auto",
-    marginLeft: 32,
+
+  },
+  label: {
     
   },
-  subtitle: {
-    color: "#eee",
-    fontSize: 32,
-    fontWeight: "600",
-    marginTop: 16,
-    textAlign: "left",
-    marginRight: "auto",
-    marginLeft: 32,
-    marginBottom: "auto",
+
+  option: {
+    backgroundColor: Dark.COLORS.PRIMARY800,
+    display: 'flex',
+    width: '100%',
+    // margin: 4,
+    borderRadius: 8
   },
 
   text: {
     fontSize: 18,
-    color: "#eee",
+    color: "#fff",
     fontWeight: "400",
-  }, 
+  },
   a: {
     fontSize: 32,
-    color: "#eee",
+    color: Dark.COLORS.TEXT_PRIMARY,
     fontWeight: "600",
     marginBottom: "auto"
-  }, 
+  },
 })
 
 export default Settings

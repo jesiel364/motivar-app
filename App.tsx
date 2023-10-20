@@ -4,14 +4,34 @@ import { NavigationContainer } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
-import Orders from './screens/Orders';
+import OrderView from './screens/Orders';
 import Favorites from './screens/Favorites';
 import Settings from './screens/Settings';
+import MessageView from './screens/MessageView';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MyContext, MyProvider } from './Global/Context';
+import { ThemeProvider } from 'styled-components/native';
+import Dark from './Global/dark';
+import { useContext } from 'react';
+
+export type MsgProps = {
+  id: number,
+  body: string,
+  author: string,
+  label?: string
+}
 
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+  const {theme, setTheme} = useContext(MyContext)
+
+  const header = {
+    backgroundColor: theme === "Light" ? "#f4f4f4" : "#363636",
+  }
+  const headerTitle = {
+    color: theme === "Light" ? "#363636" : "#f4f4f4",
+  }
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -35,17 +55,24 @@ function MyTabs() {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: 'green',
-          tabBarInactiveTintColor: 'gray',
-          tabBarStyle: styles.tab
+          tabBarActiveTintColor: '#000',
+          tabBarInactiveTintColor: '#c4c4c4',
+          tabBarStyle: styles.tab,
+          freezeOnBlur: true,
+          tabBarActiveBackgroundColor: '#c4c4c4',
+          tabBarItemStyle: styles.tabItem
+          
+          
         })}
     >
       <Tab.Screen name="home" component={Home} options={{
             title: 'Citações',
-            headerShown: false
+            headerShown: true,
+            headerStyle: header,
+            headerTitleStyle: headerTitle
 
           }} />
-      <Tab.Screen name="orders" component={Orders} options={{
+      <Tab.Screen name="orders" component={OrderView} options={{
             title: 'Categorias',
             headerShown: false
 
@@ -56,10 +83,17 @@ function MyTabs() {
 
           }} />
       <Tab.Screen name="settings" component={Settings} options={{
-            title: 'Config.',
-            headerShown: false
+            title: 'Configurações',
+            headerShown: true,
+            headerStyle: header,
+            headerTitleStyle: headerTitle
 
           }} />
+      {/* <Tab.Screen name="teste" component={MessageView} options={{
+            title: 'Teste',
+            headerShown: false
+
+          }} /> */}
     </Tab.Navigator>
   );
 }
@@ -72,18 +106,16 @@ const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
+    <ThemeProvider theme={Dark}>
+    <MyProvider>
     <NavigationContainer>
     
-    
-
-      
            <MyTabs/>
       
-  
-   
-
 
     </NavigationContainer>
+    </MyProvider>
+    </ThemeProvider>
   );
 }
 
@@ -98,6 +130,21 @@ const styles = StyleSheet.create({
   },
   
   tab:{
-    backgroundColor: "black"
+    backgroundColor: "#282828",
+    borderTopColor: "#424242",
+    borderTopWidth: .5,
+    // borderRadius: 32
   } 
+  ,
+  headerTab: {
+    backgroundColor: '#282828'
+  },
+  headerTitleStyle: {
+    color: '#fff'
+  },
+  tabItem: {
+    borderBottomLeftRadius: 16,
+    borderTopRightRadius: 16,
+  }
+
 });

@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
 
   author: {
     fontSize: 14,
-    color: "#808080",
+    color: "#ffffff",
     fontWeight: "600",
   },
   header: {

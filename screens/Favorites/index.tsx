@@ -73,7 +73,7 @@ const Favorites = ({ navigation }: any) => {
     ToastAndroid.show("Right", ToastAndroid.SHORT);
   }
 
-  const {theme} = useContext(MyContext)
+  const { theme } = useContext(MyContext);
 
   // useEffect(() => {
   //   console.log(data);
@@ -144,8 +144,7 @@ export default function FavoritesView() {
   const headerTitle = {
     fontSize: 20,
     color: !isLight() ? "#fff" : "#282828",
-
-  }
+  };
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
@@ -170,7 +169,7 @@ export default function FavoritesView() {
           options={{
             title: "Favoritos",
             headerShown: true,
-            navigationBarColor: '#363636'
+            navigationBarColor: "#363636",
           }}
         />
       </Stack.Navigator>

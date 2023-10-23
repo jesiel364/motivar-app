@@ -27,14 +27,16 @@ export const Item = styled.Pressable`
 
 export const Message = styled.Text`
   font-size: 18px;
-  color: ${(props:CustomProps) => (props.theme === "Dark" ? "#f4f4f4" : "#282828")};
-  
+  color: ${(props: CustomProps) =>
+    props.theme === "Dark" ? "#f4f4f4" : "#282828"};
+
   font-weight: 400;
 `;
 
 export const Author = styled.Text`
   font-size: 14px;
-  color: ${(props:CustomProps) => (props.theme === "Dark" ? "#f4f4f4" : "#282828")};
+  color: ${(props: CustomProps) =>
+    props.theme === "Dark" ? "#f4f4f4" : "#282828"};
   font-weight: 600;
 `;
 

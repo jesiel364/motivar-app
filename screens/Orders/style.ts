@@ -3,7 +3,8 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${(props) => (props.theme === "Light" ? "#fff" : "#363636")};
+  background-color: ${(props) =>
+    props.theme === "Light" ? "#fff" : "#363636"};
 `;
 
 export const Header = styled.View`
@@ -11,7 +12,6 @@ export const Header = styled.View`
 `;
 
 export const Title = styled.Text`
-
   color: #eee;
   font-size: 24px;
   font-weight: 700;
@@ -44,14 +44,12 @@ export const AuthorItem = styled.Text`
   text-align: center;
   background-color: ${(props) =>
     props.theme === "Light" ? "#f4f4f4" : "#282828"};
-  color: ${(props) =>
-    props.theme === "Light" ? "#282828" : "#f4f4f4"};
-  
+  color: ${(props) => (props.theme === "Light" ? "#282828" : "#f4f4f4")};
+
   padding: 8px;
   display: flex;
   height: 76px;
   border-radius: 8px;
-  
 `;
 
 export const styles = StyleSheet.create({

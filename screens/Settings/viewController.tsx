@@ -1,87 +1,87 @@
-import { useContext } from "react"
-import { MyContext } from "../../Global/Context"
+import { useContext } from "react";
+import { MyContext } from "../../Global/Context";
 
 const SettingsViewController = () => {
+  const { theme, setTheme } = useContext(MyContext);
 
-    const {theme, setTheme} = useContext(MyContext)
-    
-    function handleTheme(){
-        if(theme === 'Dark'){
-          setTheme('Light')
-        }else{
-          setTheme('Dark')
-        }
-      }
-    
-      console.log(theme)
-    
-      const settingList = [
+  function handleTheme() {
+    if (theme === "Dark") {
+      setTheme("Light");
+    } else {
+      setTheme("Dark");
+    }
+  }
+
+  console.log(theme);
+
+  const settingList = [
+    {
+      title: "Tema",
+      options: [
         {
-          title: 'Tema',
-          options: [
-            {
-              label: 'Escuro',
-              callback: handleTheme,
-              value: 'Dark'
-    
-            },
-            {
-              label: 'Claro',
-              callback: handleTheme,
-              value: 'Light'
-    
-            }
-          ]
+          label: "Escuro",
+          callback: handleTheme,
+          value: "Dark",
         },
+        {
+          label: "Claro",
+          callback: handleTheme,
+          value: "Light",
+        },
+        {
+          label: "Sistema",
+          callback: handleTheme,
+          value: "SystemColor",
+        },
+      ],
+    },
+    // {
+    //   title: 'Notificações',
+    //   options: [
+    //     {
+    //       label: 'Horários',
+    //       callback: undefined
+    //     },
+    //     {
+    //       label: 'Categorias',
+    //       callback: undefined
+    //     }
+    //   ]
+    // },
+    {
+      title: "Contribua",
+      options: [
         // {
-        //   title: 'Notificações',
-        //   options: [
-        //     {
-        //       label: 'Horários',
-        //       callback: undefined
-        //     },
-        //     {
-        //       label: 'Categorias',
-        //       callback: undefined
-        //     }
-        //   ]
+        //   label: 'Horários',
+        //   callback: undefined
         // },
         {
-          title: 'Contribua',
-          options: [
-            // {
-            //   label: 'Horários',
-            //   callback: undefined
-            // },
-            {
-              label: 'Avalie o App',
-              callback: undefined
-            },
-            {
-              label: 'Envie sua mensagem',
-              callback: undefined
-            },
-            {
-              label: 'Reportar erro',
-              callback: undefined
-            },
-          ]
+          label: "Avalie o App",
+          callback: undefined,
         },
-      ]
-    
-    
-      function textColor(){
-        return theme === 'Dark' ? '#fff' : '#000'
-      }
+        {
+          label: "Envie sua mensagem",
+          callback: undefined,
+        },
+        {
+          label: "Reportar erro",
+          callback: undefined,
+        },
+      ],
+    },
+  ];
 
-    return {
+  function textColor() {
+    return theme === "Dark" ? "#fff" : "#000";
+  }
 
-        theme, 
-        setTheme,
-        handleTheme,
-        settingList,
-        textColor
-    }
-}
+  return {
+    theme,
+    setTheme,
+    handleTheme,
+    settingList,
+    textColor,
+  };
+};
 
-export default SettingsViewController
+export default SettingsViewController;

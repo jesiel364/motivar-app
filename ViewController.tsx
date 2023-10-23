@@ -131,6 +131,27 @@ const ViewController = () => {
 
     }
 
+    const [messageAuthor, setMessageAuthor] = useState()
+
+    async function GetMessageByAuthor(author: string) {
+        setLoading(true);
+        await fetch(
+            `https://pensador-api.vercel.app/?term=${author}&max=20`,
+            {
+                method: "GET",
+            }
+        )
+            .then((response) => response.json())
+            .then((json) => setMessageAuthor(json))
+            .catch((err) => setErro(err));
+        setLoading(false);
+
+        return messageAuthor
+
+    }
+
+
+
 
 
     useEffect(() => {
@@ -155,7 +176,8 @@ const ViewController = () => {
         updateMsg,
         GetMessage,
         theme, 
-        setTheme
+        setTheme,
+        messageAuthor, GetMessageByAuthor
 
     }
 }

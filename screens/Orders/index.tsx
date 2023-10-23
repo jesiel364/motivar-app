@@ -44,21 +44,25 @@ const Orders = ({ navigation }) => {
   }
 
   const {theme} = useContext(MyContext)
-  const {mainAuthors, getMessageByAuthor, message} = OrderViewController()
+  const {mainAuthors, GetMessageByAuthor, message, messageAuthor} = OrderViewController()
   const {author, setAuthor} = useContext(MyContext)
+
+  // getMessageByAuthor()
 
 // useEffect(()=> (
 //   console.log(getMessageByAuthor('Stevie Jobs'))
 // ))
 
- async function handlePress(item: OrdersType) {
+ function handlePress(author: string) {
     // ToastAndroid.show(item, ToastAndroid.SHORT)
-    setAuthor(item)
-    await getMessageByAuthor(item)
-    console.log(message)
-    navigation.navigate('order', {title: item.label, messages: message , type: 'author' , data: {
+    setAuthor(author)
+
+      GetMessageByAuthor('Jesus Cristo')
+
+    console.log(messageAuthor, author)
+    navigation.navigate('order', {title: author, messages: message , type: 'author' , data: {
       autor: `Leonardo da Vinci`,
-      texto: "A lei suprema da arte é a representação do belo.",
+      texto: message,
     } })
   }
 

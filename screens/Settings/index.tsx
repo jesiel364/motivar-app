@@ -16,7 +16,7 @@ import Dark from "../../Global/dark";
 import { Appearance } from "react-native";
 import SettingsViewController from "./viewController";
 
-console.log(Appearance.getColorScheme);
+// console.log(Appearance.getColorScheme);
 
 const Settings = () => {
   //  const {theme, setTheme} = ViewController()

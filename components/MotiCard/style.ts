@@ -1,11 +1,18 @@
 import styled from "styled-components/native";
 
-export const Text = styled.Text`
-  font-size: 22;
-  color: ${(props) => (props.theme === "Light" ? "#000" : "#fefefe")};
-  font-weight: 600;
+export const Message = styled.Text`
+  font-size: 22px;
+  color: ${(props) => (props.theme === "Light" ? "#363636" : "#fefefe")};
+  font-weight: 400;
   max-height: 400px;
   text-align: left;
+`;
+export const Author = styled.Text`
+    font-size: 16px;
+    color: #808080;
+    font-weight: 400;
+    font-style: italic;
+    text-align: right;
 `;
 export const ActionsGroup = styled.View`
   display: flex;

@@ -10,7 +10,7 @@ export const SettingsContainer = styled.View`
 `;
 
 export const Title = styled.Text`
-  color: ${(props) => (props.theme === "Light" ? "#000" : "#fff")};
+  color: ${(props) => (props.theme === "Light" ? "#434343" : "#fff")};
 
   font-size: 22px;
   font-weight: 600;

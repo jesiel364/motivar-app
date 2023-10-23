@@ -27,10 +27,16 @@ function MyTabs() {
   const {theme, setTheme} = useContext(MyContext)
 
   const header = {
-    backgroundColor: theme === "Light" ? "#f4f4f4" : "#363636",
+    backgroundColor: theme === "Light" ? "#fff" : "#363636",
   }
   const headerTitle = {
     color: theme === "Light" ? "#363636" : "#f4f4f4",
+  }
+
+  const tabStyle = {
+    backgroundColor: theme === 'Dark' ? "#282828" : '#fff',
+    borderTopColor: "grey",
+    borderTopWidth: 0,
   }
   return (
     <Tab.Navigator
@@ -55,11 +61,11 @@ function MyTabs() {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#000',
-          tabBarInactiveTintColor: '#c4c4c4',
-          tabBarStyle: styles.tab,
+          tabBarActiveTintColor: theme === 'Light' ? '#f4f4f4' : '#282828',
+          tabBarInactiveTintColor: theme === 'Light' ?  '#282828' : '#fff',
+          tabBarStyle: tabStyle,
           freezeOnBlur: true,
-          tabBarActiveBackgroundColor: '#c4c4c4',
+          tabBarActiveBackgroundColor: theme === 'Light' ? '#363636' : '#c4c4c4',
           tabBarItemStyle: styles.tabItem
           
           
@@ -143,8 +149,10 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   tabItem: {
-    borderBottomLeftRadius: 16,
+    borderBottomLeftRadius: 0,
     borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+    // borderRadius: 25
   }
 
 });

@@ -3,8 +3,7 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${(props) =>
-    props.theme === "Light" ? "#fff" : "#000"};
+  background-color: ${(props) => (props.theme === "Light" ? "#fff" : "#363636")};
 `;
 
 export const Header = styled.View`
@@ -12,6 +11,7 @@ export const Header = styled.View`
 `;
 
 export const Title = styled.Text`
+
   color: #eee;
   font-size: 24px;
   font-weight: 700;
@@ -23,34 +23,36 @@ export const Title = styled.Text`
 `;
 
 export const OrderItem = styled.Pressable`
-    background-color: #282828;
-    padding: 16px;
-    border-radius: 16px;
-    height: 100px;
-
+  background-color: #282828;
+  padding: 16px;
+  border-radius: 16px;
+  height: 100px;
 `;
 
 export const GridLabel = styled.Text`
-    font-size: 16px;
-    text-align: center;
-    color: #eee;
-    font-weight: 200;
-`
+  font-size: 16px;
+  text-align: center;
+  color: #eee;
+  font-weight: 200;
+`;
 export const GridIcon = styled.Text`
-    font-size: 26px;
-    text-align: center;
-`
+  font-size: 26px;
+  text-align: center;
+`;
 export const AuthorItem = styled.Text`
-    font-size: 14px;
-    text-align: center;
-    background-color: ${(props) =>
+  font-size: 14px;
+  text-align: center;
+  background-color: ${(props) =>
     props.theme === "Light" ? "#f4f4f4" : "#282828"};
-;
-    border-radius: 8px;
-    padding: 8px;
-    display: flex;
-    height: 76px;
-`
+  color: ${(props) =>
+    props.theme === "Light" ? "#282828" : "#f4f4f4"};
+  
+  padding: 8px;
+  display: flex;
+  height: 76px;
+  border-radius: 8px;
+  
+`;
 
 export const styles = StyleSheet.create({
   header: {

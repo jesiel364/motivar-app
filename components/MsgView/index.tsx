@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
@@ -18,29 +18,31 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import * as Sharing from "expo-sharing";
-import { useEffect, useState, useContext } from 'react';
-import { FlatGrid } from 'react-native-super-grid';
-import { SimpleGrid } from 'react-native-super-grid';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { OrderViewController } from '../../screens/Orders/viewController';
-import { MyContext } from '../../Global/Context';
+import { useEffect, useState, useContext } from "react";
+import { FlatGrid } from "react-native-super-grid";
+import { SimpleGrid } from "react-native-super-grid";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { OrderViewController } from "../../screens/Orders/viewController";
+import { MyContext } from "../../Global/Context";
+import { ActionGroup, Author, Card, Container, Message, RightButton, Title } from "./style";
+import { MsgViewController } from "./viewController";
 
 export default function MsgView({ route }) {
+  const title = route.params?.title;
+  const data = route.params?.data;
+  const type = route.params?.type;
+  const frases = route.params?.messages?.frases;
 
-  const title = route.params?.title
-  const data = route.params?.data
-  const type = route.params?.type
-  const frases = route.params?.messages?.frases
+  const {isLight} = MsgViewController()
 
-  const { author, setAuthor } = useContext(MyContext)
+  const { author, setAuthor, theme } = useContext(MyContext);
 
-
-  if (type === 'author') {
+  if (type === "author") {
     // console.log(frases)
-    frases?.map(item => {
-      console.log(item)
-    })
+    frases?.map((item) => {
+      console.log(item);
+    });
   }
 
   const showToast = (message: string) => {
@@ -63,11 +65,8 @@ export default function MsgView({ route }) {
     }
   }
 
-
   async function copyToClipboard() {
-    await Clipboard.setStringAsync(
-      `"${data.texto}" ${data.autor}`
-    );
+    await Clipboard.setStringAsync(`"${data.texto}" ${data.autor}`);
 
     showToast("Mensagem copiada!");
   }
@@ -86,119 +85,99 @@ export default function MsgView({ route }) {
     {
       label: "Copy",
       icon: "copy-outline",
-      callback: copyToClipboard
+      callback: copyToClipboard,
     },
     // {
     //   label: "Update",
     //   icon: "ios-refresh-outline",
     // },
-
   ];
 
+  
 
   return (
-    <View style={styles.container}>
-
-      {type === 'author' ?
+    <Container theme={theme}>
+      {type === "author" ? (
         <>
-          {title ? <Text style={styles.title}>{title}</Text> : null}
+          {title ? <Title theme={theme}>{title}</Title> : null}
 
-
-
-        
-          <View style={styles.Card}>
-
-          {
-            frases?.map(item => {
-
+          <Card theme={theme}>
+            {frases?.map((item) => {
               <>
-              <Text style={{
-                color: '#fff'
-              }}>{item.texto}</Text>
-              </>
-            })
-          }
+                <Text
+                  // style={{
+                  //   color: "#fff",
+                  // }}
+                >
+                  {item.texto}
+                </Text>
+              </>;
+            })}
 
-
-            <Text selectable={true} style={styles.Text}>
-              {data.texto}
-            </Text>
+            <Message theme={theme} selectable={true}>{data.texto}</Message>
 
             {/* <ActivityIndicator style={styles.loading} /> */}
 
+            <Author theme={theme}>{data.autor}</Author>
 
-            <Text style={styles.author}>
-              {data.autor}
-            </Text>
-
-            <View style={styles.actions}>
+            <ActionGroup theme={theme} style={styles.actions}>
               {dataSource.map((item, index) => (
                 <Pressable
                   onPress={(e) => (item.callback ? item.callback() : null)}
                   key={index}
                 >
                   <Text style={styles.btnText}>
-                    <Ionicons name={item.icon} size={32} color="white" />
+                    <Ionicons name={item.icon} size={32} color={!isLight() ? 'white' : 'black' } />
                   </Text>
                 </Pressable>
               ))}
-
-
-            </View>
-          </View>
-
+            </ActionGroup>
+          </Card>
         </>
-        :
+      ) : (
         <>
           {title ? <Text style={styles.title}>{title}</Text> : null}
           {/* <MotiCard props={data}></MotiCard> */}
-          <View style={styles.Card}>
-
-
-            <Text selectable={true} style={styles.Text}>
+          <Card theme={theme}>
+            <Message theme={theme} selectable={true}>
               {data.texto}
-            </Text>
+            </Message>
 
             {/* <ActivityIndicator style={styles.loading} /> */}
 
+            <Author theme={theme}>{data.autor}</Author>
 
-            <Text style={styles.author}>
-              {data.autor}
-            </Text>
-
-            <View style={styles.actions}>
+            <ActionGroup theme={theme}>
               {dataSource.map((item, index) => (
                 <Pressable
                   onPress={(e) => (item.callback ? item.callback() : null)}
                   key={index}
                 >
                   <Text style={styles.btnText}>
-                    <Ionicons name={item.icon} size={32} color="white" />
+                    <Ionicons name={item.icon} size={32} color={isLight() ? 'black' : 'white'} />
                   </Text>
                 </Pressable>
               ))}
-
-
-            </View>
-          </View>
-
-        </>}
-    </View>
-  )
+            </ActionGroup>
+          </Card>
+        </>
+      )}
+    </Container>
+  );
 }
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#4BB543',
+    backgroundColor: "#4BB543",
   },
   headerTitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
-    color: "#fefefe"
+    color: "#fefefe",
   },
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: "black",
     // alignItems: 'center',
     // justifyContent: 'center',
     // marginLeft: 'auto',
@@ -214,34 +193,30 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginRight: "auto",
     marginLeft: 16,
-    marginBottom: 16
+    marginBottom: 16,
   },
 
-  grid: {
-
-  },
+  grid: {},
 
   gridLabel: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     color: "#eee",
-    fontWeight: "600"
+    fontWeight: "600",
   },
   authorItem: {
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
     color: "#eee",
     backgroundColor: "#282828",
     borderRadius: 8,
     padding: 8,
     paddingTop: 16,
     paddingBottom: 16,
-
-
   },
   gridIcon: {
     fontSize: 26,
-    textAlign: 'center'
+    textAlign: "center",
   },
 
   orderItem: {
@@ -258,7 +233,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: "#fefefe",
     fontWeight: "400",
-    maxHeight: 400
+    maxHeight: 400,
   },
   author: {
     fontSize: 16,

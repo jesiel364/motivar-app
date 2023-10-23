@@ -18,10 +18,12 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import * as Sharing from "expo-sharing";
-import AsyncStorage, { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import uuid from 'react-native-uuid';
+import AsyncStorage, {
+  useAsyncStorage,
+} from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
 import Toast from "react-native-toast-message";
-import * as S from './style'
+import * as S from "./style";
 import { MyContext } from "../../Global/Context";
 
 const MotiCard = (props: any) => {
@@ -30,7 +32,7 @@ const MotiCard = (props: any) => {
     return;
   }
 
-  const { getItem, setItem } = useAsyncStorage('@messages:favorites')
+  const { getItem, setItem } = useAsyncStorage("@messages:favorites");
 
   const [fav, setFav] = useState(false);
 
@@ -40,54 +42,43 @@ const MotiCard = (props: any) => {
 
   const phrase = props.data;
 
-
-  const list = []
-
+  const list = [];
 
   phrase?.frases?.map((frase) => {
     // console.log(frase.texto)
-    list.push(
-      {
-        autor: frase.autor,
-        texto: frase.texto,
+    list.push({
+      autor: frase.autor,
+      texto: frase.texto,
+    });
+  });
 
-      }
-    )
-  })
+  let rand = Math.floor(Math.random() * (list.length - 1));
 
-
-
-
-  let rand = Math.floor(Math.random() * (list.length - 1))
-
-  const frase = list[rand]
-
+  const frase = list[rand];
 
   async function copyToClipboard() {
     // Clipboard.setString('hello world')
-    await Clipboard.setStringAsync(
-      frase.texto
-    );
+    await Clipboard.setStringAsync(frase.texto);
 
     showToast("Mensagem copiada!");
   }
 
-
-
   async function handleLikePress() {
+    const response = await getItem();
+    const previousData = response ? JSON.parse(response) : [];
+    const filt = previousData.filter((item) => item.texto === frase.texto);
 
-    const response = await getItem()
-    const previousData = response ? JSON.parse(response) : []
-    const filt = previousData.filter(item => item.texto === frase.texto)
-    const data = [...previousData, frase]
-    // console.log(filt)
+    const data = [...previousData, frase];
+
     // setFav(!fav);
-    if (!!filt) {
-      await setItem(JSON.stringify(data))
+    if (filt.length < 1) {
+      setFav(true)
+      await setItem(JSON.stringify(data));
       // await AsyncStorage.setItem('@messages:favorites', JSON.stringify(frase))
-      showToast('Adicionado aos favoritos!')
+      showToast("Adicionado aos favoritos!");
+    }else{
+      setFav(true)
     }
-
   }
 
   async function send() {
@@ -109,10 +100,28 @@ const MotiCard = (props: any) => {
     }
   }
 
+  // async function IsLike() {
+  //   const response = await getItem();
+  //   const previousData = response ? JSON.parse(response) : [];
+  //   const filt = previousData.filter((item) => item.texto === frase.texto);
+  //   console.log(filt);
+  //   if (filt.length < 0) {
+  //     return setFav(true)
+  //   } else {
+  //     setFav(false)
+  //   }
+  // }
+
+  // useEffect(()=> {
+  //   IsLike()
+  //   console.log(fav)
+
+  // }, [IsLike, fav])
+
   const dataSource = [
     {
       label: "Like",
-      icon: fav === true ? "heart" : "heart-outline",
+      icon: fav ? "heart" : "heart-outline",
       callback: handleLikePress,
     },
     {
@@ -138,59 +147,72 @@ const MotiCard = (props: any) => {
 
   // console.log(props.erro)
 
-  const {theme} = useContext(MyContext)
+  const { theme } = useContext(MyContext);
 
   return (
     <View style={styles.Card}>
-      {!props.erro ?
+      {!props.erro ? (
         <>
-          {frase ?
-            (
-              <S.Text theme={theme} selectable={true}>{
-                frase.texto}
-              </S.Text>
-            )
+          {frase ? (
+            <S.Message theme={theme} selectable={true}>
+              {frase.texto}
+            </S.Message>
+          ) : (
+            <ActivityIndicator
+              color={theme === "Dark" ? "#ffffff" : "#000"}
+              style={styles.loading}
+            />
+          )}
 
-            : (
-              <ActivityIndicator color={theme === "Dark" ? "#ffffff" : "#000"} style={styles.loading} />
-            )}
-
-
-          <Text style={styles.author}>
-            {frase ? frase?.autor
-              : (frase?.texto && frase?.texto === "Undefined" ? "Desconhecido" : null)}
-          </Text>
+          <S.Author>
+            {frase
+              ? frase?.autor
+              : frase?.texto && frase?.texto === "Undefined"
+              ? "Desconhecido"
+              : null}
+          </S.Author>
           <Text style={styles.Text}>{fav}</Text>
 
-          <S.ActionsGroup theme={theme}>
-            {dataSource.map((item, index) => (
-              <Pressable
-                onPress={(e) => (item.callback ? item.callback() : null)}
-                key={index}
-              >
-                <Text style={styles.btnText}>
-                  <Ionicons name={item.icon} size={32} color={theme === 'Dark' ? 'white' : 'black'} />
-                </Text>
-              </Pressable>
-            ))}
+          {frase ? (
+            <S.ActionsGroup theme={theme}>
+              {dataSource.map((item, index) => (
+                <Pressable
+                  onPress={(e) => (item.callback ? item.callback() : null)}
+                  key={index}
+                >
+                  <Text style={styles.btnText}>
+                    <Ionicons
+                      name={item.icon}
+                      size={32}
+                      color={theme === "Dark" ? "white" : "black"}
+                    />
+                  </Text>
+                </Pressable>
+              ))}
 
-            {/* <TouchableOpacity
+              {/* <TouchableOpacity
                     onPress={() => setSelected(!selected)}
                     style={{ backgroundColor: selected ? "#eee" : "transparent" }}
                 >
                     <Text>Press me</Text>
                 </TouchableOpacity> */}
-          </S.ActionsGroup>
-
-        </> : (<>
-          <Text style={styles.Text}>Sem conexão</Text>
-          <Text style={{
-            fontSize: 16,
-            color: '#eee',
-            marginTop: 'px',
-          }}>Algumas funções podem não funcionar</Text>
+            </S.ActionsGroup>
+          ) : null}
         </>
-        )}
+      ) : (
+        <>
+          <Text style={styles.Text}>Sem conexão</Text>
+          <Text
+            style={{
+              fontSize: 16,
+              color: "#eee",
+              marginTop: "8px",
+            }}
+          >
+            Algumas funções podem não funcionar
+          </Text>
+        </>
+      )}
     </View>
   );
 };
@@ -204,7 +226,7 @@ const styles = StyleSheet.create({
     color: "#dbd9d9",
     fontWeight: "600",
     maxHeight: 400,
-    textAlign: 'left'
+    textAlign: "left",
   },
   author: {
     fontSize: 16,

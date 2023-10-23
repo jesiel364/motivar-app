@@ -12,8 +12,8 @@ export default interface ContextProps {
 const MyContext = createContext({})
 
 const MyProvider = ({children}:ContextProps) => {
-    const [theme, setTheme ] = useState('Light')
-    const [author, setAuthor] = useState()
+    const [theme, setTheme ] = useState<string>('Light')
+    const [author, setAuthor] = useState<string>('')
 
 
     return (

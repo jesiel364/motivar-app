@@ -1,136 +1,68 @@
-import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Pressable, ToastAndroid } from 'react-native';
-import MotiCard from '../../components/MotiCard';
-import { useContext, useEffect, useState } from 'react';
-import ViewController from '../../ViewController';
-import { MyContext } from '../../Global/Context';
-import {SettingsContainer, Title, Option} from './style'
-import Dark from '../../Global/dark';
-import {Appearance} from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  ToastAndroid,
+} from "react-native";
+import MotiCard from "../../components/MotiCard";
+import { useContext, useEffect, useState } from "react";
+import ViewController from "../../ViewController";
+import { MyContext } from "../../Global/Context";
+import { SettingsContainer, Title, Option } from "./style";
+import Dark from "../../Global/dark";
+import { Appearance } from "react-native";
+import SettingsViewController from "./viewController";
 
-console.log(Appearance.getColorScheme)
+console.log(Appearance.getColorScheme);
 
 const Settings = () => {
-
-//  const {theme, setTheme} = ViewController()
-const {theme, setTheme} = useContext(MyContext)
-
-  function handleTheme(){
-    if(theme === 'Dark'){
-      setTheme('Light')
-    }else{
-      setTheme('Dark')
-    }
-  }
-
-  console.log(theme)
-
-  const settingList = [
-    {
-      title: 'Tema',
-      options: [
-        {
-          label: 'Escuro',
-          callback: handleTheme,
-          value: 'Dark'
-
-        },
-        {
-          label: 'Claro',
-          callback: handleTheme,
-          value: 'Light'
-
-        }
-      ]
-    },
-    {
-      title: 'Notificações',
-      options: [
-        // {
-        //   label: 'Horários',
-        //   callback: undefined
-        // },
-        {
-          label: 'Categorias',
-          callback: undefined
-        }
-      ]
-    },
-    {
-      title: 'Contribua',
-      options: [
-        // {
-        //   label: 'Horários',
-        //   callback: undefined
-        // },
-        {
-          label: 'Avalie o App',
-          callback: undefined
-        },
-        {
-          label: 'Envie sua mensagem',
-          callback: undefined
-        },
-        {
-          label: 'Reportar erro',
-          callback: undefined
-        },
-      ]
-    },
-  ]
-
-
-  function textColor(){
-    return theme === 'Dark' ? '#fff' : '#000'
-  }
+  //  const {theme, setTheme} = ViewController()
+  const { theme, setTheme, handleTheme, settingList, textColor } =
+    SettingsViewController();
 
   return (
     <SettingsContainer theme={theme}>
-
-
-    {
-      settingList.map((item, index) => (
+      {settingList.map((item, index) => (
         <>
-       <Title theme={theme} key={item.title}>{item.title}</Title>
-       {
-        item.options.map((option, index) => (
-          <>
-          <Option theme={theme} key={option.label} onPress={()=> option.callback ? option.callback() : null}>
-          <Text style={{
-            color: theme === option.value ? Dark.COLORS.GREEN : textColor(),
-            fontSize: 16,
-            fontWeight: "400",
-            padding: 16
-          }}>{option.label}</Text>
-       </Option>
-          </>
-        ))
+          <Title theme={theme} key={item.title}>
+            {item.title}
+          </Title>
+          {item.options.map((option, index) => (
+            <>
+              <Option
+                theme={theme}
+                key={option.label}
+                onPress={() => (option.callback ? option.callback() : null)}
+              >
+                <Text
+                  style={{
+                    color:
+                      theme === option.value ? Dark.COLORS.GREEN : textColor(),
+                    fontSize: 16,
+                    fontWeight: "400",
+                    padding: 16,
+                  }}
+                >
+                  {option.label}
+                </Text>
+              </Option>
+            </>
+          ))}
+        </>
+      ))}
+    </SettingsContainer>
+  );
+};
 
-       }
-       
-       </>
-       )
-      )
-    }
-      
-
-      
-   
-  
-  
-  </SettingsContainer>
-  )
-}
-
-const styles = StyleSheet.create(
-  
-  {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Dark.COLORS.BACKGROUND,
     alignItems: "center",
     padding: 16,
-
   },
 
   title: {
@@ -140,18 +72,15 @@ const styles = StyleSheet.create(
     marginTop: 8,
     textAlign: "left",
     marginRight: "auto",
-
   },
-  label: {
-    
-  },
+  label: {},
 
   option: {
     backgroundColor: Dark.COLORS.PRIMARY800,
-    display: 'flex',
-    width: '100%',
+    display: "flex",
+    width: "100%",
     // margin: 4,
-    borderRadius: 8
+    borderRadius: 8,
   },
 
   text: {
@@ -163,8 +92,8 @@ const styles = StyleSheet.create(
     fontSize: 32,
     color: Dark.COLORS.TEXT_PRIMARY,
     fontWeight: "600",
-    marginBottom: "auto"
+    marginBottom: "auto",
   },
-})
+});
 
-export default Settings
+export default Settings;

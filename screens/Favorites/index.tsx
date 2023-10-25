@@ -1,12 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ToastAndroid,
-  
-} from "react-native";
+import { StyleSheet, Text, View, FlatList, ToastAndroid } from "react-native";
 import { useEffect, useState, useCallback, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -30,6 +23,7 @@ import emptyBlack from "../../assets/images/empty-black.png";
 import emptyWhite from "../../assets/images/empty-white.png";
 import FavoritesViewController from "./viewController";
 import { MyContext } from "../../Global/Context";
+import LongPressButton from "./example";
 
 interface Props {
   item: any;
@@ -79,6 +73,9 @@ const Favorites = ({ navigation }: any) => {
 
   return (
     <Container theme={theme}>
+      <LongPressButton>
+        <Text>Componente LongPress</Text>
+      </LongPressButton>
       {data.length > 0 ? (
         <FlatList
           data={data}
@@ -86,7 +83,8 @@ const Favorites = ({ navigation }: any) => {
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <>
-              <Item theme={theme} onPress={() => handlePress(item)}>
+              {/* <Item theme={theme} onPress={() => handlePress(item)}> */}
+              <LongPressButton>
                 <View
                   style={{
                     width: 300,
@@ -116,7 +114,8 @@ const Favorites = ({ navigation }: any) => {
                     </Text>
                   </TrashButton>
                 </View>
-              </Item>
+                </LongPressButton>
+              {/* </Item> */}
             </>
           )}
         />

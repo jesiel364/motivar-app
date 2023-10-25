@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 interface CustomProps {
-  theme: string;
+  theme?: string;
 }
 
 export const Container = styled.View`

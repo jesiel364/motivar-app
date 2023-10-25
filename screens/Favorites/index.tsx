@@ -88,7 +88,7 @@ const Favorites = ({ navigation,  }: any) => {
           renderItem={({ item }) => (
             <>
               {/* <Item theme={theme} onPress={() => handlePress(item)}> */}
-              <LongPressButton setShowCheck={setShowCheck} showCheck={showCheck} theme={theme}>
+              <LongPressButton  setShowCheck={setShowCheck} showCheck={showCheck} >
                 <View
                   style={{
                     width: 300,

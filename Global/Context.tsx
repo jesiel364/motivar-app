@@ -1,19 +1,19 @@
 import React, { createContext } from "react"
 import {useState} from 'react'
 
-export default interface ContextProps {
-    theme: string
-    author: string
-    children: any
-    setTheme: React.SetStateAction<string>
-    setAuthor: React.SetStateAction<string>
+export interface ContextProps {
+    theme?: string
+    author?: string
+    children?: any
+    setTheme?: React.SetStateAction<string>
+    setAuthor?: React.SetStateAction<string>
 }
 
 const MyContext = createContext({})
 
 const MyProvider = ({children}:ContextProps) => {
-    const [theme, setTheme ] = useState<string>('Light')
-    const [author, setAuthor] = useState<string>('')
+    const [theme, setTheme ] = useState('Light')
+    const [author, setAuthor] = useState('')
 
 
     return (

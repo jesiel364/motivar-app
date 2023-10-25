@@ -1,20 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import {
-  ScrollView,
   StyleSheet,
   Text,
   View,
-  Pressable,
   FlatList,
   ToastAndroid,
-  Image,
+  
 } from "react-native";
-import MotiCard from "../../components/MotiCard";
 import { useEffect, useState, useCallback, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MsgView from "../../components/MsgView";
-import Toast from "react-native-toast-message";
 import AsyncStorage, {
   useAsyncStorage,
 } from "@react-native-async-storage/async-storage";

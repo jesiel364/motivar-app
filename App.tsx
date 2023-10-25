@@ -55,14 +55,16 @@ function MyTabs() {
           }
 
           // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={32} color={color} />;
         },
-        tabBarActiveTintColor: theme === "Light" ? "#f4f4f4" : "#282828",
+        tabBarActiveTintColor: theme === "Light" ? "#FFF" : "#282828",
         tabBarInactiveTintColor: theme === "Light" ? "#282828" : "#fff",
         tabBarStyle: tabStyle,
         freezeOnBlur: true,
-        tabBarActiveBackgroundColor: theme === "Light" ? "#363636" : "#c4c4c4",
+        tabBarActiveBackgroundColor: theme === "Light" ? "#363636" : "#fff",
         tabBarItemStyle: styles.tabItem,
+        tabBarShowLabel: false
+        
       })}
     >
       <Tab.Screen
@@ -150,6 +152,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
+    // borderRadius: 8,
     // borderRadius: 25
   },
 });

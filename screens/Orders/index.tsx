@@ -38,10 +38,16 @@ import {
 } from "./style";
 import { OrderViewController } from "./viewController";
 import { MyContext } from "../../Global/Context";
+import {ContextProps} from "../../Global/Context";
 
 const Stack = createNativeStackNavigator();
 
-const Orders = ({ navigation }) => {
+interface CustomProps{
+  theme: string
+  
+}
+
+const Orders = ({ navigation,  } ) => {
   interface OrdersType {
     label: string;
     name: string;

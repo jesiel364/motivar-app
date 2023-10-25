@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, FlatList, ToastAndroid } from "react-native";
+import { StyleSheet, Text, View, FlatList, ToastAndroid, Button  } from "react-native";
 import { useEffect, useState, useCallback, useContext } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer,  } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MsgView from "../../components/MsgView";
 import AsyncStorage, {
@@ -18,6 +18,7 @@ import {
   Item,
   Message,
   TrashButton,
+  ButtonClose
 } from "./style";
 import emptyBlack from "../../assets/images/empty-black.png";
 import emptyWhite from "../../assets/images/empty-white.png";
@@ -29,12 +30,19 @@ interface Props {
   item: any;
 }
 
+interface FavoritesProps{
+  showCheck?: boolean
+  setShowCheck?: boolean
+  navigation?: any
+}
+
 const Stack = createNativeStackNavigator();
 
-const Favorites = ({ navigation }: any) => {
+const Favorites = ({ navigation,  }: any) => {
   const { getItem, setItem } = useAsyncStorage("@messages:favorites");
 
   const [data, setData] = useState([]);
+  const {showCheck, setShowCheck, theme} = useContext(MyContext)
 
   async function handleFetch() {
     const response: any = await getItem();
@@ -63,8 +71,6 @@ const Favorites = ({ navigation }: any) => {
     ToastAndroid.show("Right", ToastAndroid.SHORT);
   }
 
-  const { theme } = useContext(MyContext);
-
   // useEffect(() => {
   //   console.log(data);
   // }, [data]);
@@ -73,9 +79,7 @@ const Favorites = ({ navigation }: any) => {
 
   return (
     <Container theme={theme}>
-      <LongPressButton>
-        <Text>Componente LongPress</Text>
-      </LongPressButton>
+  
       {data.length > 0 ? (
         <FlatList
           data={data}
@@ -84,7 +88,7 @@ const Favorites = ({ navigation }: any) => {
           renderItem={({ item }) => (
             <>
               {/* <Item theme={theme} onPress={() => handlePress(item)}> */}
-              <LongPressButton>
+              <LongPressButton setShowCheck={setShowCheck} showCheck={showCheck} theme={theme}>
                 <View
                   style={{
                     width: 300,
@@ -130,6 +134,8 @@ const Favorites = ({ navigation }: any) => {
 };
 
 export default function FavoritesView() {
+  const {showCheck, setShowCheck
+  } = useContext(MyContext)
   const { theme, isLight } = FavoritesViewController();
 
   const headerStyle = {
@@ -156,6 +162,16 @@ export default function FavoritesView() {
           options={{
             title: "Favoritos",
             headerShown: true,
+            headerRight:  () => (
+              showCheck ?(
+            <ButtonClose
+            
+              onPress={() => setShowCheck(false)}
+              
+            ><Author style={{
+              color: "#282828"
+            }}>X</Author></ButtonClose>
+          ) : null)
           }}
         />
         <Stack.Screen

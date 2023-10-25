@@ -26,6 +26,19 @@ export const Item = styled.Pressable`
   max-height: 116px;
 `;
 
+export const ButtonClose= styled.Pressable`
+  background-color: ${(props: CustomProps) =>
+    props.theme === "Dark" ? "#363636" : "#f4f4f4"};
+  margin: auto;
+  padding: 16px;
+  border-radius: 8px;
+  /*min-width: 70px;*/
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  /*max-height: 30px;*/
+`
+
 export const Message = styled.Text`
   font-size: 18px;
   color: ${(props: CustomProps) =>

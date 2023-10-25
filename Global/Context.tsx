@@ -7,6 +7,8 @@ export interface ContextProps {
     children?: any
     setTheme?: React.SetStateAction<string>
     setAuthor?: React.SetStateAction<string>
+    setShowCheck?: React.SetStateAction<string>
+    showCheck?: React.SetStateAction<string>
 }
 
 const MyContext = createContext({})
@@ -14,10 +16,11 @@ const MyContext = createContext({})
 const MyProvider = ({children}:ContextProps) => {
     const [theme, setTheme ] = useState('Light')
     const [author, setAuthor] = useState('')
+    const [showCheck, setShowCheck] = useState(false);
 
 
     return (
-        <MyContext.Provider value={{theme, setTheme, author, setAuthor}}>
+        <MyContext.Provider value={{theme, setTheme, author, setAuthor, showCheck, setShowCheck}}>
             {children}
         </MyContext.Provider>
     )

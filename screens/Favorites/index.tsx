@@ -61,7 +61,7 @@ const Favorites = ({ navigation }: any) => {
     const previousData = response ? JSON.parse(response) : [];
     const data = previousData.filter((item) => texto !== item.texto);
     setItem(JSON.stringify(data));
-    ToastAndroid.show("Item excluido", ToastAndroid.SHORT);
+    // ToastAndroid.show("Item excluido", ToastAndroid.SHORT);
     handleFetch();
   }
 

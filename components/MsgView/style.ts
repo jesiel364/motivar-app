@@ -6,6 +6,8 @@ interface CustomProps{
 
 export const Container = styled.View`
   flex: 1;
+  align-content: center;
+  justify-content: center;
   background-color: ${(props:CustomProps) => (props.theme === "Light" ? "#fff" : "#282828")};
 `;
 export const Card = styled.View`

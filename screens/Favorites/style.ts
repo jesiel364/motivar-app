@@ -10,6 +10,7 @@ export const Container = styled.View`
     props.theme === "Light" ? "#fff" : "#282828"};
   align-items: center;
   justify-content: center;
+
 `;
 
 export const Item = styled.Pressable`

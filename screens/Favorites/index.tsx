@@ -89,8 +89,6 @@ const Favorites = ({ navigation }: any) => {
   const { isLight } = FavoritesViewController();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-
-
   return (
     <Container theme={theme}>
       {data.length > 0 ? (
@@ -115,8 +113,8 @@ const Favorites = ({ navigation }: any) => {
                   }}
                 >
                   <Message theme={theme}>
-                    {item.texto?.length > 74
-                      ? item.texto?.slice(0, 84) + "..."
+                    {item.texto?.length > 94
+                      ? item.texto?.slice(0, 94) + "..."
                       : item.texto}
                   </Message>
                   <Author theme={theme}>{item?.autor}</Author>
@@ -129,7 +127,7 @@ const Favorites = ({ navigation }: any) => {
                   }}
                 >
                   <TrashButton onPress={() => setOpenModal(true)}>
-                    <Text style={styles.trash}>
+                    <Text >
                       <Ionicons
                         name="ellipsis-vertical-outline"
                         size={28}
@@ -150,12 +148,13 @@ const Favorites = ({ navigation }: any) => {
         </EmptyComp>
       )}
       <ModalCenter open={openModal} setOpen={setOpenModal}>
+      <Ionicons name="share-outline" size={28} color="#c6c6c6" />
+        <Ionicons name="heart-outline" size={28} color="#c6c6c6" />
+        
+        <Ionicons name="trash-outline" size={28} color="#c6c6c6" />
         <Pressable onPress={() => setOpenModal(false)}>
           <Ionicons name="close-outline" size={28} color="#c6c6c6" />
         </Pressable>
-        <Ionicons name="heart-outline" size={28} color="#c6c6c6" />
-        <Ionicons name="share-outline" size={28} color="#c6c6c6" />
-        <Ionicons name="settings-outline" size={28} color="#c6c6c6" />
       </ModalCenter>
     </Container>
   );
@@ -163,11 +162,13 @@ const Favorites = ({ navigation }: any) => {
 
 export default function FavoritesView() {
   const { showCheck, setShowCheck } = useContext(MyContext);
-  const {theme} = useContext(MyContext)
+  const { theme } = useContext(MyContext);
   const { isLight } = FavoritesViewController();
 
   const headerStyle = {
-    backgroundColor: isLight() ? "#fff" : "#282828",
+    // backgroundColor: isLight() ? "#fff" : "#282828",
+    backgroundColor: showCheck ? "#848484" : (!isLight() ?"#282828" : '#f4f4f4'),
+    
   };
 
   const headerTitle = {
@@ -192,9 +193,27 @@ export default function FavoritesView() {
             headerShown: true,
             headerRight: () =>
               showCheck ? (
-                <Pressable onPress={() => setShowCheck(false)}>
-                  <Ionicons name="close-circle-outline" size={28} color={theme === "Dark" ? "#c6c6c6" : "#282828"} />
-                </Pressable>
+                <>
+                  <Pressable
+                    style={{
+                      marginRight: 16,
+                    }}
+                    onPress={() => setShowCheck(false)}
+                  >
+                    <Ionicons
+                      name="trash-outline"
+                      size={28}
+                      color={theme === "Dark" ? "#c6c6c6" : "#282828"}
+                    />
+                  </Pressable>
+                  <Pressable onPress={() => setShowCheck(false)}>
+                    <Ionicons
+                      name="close-circle-outline"
+                      size={30}
+                      color={theme === "Dark" ? "#c6c6c6" : "#282828"}
+                    />
+                  </Pressable>
+                </>
               ) : null,
           }}
         />
@@ -212,109 +231,3 @@ export default function FavoritesView() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-    alignItems: "center",
-    justifyContent: "center",
-    // marginLeft: 'auto',
-    // marginRight: 'auto'
-  },
-
-  title: {
-    color: "#eee",
-    fontSize: 22,
-    fontWeight: "700",
-    marginTop: 64,
-    textAlign: "left",
-    marginRight: "auto",
-    marginLeft: 32,
-    marginBottom: "auto",
-  },
-
-  text: {
-    fontSize: 18,
-    color: "#c6c6c6",
-    fontWeight: "400",
-  },
-
-  item: {
-    backgroundColor: "#282828",
-    margin: "auto",
-    padding: 16,
-    borderRadius: 16,
-    minWidth: 360,
-    marginTop: 16,
-    display: "flex",
-    flexDirection: "row",
-    maxHeight: 116,
-  },
-  delete: {
-    backgroundColor: "#d10909",
-    margin: "auto",
-    padding: 16,
-    borderRadius: 16,
-    minWidth: 360,
-    marginTop: 16,
-  },
-
-  author: {
-    fontSize: 14,
-    color: "#ffffff",
-    fontWeight: "600",
-  },
-  header: {
-    backgroundColor: "#fff",
-  },
-  headerTitle: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#282828",
-  },
-
-  grid: {},
-  gridIcon: {
-    fontSize: 26,
-    textAlign: "center",
-  },
-
-  orderItem: {
-    backgroundColor: "#282828",
-    padding: 16,
-    borderRadius: 16,
-    // width: 120,
-    height: 100,
-  },
-  Card: {
-    margin: 32,
-  },
-  Text: {
-    fontSize: 22,
-    color: "#fefefe",
-    fontWeight: "400",
-    maxHeight: 400,
-  },
-  actions: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginRight: "auto",
-    marginLeft: "auto",
-  },
-  trash: {},
-
-  trashBtn: {
-    marginLeft: "auto",
-    // backgroundColor: '#7c7c7c',
-    padding: 4,
-    borderRadius: 4,
-    marginTop: "auto",
-    marginBottom: "auto",
-  },
-
-  loading: {
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-});

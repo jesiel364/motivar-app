@@ -57,6 +57,7 @@ function handlePress(item:any){
         onPress={() => handlePress(data)}
         onLongPress={() => handleLongPress()}
         theme={theme}
+        checkMode={showCheck}
         // onPressIn={handlePressIn}
         // style={{
         //   backgroundColor: isPressing ?  '#e0e0e0' : '#f4f4f4'

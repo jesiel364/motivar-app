@@ -13,7 +13,7 @@ export const Container = styled.View`
 
 `;
 
-export const Item = styled.Pressable`
+export const Item = styled.TouchableOpacity`
   background-color: ${(props: CustomProps) =>
     props.theme === "Dark" ? "#363636" : "#f4f4f4"};
   margin: auto;

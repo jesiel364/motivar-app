@@ -51,7 +51,7 @@ function MyTabs() {
           } else if (route.name === "favorites") {
             iconName = focused ? "heart-outline" : "heart-outline";
           } else if (route.name === "settings") {
-            iconName = focused ? "cog-outline" : "cog-outline";
+            iconName = focused ? "settings-outline" : "settings-outline";
           }
 
           // You can return any component that you like here!

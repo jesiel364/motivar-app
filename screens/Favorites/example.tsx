@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, Pressable, Modal, Vibration } from "react-native";
+import { View, Text, Pressable, Modal, Vibration, TouchableOpacity } from "react-native";
 import { Author, Item, Message } from "./style";
 import { Checkbox } from "react-native-paper";
 import { MyContext } from "../../Global/Context";
@@ -8,51 +8,60 @@ interface LongPressProps {
   children?: any;
   // showCheck?: boolean;
   // setShowCheck?: boolean;
+  navigation?: any
+  data?: any
+  openModal?: boolean
+  setOpenModal?: any
+  handleItemPress?: void
 }
 
 const LongPressButton = ({
   children,
+  navigation,
+  data,
+  openModal,
+  setOpenModal,
+  handleItemPress
   // theme,
   // showCheck,
   // setShowCheck,
 }: LongPressProps) => {
-  const [isPressing, setIsPressing] = useState(false);
-  // const [showCheck, setShowCheck] = useState(false);
   const {showCheck, setShowCheck, theme} = useContext(MyContext)
   const ONE_SECOND_IN_MS = 1000;
 
-  const PATTERN = [
-    2 * ONE_SECOND_IN_MS,
-    // 2 * ONE_SECOND_IN_MS
-  ];
 
   function vibrate() {
-    return Vibration.vibrate(PATTERN, true);
+    return Vibration.vibrate(2000, true);
   }
   const [check, setCheck] = useState(false);
 
-  const handlePressIn = () => {
-    if (!showCheck) {
-      setIsPressing(true);
-      vibrate();
-      setTimeout(() => {
-        setShowCheck(!showCheck);
-      }, 900);
-    }
-  };
+function handleLongPress(){
+  // vibrate()
+  setShowCheck(true)
+}
 
-  const handlePressOut = () => {
-    // setIsPressing(false)
-    // setShowMessage(false);
-  };
+function handlePress(item:any){
+  if(!showCheck){
+    handleItemPress(item)
+  }else{
+    setCheck(!check);
+  }
+
+}
+
 
   return (
     <>
+ 
       <Item
+        onPress={() => handlePress(data)}
+        onLongPress={() => handleLongPress()}
         theme={theme}
-        onPressIn={handlePressIn}
-        
-        onPressOut={handlePressOut}
+        // onPressIn={handlePressIn}
+        // style={{
+        //   backgroundColor: isPressing ?  '#e0e0e0' : '#f4f4f4'
+        // }}
+        // onPressOut={handlePressOut}
       >
         {showCheck ? (
           <Checkbox
@@ -65,14 +74,7 @@ const LongPressButton = ({
 
         {children}
       </Item>
-      {/* <Modal visible={showMessage} onRequestClose={() => setShowMessage(false)}>
-        <View>
-          <Text>Mensagem após 5 segundos</Text>
-          <Item onPress={() => setShowMessage(false)}>
-            <Text>Fechar</Text>
-          </Item>
-        </View>
-      </Modal> */}
+
     </>
   );
 };

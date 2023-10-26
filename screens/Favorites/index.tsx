@@ -1,7 +1,16 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, FlatList, ToastAndroid, Button  } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ToastAndroid,
+  Button,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { useEffect, useState, useCallback, useContext } from "react";
-import { NavigationContainer,  } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MsgView from "../../components/MsgView";
 import AsyncStorage, {
@@ -10,6 +19,7 @@ import AsyncStorage, {
 import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+
 import {
   Author,
   Container,
@@ -18,31 +28,32 @@ import {
   Item,
   Message,
   TrashButton,
-  ButtonClose
+  ButtonClose,
 } from "./style";
 import emptyBlack from "../../assets/images/empty-black.png";
 import emptyWhite from "../../assets/images/empty-white.png";
 import FavoritesViewController from "./viewController";
 import { MyContext } from "../../Global/Context";
 import LongPressButton from "./example";
+import { ModalCenter } from "../../components/Modal";
 
 interface Props {
   item: any;
 }
 
-interface FavoritesProps{
-  showCheck?: boolean
-  setShowCheck?: boolean
-  navigation?: any
+interface FavoritesProps {
+  showCheck?: boolean;
+  setShowCheck?: boolean;
+  navigation?: any;
 }
 
 const Stack = createNativeStackNavigator();
 
-const Favorites = ({ navigation,  }: any) => {
+const Favorites = ({ navigation }: any) => {
   const { getItem, setItem } = useAsyncStorage("@messages:favorites");
 
   const [data, setData] = useState([]);
-  const {showCheck, setShowCheck, theme} = useContext(MyContext)
+  const { showCheck, setShowCheck, theme } = useContext(MyContext);
 
   async function handleFetch() {
     const response: any = await getItem();
@@ -76,10 +87,12 @@ const Favorites = ({ navigation,  }: any) => {
   // }, [data]);
 
   const { isLight } = FavoritesViewController();
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+
 
   return (
     <Container theme={theme}>
-  
       {data.length > 0 ? (
         <FlatList
           data={data}
@@ -87,16 +100,23 @@ const Favorites = ({ navigation,  }: any) => {
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <>
-              {/* <Item theme={theme} onPress={() => handlePress(item)}> */}
-              <LongPressButton  setShowCheck={setShowCheck} showCheck={showCheck} >
+              <LongPressButton
+                handleItemPress={handlePress}
+                data={item}
+                navigation={navigation}
+                setShowCheck={setShowCheck}
+                showCheck={showCheck}
+                setOpenModal={setOpenModal}
+                openModal={openModal}
+              >
                 <View
                   style={{
                     width: 300,
                   }}
                 >
                   <Message theme={theme}>
-                    {item.texto?.length > 62
-                      ? item.texto?.slice(0, 62) + "..."
+                    {item.texto?.length > 74
+                      ? item.texto?.slice(0, 84) + "..."
                       : item.texto}
                   </Message>
                   <Author theme={theme}>{item?.autor}</Author>
@@ -108,17 +128,17 @@ const Favorites = ({ navigation,  }: any) => {
                     marginLeft: "auto",
                   }}
                 >
-                  <TrashButton onPress={() => handleRemove(item.texto)}>
+                  <TrashButton onPress={() => setOpenModal(true)}>
                     <Text style={styles.trash}>
                       <Ionicons
-                        name="trash-outline"
+                        name="ellipsis-vertical-outline"
                         size={28}
                         color={theme === "Dark" ? "#c6c6c6" : "#282828"}
                       />
                     </Text>
                   </TrashButton>
                 </View>
-                </LongPressButton>
+              </LongPressButton>
               {/* </Item> */}
             </>
           )}
@@ -129,14 +149,22 @@ const Favorites = ({ navigation,  }: any) => {
           {/* <Text style={styles.text}>Vazio</Text> */}
         </EmptyComp>
       )}
+      <ModalCenter open={openModal} setOpen={setOpenModal}>
+        <Pressable onPress={() => setOpenModal(false)}>
+          <Ionicons name="close-outline" size={28} color="#c6c6c6" />
+        </Pressable>
+        <Ionicons name="heart-outline" size={28} color="#c6c6c6" />
+        <Ionicons name="share-outline" size={28} color="#c6c6c6" />
+        <Ionicons name="settings-outline" size={28} color="#c6c6c6" />
+      </ModalCenter>
     </Container>
   );
 };
 
 export default function FavoritesView() {
-  const {showCheck, setShowCheck
-  } = useContext(MyContext)
-  const { theme, isLight } = FavoritesViewController();
+  const { showCheck, setShowCheck } = useContext(MyContext);
+  const {theme} = useContext(MyContext)
+  const { isLight } = FavoritesViewController();
 
   const headerStyle = {
     backgroundColor: isLight() ? "#fff" : "#282828",
@@ -162,16 +190,12 @@ export default function FavoritesView() {
           options={{
             title: "Favoritos",
             headerShown: true,
-            headerRight:  () => (
-              showCheck ?(
-            <ButtonClose
-            
-              onPress={() => setShowCheck(false)}
-              
-            ><Author style={{
-              color: "#282828"
-            }}>X</Author></ButtonClose>
-          ) : null)
+            headerRight: () =>
+              showCheck ? (
+                <Pressable onPress={() => setShowCheck(false)}>
+                  <Ionicons name="close-circle-outline" size={28} color={theme === "Dark" ? "#c6c6c6" : "#282828"} />
+                </Pressable>
+              ) : null,
           }}
         />
         <Stack.Screen

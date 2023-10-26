@@ -17,21 +17,25 @@ const SettingsViewController = () => {
   const settingList = [
     {
       title: "Tema",
+      id: 1,
       options: [
         {
           label: "Escuro",
           callback: handleTheme,
           value: "Dark",
+          id: 2,
         },
         {
           label: "Claro",
           callback: handleTheme,
           value: "Light",
+          id: 3,
         },
         {
           label: "Sistema",
           callback: handleTheme,
           value: "SystemColor",
+          id: 4,
         },
       ],
     },
@@ -40,32 +44,40 @@ const SettingsViewController = () => {
     //   options: [
     //     {
     //       label: 'Horários',
-    //       callback: undefined
+    //       callback: undefined,
+    //  id: 6,
     //     },
     //     {
     //       label: 'Categorias',
-    //       callback: undefined
+    //       callback: undefined,
+    // id: 7,
     //     }
-    //   ]
+    //   ],
+    //  id: 5,
     // },
     {
       title: "Contribua",
+      id: 10,
       options: [
         // {
         //   label: 'Horários',
-        //   callback: undefined
+        //   callback: undefined,
+        //id: 8,
         // },
         {
           label: "Avalie o App",
           callback: undefined,
+          id: 9,
         },
         {
           label: "Envie sua mensagem",
           callback: undefined,
+          id: 11,
         },
         {
           label: "Reportar erro",
           callback: undefined,
+          id: 12,
         },
       ],
     },

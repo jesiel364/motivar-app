@@ -51,10 +51,7 @@ const LongPressButton = ({
       <Item
         theme={theme}
         onPressIn={handlePressIn}
-        style={{
-          backgroundColor: !isPressing ? "#f4f4f4" : "#f9f9f9",
-          alignItems: "center",
-        }}
+        
         onPressOut={handlePressOut}
       >
         {showCheck ? (

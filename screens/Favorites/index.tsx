@@ -243,9 +243,9 @@ export default function FavoritesView() {
                 <>
                   <Text
                     style={{
-                      color: "#fff",
-                      fontSize: 32,
-                      marginRight: 16,
+                      color:  theme === "Dark" ? "#c6c6c6" : "#282828",
+                      fontSize: 36,
+                      marginRight: 8,
                       marginTop: 8,
                     }}
                   >
@@ -253,7 +253,7 @@ export default function FavoritesView() {
                   </Text>
                   <Pressable
                     style={{
-                      marginRight: 16,
+                      marginRight: 8,
                     }}
                     
                   >

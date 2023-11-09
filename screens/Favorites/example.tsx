@@ -41,7 +41,6 @@ const LongPressButton = ({
   const { showCheck, setShowCheck, theme } = useContext(MyContext);
 
   const [check, setCheck] = useState(false);
-  
 
   function handleLongPress() {
     setShowCheck(true);
@@ -55,38 +54,37 @@ const LongPressButton = ({
       selectedItems.push(item);
     }
   }
-  
-  let [l, setL] = useState([])
+
+  let [l, setL] = useState([]);
 
   function onCheckPress(data: any) {
     setSelectedItems((prevItems) => [...prevItems, data]);
     setCheck(!check);
-    
   }
   function onRemoveCheck(data: any) {
-    const newData = selectedItems.filter((item) => item.texto !== data.texto)
+    const newData = selectedItems.filter((item) => item.texto !== data.texto);
     setSelectedItems((prevItems) => newData);
     setCheck(!check);
-    
   }
 
-  
+  function onPress() {
+    if (showCheck) {
+      if (check) {
+        onRemoveCheck(data);
+      } else {
+        onCheckPress(data);
+      }
+    } else {
+      navigation.navigate("favoritesView", { data: data});
+    }
+  }
 
   const elementoRef = useRef();
 
-  
-  
-
   return (
     <>
-   
       <Item
-     
-        onPress={() => 
-        check ? 
-        onRemoveCheck(data) :
-        onCheckPress(data)
-        }
+        onPress={() => onPress()}
         onLongPress={() => handleLongPress()}
         theme={theme}
         checkMode={showCheck}
@@ -96,13 +94,11 @@ const LongPressButton = ({
         // }}
         // onPressOut={handlePressOut}
       >
-      
         {showCheck ? (
           <Checkbox
             value={data}
-            onPress={(e:any) => {
-              e.preventDefault(),
-              onCheckPress(data);
+            onPress={(e: any) => {
+              e.preventDefault(), onCheckPress(data);
             }}
             status={check ? "checked" : "unchecked"}
           />

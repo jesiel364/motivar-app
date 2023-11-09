@@ -1,5 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
-import { View, Text, Pressable, Modal, Vibration, TouchableOpacity } from "react-native";
+import React, { useState, useContext, useEffect, useRef } from "react";
+import {
+  View,
+  Text,
+  Pressable,
+  Modal,
+  Vibration,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Author, Item, Message } from "./style";
 import { Checkbox } from "react-native-paper";
 import { MyContext } from "../../Global/Context";
@@ -8,12 +16,13 @@ interface LongPressProps {
   children?: any;
   // showCheck?: boolean;
   // setShowCheck?: boolean;
-  navigation?: any
-  data?: any
-  openModal?: boolean
-  setOpenModal?: any
-  handleItemPress?: void
-  selectedItems: any
+  navigation?: any;
+  data?: any;
+  openModal?: boolean;
+  setOpenModal?: any;
+  handleItemPress?: void;
+  setSelectedItems: any;
+  selectedItems: any;
 }
 
 const LongPressButton = ({
@@ -22,50 +31,62 @@ const LongPressButton = ({
   data,
   openModal,
   setOpenModal,
-  handleItemPress
+  handleItemPress,
   // theme,
   // showCheck,
   // setShowCheck,,
-  ,
-  selectedItems
+  setSelectedItems,
+  selectedItems,
 }: LongPressProps) => {
-  const {showCheck, setShowCheck, theme} = useContext(MyContext)
-  
+  const { showCheck, setShowCheck, theme } = useContext(MyContext);
+
   const [check, setCheck] = useState(false);
-  const [total, setTotal] = useState<number>(0);
+  
 
-function handleLongPress(){
-  setShowCheck(true)
-}
-
-function handlePress(item:any){
-  if(!showCheck){
-    handleItemPress(item)
-  }else{
-    setCheck(!check);
-    selectedItems.push(item)
+  function handleLongPress() {
+    setShowCheck(true);
   }
 
-}
-
-function onCheckPress(data: any){
-  setCheck(!check);
-  selectedItems.push(data)
-  console.log(selectedItems.length)
-}
-
-useEffect(() => {
+  function handlePress(item: any) {
+    if (!showCheck) {
+      handleItemPress(item);
+    } else {
+      setCheck(!check);
+      selectedItems.push(item);
+    }
+  }
   
-    setTotal(selectedItems.length)
-  
-})
+  let [l, setL] = useState([])
 
+  function onCheckPress(data: any) {
+    setSelectedItems((prevItems) => [...prevItems, data]);
+    setCheck(!check);
+    
+  }
+  function onRemoveCheck(data: any) {
+    const newData = selectedItems.filter((item) => item.texto !== data.texto)
+    setSelectedItems((prevItems) => newData);
+    setCheck(!check);
+    
+  }
+
+  
+
+  const elementoRef = useRef();
+
+  
+  
 
   return (
     <>
-        
+   
       <Item
-        onPress={() => handlePress(data)}
+     
+        onPress={() => 
+        check ? 
+        onRemoveCheck(data) :
+        onCheckPress(data)
+        }
         onLongPress={() => handleLongPress()}
         theme={theme}
         checkMode={showCheck}
@@ -75,11 +96,13 @@ useEffect(() => {
         // }}
         // onPressOut={handlePressOut}
       >
+      
         {showCheck ? (
           <Checkbox
-          value={data}
-            onPress={() => {
-              onCheckPress(data)
+            value={data}
+            onPress={(e:any) => {
+              e.preventDefault(),
+              onCheckPress(data);
             }}
             status={check ? "checked" : "unchecked"}
           />
@@ -87,7 +110,6 @@ useEffect(() => {
 
         {children}
       </Item>
-
     </>
   );
 };

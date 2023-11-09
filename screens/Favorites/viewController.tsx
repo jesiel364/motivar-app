@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { MyContext } from "../../Global/Context";
 import {Share,
   Alert,
@@ -33,9 +33,13 @@ const FavoritesViewController = () => {
       Alert.alert(error.message);
     }
   }
+  
+  
+  
   return {
     isLight,
-    send
+    send,
+    
   };
 };
 

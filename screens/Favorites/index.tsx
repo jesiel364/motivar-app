@@ -51,11 +51,17 @@ const Stack = createNativeStackNavigator();
 
 const Favorites = ({ navigation }: any) => {
   const { getItem, setItem } = useAsyncStorage("@messages:favorites");
-  
-  
 
   const [data, setData] = useState([]);
-  const { showCheck, setShowCheck, theme } = useContext(MyContext);
+  const {
+    showCheck,
+    setShowCheck,
+    theme,
+    selectedItems,
+    setSelectedItems,
+    total,
+    setTotal,
+  } = useContext(MyContext);
 
   async function handleFetch() {
     const response: any = await getItem();
@@ -90,7 +96,6 @@ const Favorites = ({ navigation }: any) => {
 
   const { isLight, send } = FavoritesViewController();
   const [openModal, setOpenModal] = useState<boolean>(false);
-  let selectedItems = [];
 
   return (
     <Container theme={theme}>
@@ -102,6 +107,7 @@ const Favorites = ({ navigation }: any) => {
           renderItem={({ item }) => (
             <>
               <LongPressButton
+                setSelectedItems={setSelectedItems}
                 selectedItems={selectedItems}
                 handleItemPress={handlePress}
                 data={item}
@@ -148,12 +154,14 @@ const Favorites = ({ navigation }: any) => {
                     open={openModal}
                     setOpen={setOpenModal}
                   >
-                     <Pressable
-                      onPress={() => (
-                        send(item), setOpenModal(false)
-                      )}
+                    <Pressable
+                      onPress={() => (send(item), setOpenModal(false))}
                     >
-                    <Ionicons name="share-outline" size={28} color="#c6c6c6" />
+                      <Ionicons
+                        name="share-outline"
+                        size={28}
+                        color="#c6c6c6"
+                      />
                     </Pressable>
                     <Ionicons name="heart-outline" size={28} color="#c6c6c6" />
 
@@ -193,9 +201,17 @@ const Favorites = ({ navigation }: any) => {
 };
 
 export default function FavoritesView() {
-  const { showCheck, setShowCheck } = useContext(MyContext);
-  const { theme } = useContext(MyContext);
-  const { isLight } = FavoritesViewController();
+  const {
+    showCheck,
+    setShowCheck,
+    selectedItems,
+    setSelectedItems,
+    total,
+    setTotal,
+    theme
+  } = useContext(MyContext);
+  
+  const { isLight, send, } = FavoritesViewController();
 
   const headerStyle = {
     // backgroundColor: isLight() ? "#fff" : "#282828",
@@ -225,11 +241,21 @@ export default function FavoritesView() {
             headerRight: () =>
               showCheck ? (
                 <>
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 32,
+                      marginRight: 16,
+                      marginTop: 8,
+                    }}
+                  >
+                    {total}
+                  </Text>
                   <Pressable
                     style={{
                       marginRight: 16,
                     }}
-                    onPress={() => setShowCheck(false)}
+                    
                   >
                     <Ionicons
                       name="trash-outline"
@@ -237,7 +263,7 @@ export default function FavoritesView() {
                       color={theme === "Dark" ? "#c6c6c6" : "#282828"}
                     />
                   </Pressable>
-                  <Pressable onPress={() => setShowCheck(false)}>
+                  <Pressable onPress={() => (setShowCheck(false), setSelectedItems([]))}>
                     <Ionicons
                       name="close-circle-outline"
                       size={30}

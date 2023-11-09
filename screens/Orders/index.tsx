@@ -70,7 +70,7 @@ const Orders = ({ navigation,  } ) => {
     // ToastAndroid.show(item, ToastAndroid.SHORT)
     setAuthor(author);
 
-    GetMessageByAuthor("Jesus Cristo");
+    // GetMessageByAuthor("Jesus Cristo");
 
     console.log(messageAuthor, author);
     navigation.navigate("order", {
@@ -78,7 +78,7 @@ const Orders = ({ navigation,  } ) => {
       messages: message,
       type: "author",
       data: {
-        autor: `Leonardo da Vinci`,
+        autor: author,
         texto: message,
       },
     });

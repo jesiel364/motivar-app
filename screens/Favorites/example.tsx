@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Text, Pressable, Modal, Vibration, TouchableOpacity } from "react-native";
 import { Author, Item, Message } from "./style";
 import { Checkbox } from "react-native-paper";
@@ -13,6 +13,7 @@ interface LongPressProps {
   openModal?: boolean
   setOpenModal?: any
   handleItemPress?: void
+  selectedItems: any
 }
 
 const LongPressButton = ({
@@ -24,19 +25,16 @@ const LongPressButton = ({
   handleItemPress
   // theme,
   // showCheck,
-  // setShowCheck,
+  // setShowCheck,,
+  ,
+  selectedItems
 }: LongPressProps) => {
   const {showCheck, setShowCheck, theme} = useContext(MyContext)
-  const ONE_SECOND_IN_MS = 1000;
-
-
-  function vibrate() {
-    return Vibration.vibrate(2000, true);
-  }
+  
   const [check, setCheck] = useState(false);
+  const [total, setTotal] = useState<number>(0);
 
 function handleLongPress(){
-  // vibrate()
   setShowCheck(true)
 }
 
@@ -45,14 +43,27 @@ function handlePress(item:any){
     handleItemPress(item)
   }else{
     setCheck(!check);
+    selectedItems.push(item)
   }
 
 }
 
+function onCheckPress(data: any){
+  setCheck(!check);
+  selectedItems.push(data)
+  console.log(selectedItems.length)
+}
+
+useEffect(() => {
+  
+    setTotal(selectedItems.length)
+  
+})
+
 
   return (
     <>
- 
+        
       <Item
         onPress={() => handlePress(data)}
         onLongPress={() => handleLongPress()}
@@ -66,8 +77,9 @@ function handlePress(item:any){
       >
         {showCheck ? (
           <Checkbox
+          value={data}
             onPress={() => {
-              setCheck(!check);
+              onCheckPress(data)
             }}
             status={check ? "checked" : "unchecked"}
           />

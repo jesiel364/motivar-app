@@ -14,7 +14,7 @@ export interface ContextProps {
 const MyContext = createContext({})
 
 const MyProvider = ({children}:ContextProps) => {
-    const [theme, setTheme ] = useState('Light')
+    const [theme, setTheme ] = useState('Dark')
     const [author, setAuthor] = useState('')
     const [showCheck, setShowCheck] = useState<boolean>(false);
 

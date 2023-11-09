@@ -51,6 +51,8 @@ const Stack = createNativeStackNavigator();
 
 const Favorites = ({ navigation }: any) => {
   const { getItem, setItem } = useAsyncStorage("@messages:favorites");
+  
+  
 
   const [data, setData] = useState([]);
   const { showCheck, setShowCheck, theme } = useContext(MyContext);
@@ -86,8 +88,9 @@ const Favorites = ({ navigation }: any) => {
   //   console.log(data);
   // }, [data]);
 
-  const { isLight } = FavoritesViewController();
+  const { isLight, send } = FavoritesViewController();
   const [openModal, setOpenModal] = useState<boolean>(false);
+  let selectedItems = [];
 
   return (
     <Container theme={theme}>
@@ -99,6 +102,7 @@ const Favorites = ({ navigation }: any) => {
           renderItem={({ item }) => (
             <>
               <LongPressButton
+                selectedItems={selectedItems}
                 handleItemPress={handlePress}
                 data={item}
                 navigation={navigation}
@@ -127,7 +131,7 @@ const Favorites = ({ navigation }: any) => {
                   }}
                 >
                   <TrashButton onPress={() => setOpenModal(true)}>
-                    <Text >
+                    <Text>
                       <Ionicons
                         name="ellipsis-vertical-outline"
                         size={28}
@@ -135,6 +139,43 @@ const Favorites = ({ navigation }: any) => {
                       />
                     </Text>
                   </TrashButton>
+
+                  <ModalCenter
+                    style={{
+                      position: "absolute",
+                      top: "0px",
+                    }}
+                    open={openModal}
+                    setOpen={setOpenModal}
+                  >
+                     <Pressable
+                      onPress={() => (
+                        send(item), setOpenModal(false)
+                      )}
+                    >
+                    <Ionicons name="share-outline" size={28} color="#c6c6c6" />
+                    </Pressable>
+                    <Ionicons name="heart-outline" size={28} color="#c6c6c6" />
+
+                    <Pressable
+                      onPress={() => (
+                        handleRemove(item?.texto), setOpenModal(false)
+                      )}
+                    >
+                      <Ionicons
+                        name="trash-outline"
+                        size={28}
+                        color="#c6c6c6"
+                      />
+                    </Pressable>
+                    <Pressable onPress={() => setOpenModal(false)}>
+                      <Ionicons
+                        name="close-outline"
+                        size={28}
+                        color="#c6c6c6"
+                      />
+                    </Pressable>
+                  </ModalCenter>
                 </View>
               </LongPressButton>
               {/* </Item> */}
@@ -147,15 +188,6 @@ const Favorites = ({ navigation }: any) => {
           {/* <Text style={styles.text}>Vazio</Text> */}
         </EmptyComp>
       )}
-      <ModalCenter open={openModal} setOpen={setOpenModal}>
-      <Ionicons name="share-outline" size={28} color="#c6c6c6" />
-        <Ionicons name="heart-outline" size={28} color="#c6c6c6" />
-        
-        <Ionicons name="trash-outline" size={28} color="#c6c6c6" />
-        <Pressable onPress={() => setOpenModal(false)}>
-          <Ionicons name="close-outline" size={28} color="#c6c6c6" />
-        </Pressable>
-      </ModalCenter>
     </Container>
   );
 };
@@ -167,8 +199,7 @@ export default function FavoritesView() {
 
   const headerStyle = {
     // backgroundColor: isLight() ? "#fff" : "#282828",
-    backgroundColor: showCheck ? "#848484" : (!isLight() ?"#282828" : '#f4f4f4'),
-    
+    backgroundColor: showCheck ? "#848484" : !isLight() ? "#282828" : "#f4f4f4",
   };
 
   const headerTitle = {
@@ -230,4 +261,3 @@ export default function FavoritesView() {
     </NavigationContainer>
   );
 }
-

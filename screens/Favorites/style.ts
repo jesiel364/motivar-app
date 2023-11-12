@@ -25,7 +25,7 @@ export const Item = styled.TouchableOpacity`
   margin-top: 16px;
   display: flex;
   flex-direction: row;
-  max-height: 116px;
+  /* max-height: auto; */
   margin-right: ${(props: CustomProps) =>
     props.checkMode ? "16px" : "4px"};
   margin-left: ${(props: CustomProps) =>

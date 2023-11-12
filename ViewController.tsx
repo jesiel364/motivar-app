@@ -125,7 +125,7 @@ const ViewController = () => {
     setLoading(false);
   }
 
-  const [messageAuthor, setMessageAuthor] = useState();
+  const [messageAuthor, setMessageAuthor] = useState<any>();
 
   async function GetMessageByAuthor(author: string) {
     setLoading(true);
@@ -136,8 +136,6 @@ const ViewController = () => {
       .then((json) => setMessageAuthor(json))
       .catch((err) => setErro(err));
     setLoading(false);
-
-    return messageAuthor;
   }
 
   useEffect(() => {

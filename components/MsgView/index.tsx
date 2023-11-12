@@ -25,7 +25,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { OrderViewController } from "../../screens/Orders/viewController";
 import { MyContext } from "../../Global/Context";
-import { ActionGroup, Author, Card, Container, Message, RightButton, Title } from "./style";
+import {
+  ActionGroup,
+  Author,
+  Card,
+  Container,
+  Message,
+  Title,
+} from "./style";
 import { MsgViewController } from "./viewController";
 
 export default function MsgView({ route }) {
@@ -34,16 +41,10 @@ export default function MsgView({ route }) {
   const type = route.params?.type;
   const frases = route.params?.messages?.frases;
 
-  const {isLight} = MsgViewController()
+  const { isLight, messageAuthor, randomMessageByAuthor } = MsgViewController();
 
   const { author, setAuthor, theme } = useContext(MyContext);
 
-  if (type === "author") {
-    // console.log(frases)
-    frases?.map((item) => {
-      console.log(item);
-    });
-  }
 
   const showToast = (message: string) => {
     ToastAndroid.show(message, ToastAndroid.SHORT);
@@ -93,8 +94,6 @@ export default function MsgView({ route }) {
     // },
   ];
 
-  
-
   return (
     <Container theme={theme}>
       {type === "author" ? (
@@ -102,36 +101,34 @@ export default function MsgView({ route }) {
           {title ? <Title theme={theme}>{title}</Title> : null}
 
           <Card theme={theme}>
-            {frases?.map((item) => {
+            {randomMessageByAuthor?.texto ? (
               <>
-                <Text
-                  // style={{
-                  //   color: "#fff",
-                  // }}
-                >
-                  {item.texto}
-                </Text>
-              </>;
-            })}
+                <Message theme={theme} selectable={true}>
+                  {randomMessageByAuthor?.texto}
+                </Message>
 
-            <Message theme={theme} selectable={true}>{data.texto}</Message>
+                <Author theme={theme}>{randomMessageByAuthor?.autor}</Author>
 
-            {/* <ActivityIndicator style={styles.loading} /> */}
-
-            <Author theme={theme}>{data.autor}</Author>
-
-            <ActionGroup theme={theme} style={styles.actions}>
-              {dataSource.map((item, index) => (
-                <Pressable
-                  onPress={(e) => (item.callback ? item.callback() : null)}
-                  key={index}
-                >
-                  <Text style={styles.btnText}>
-                    <Ionicons name={item.icon} size={32} color={!isLight() ? 'white' : 'black' } />
-                  </Text>
-                </Pressable>
-              ))}
-            </ActionGroup>
+                <ActionGroup theme={theme} style={styles.actions}>
+                  {dataSource.map((item, index) => (
+                    <Pressable
+                      onPress={(e) => (item.callback ? item.callback() : null)}
+                      key={index}
+                    >
+                      <Text style={styles.btnText}>
+                        <Ionicons
+                          name={item.icon}
+                          size={32}
+                          color={!isLight() ? "white" : "black"}
+                        />
+                      </Text>
+                    </Pressable>
+                  ))}
+                </ActionGroup>
+              </>
+            ) : (
+              <ActivityIndicator style={styles.loading} />
+            )}
           </Card>
         </>
       ) : (
@@ -154,7 +151,11 @@ export default function MsgView({ route }) {
                   key={index}
                 >
                   <Text style={styles.btnText}>
-                    <Ionicons name={item.icon} size={32} color={isLight() ? 'black' : 'white'} />
+                    <Ionicons
+                      name={item.icon}
+                      size={32}
+                      color={isLight() ? "black" : "white"}
+                    />
                   </Text>
                 </Pressable>
               ))}

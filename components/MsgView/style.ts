@@ -38,6 +38,7 @@ export const Author = styled.Text`
   color: ${(props:CustomProps) => (props.theme === "Dark" ? "#f4f4f4" : "#282828")};
 
   font-weight: 600;
+  margin-top: 8px;
 `;
 
 export const ActionGroup = styled.View`

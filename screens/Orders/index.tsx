@@ -1,23 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  SafeAreaView,
-  Pressable,
-  Image,
-  FlatList,
-  ToastAndroid,
-  TouchableOpacity,
-  ActivityIndicator,
-  Share,
-  Alert,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import * as Clipboard from "expo-clipboard";
-import * as Sharing from "expo-sharing";
+import { Pressable } from "react-native";
 import { useEffect, useState, useContext } from "react";
 import { FlatGrid } from "react-native-super-grid";
 import { SimpleGrid } from "react-native-super-grid";
@@ -29,25 +11,19 @@ import { MsgProps } from "../../App";
 import {
   styles,
   Container,
-  Header,
-  Title,
-  OrderItem,
-  GridIcon,
-  GridLabel,
   AuthorItem,
 } from "./style";
 import { OrderViewController } from "./viewController";
 import { MyContext } from "../../Global/Context";
-import {ContextProps} from "../../Global/Context";
+import { ContextProps } from "../../Global/Context";
 
 const Stack = createNativeStackNavigator();
 
-interface CustomProps{
-  theme: string
-  
+interface CustomProps {
+  theme: string;
 }
 
-const Orders = ({ navigation,  } ) => {
+const Orders = ({ navigation }: any) => {
   interface OrdersType {
     label: string;
     name: string;
@@ -55,10 +31,10 @@ const Orders = ({ navigation,  } ) => {
     data?: MsgProps;
   }
 
-  const { theme } = useContext(MyContext);
+  const { theme } = useContext<any>(MyContext);
   const { mainAuthors, GetMessageByAuthor, message, messageAuthor } =
     OrderViewController();
-  const { author, setAuthor } = useContext(MyContext);
+  const { author, setAuthor } = useContext<any>(MyContext);
 
   // getMessageByAuthor()
 
@@ -107,8 +83,8 @@ const Orders = ({ navigation,  } ) => {
 };
 
 export default function OrderView() {
-  const { author, setAuthor } = useContext(MyContext);
-  const { theme } = useContext(MyContext);
+  const { author, setAuthor } = useContext<any>(MyContext);
+  const { theme } = useContext<any>(MyContext);
 
   const header = {
     backgroundColor: theme === "Light" ? "#fff" : "#363636",

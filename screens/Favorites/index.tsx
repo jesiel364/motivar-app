@@ -61,7 +61,7 @@ const Favorites = ({ navigation }: any) => {
     setSelectedItems,
     total,
     setTotal,
-  } = useContext(MyContext);
+  } = useContext<any>(MyContext);
 
   async function handleFetch() {
     const response: any = await getItem();
@@ -209,7 +209,7 @@ export default function FavoritesView() {
     total,
     setTotal,
     theme
-  } = useContext(MyContext);
+  } = useContext<any>(MyContext);
   
   const { isLight, send, } = FavoritesViewController();
 

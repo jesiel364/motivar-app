@@ -138,11 +138,27 @@ const ViewController = () => {
     setLoading(false);
   }
 
+  // useEffect(() => {
+  //   if (phraseDay === "" || phraseDay === undefined || phraseDay === null) {
+  //     GetMessage();
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (phraseDay === "" || phraseDay === undefined || phraseDay === null) {
-      GetMessage();
-    }
-  }, []);
+    const fetchData = async () => {
+      if(!phraseDay){
+        await GetMessage();
+      }
+      
+  
+      // if (phraseDay && phraseDay?.texto) {
+      //   const randomFlow = Math.floor(Math.random() * messageAuthor.frases.length - 1);
+      //   setRandomMessageByAuthor(messageAuthor.frases[randomFlow]);
+      // }
+    };
+  
+    fetchData();
+  }, [messageAuthor]); 
 
   return {
     mainAuthors,

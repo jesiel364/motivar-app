@@ -40,6 +40,7 @@ export default function MsgView({ route }) {
   const data = route.params?.data;
   const type = route.params?.type;
   const frases = route.params?.messages?.frases;
+  const [fav, setFav] = useState<boolean>(false)
 
   const { isLight, messageAuthor, randomMessageByAuthor } = MsgViewController();
 
@@ -53,7 +54,7 @@ export default function MsgView({ route }) {
   async function send() {
     try {
       const result = await Share.share({
-        message: `"${data.texto}" ${data.autor}`,
+        message: `"${randomMessageByAuthor.texto}" ${randomMessageByAuthor.autor}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -67,17 +68,17 @@ export default function MsgView({ route }) {
   }
 
   async function copyToClipboard() {
-    await Clipboard.setStringAsync(`"${data.texto}" ${data.autor}`);
+    await Clipboard.setStringAsync(`"${randomMessageByAuthor.texto}" ${randomMessageByAuthor.autor}`);
 
     showToast("Mensagem copiada!");
   }
 
   const dataSource = [
-    // {
-    //   label: "Like",
-    //   icon: "heart-outline",
-    //   callback: console.log('test'),
-    // },
+    {
+      label: "Like",
+      icon: fav ? "heart" : "heart-outline",
+      callback: () =>  setFav(!fav),
+    },
     {
       label: "Send",
       icon: "share-outline",
@@ -98,7 +99,6 @@ export default function MsgView({ route }) {
     <Container theme={theme}>
       {type === "author" ? (
         <>
-          {title ? <Title theme={theme}>{title}</Title> : null}
 
           <Card theme={theme}>
             {randomMessageByAuthor?.texto ? (

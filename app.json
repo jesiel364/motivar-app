@@ -2,10 +2,10 @@
   "expo": {
     "name": "Motivar - Frases Motivacionais",
     "slug": "motivar-app",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "#000000",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash2.png",
       "resizeMode": "contain",

@@ -13,27 +13,22 @@ import { useFocusEffect } from "@react-navigation/native";
 import ViewController from "../../ViewController";
 import { HomeStyles } from "./style";
 import { MyContext, MyProvider } from "../../Global/Context";
-import * as S from './style'
+import * as S from "./style";
 
 const Home = ({ navigation }) => {
+  const { phraseDay, erro, updateMsg } = ViewController();
+  const styles = HomeStyles;
 
-
-const {phraseDay, erro, updateMsg} = ViewController()
-const styles = HomeStyles
-
-const {theme} = useContext(MyContext)
+  const { theme } = useContext(MyContext);
 
   return (
     <S.HomeContainer theme={theme}>
       <MotiCard theme={theme} update={updateMsg} data={phraseDay} erro={erro} />
       {/* <Text style={styles.Text}>{theme}</Text> */}
 
-
       <StatusBar style="auto" />
-      </S.HomeContainer>
+    </S.HomeContainer>
   );
 };
-
-
 
 export default Home;

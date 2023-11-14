@@ -1,45 +1,44 @@
 import { useEffect, useState } from "react";
 
 export function OrderViewController() {
-
   const ordersList = [
     {
-      label: 'Em alta',
-      icon: '🔥'
+      label: "Em alta",
+      icon: "🔥",
     },
     {
-      label: 'Motivação',
-      icon: '💪🏼'
+      label: "Motivação",
+      icon: "💪🏼",
     },
     {
-      label: 'Sabedoria',
-      icon: '🧠'
+      label: "Sabedoria",
+      icon: "🧠",
     },
     {
-      label: 'Provérbios',
-      icon: '📖'
+      label: "Provérbios",
+      icon: "📖",
     },
     {
-      label: 'Empreendedorismo',
-      icon: '💰'
+      label: "Empreendedorismo",
+      icon: "💰",
     },
     {
-      label: 'Reflexão',
-      icon: '🤔'
+      label: "Reflexão",
+      icon: "🤔",
     },
     {
-      label: 'Otimismo',
-      icon: '🤩'
+      label: "Otimismo",
+      icon: "🤩",
     },
     {
-      label: 'Disciplina',
-      icon: '🚀'
+      label: "Disciplina",
+      icon: "🚀",
     },
     {
-      label: 'Ver mais',
-      icon: '➕'
-    }
-  ]
+      label: "Ver mais",
+      icon: "➕",
+    },
+  ];
 
   const mainAuthors = [
     {
@@ -130,21 +129,17 @@ export function OrderViewController() {
     },
   ];
 
-  const [message, setMessage] = useState('')
-  const [loading, setLoading] = useState()
-  const [erro, setErro] = useState()
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState();
+  const [erro, setErro] = useState();
 
   async function updateMsg(author) {
-
-    setMessage(undefined)
+    setMessage(undefined);
     // await setAuthor(Math.floor(Math.random() * mainAuthors.length - 1));
     setLoading(true);
-    await fetch(
-      `https://pensador-api.vercel.app/?term=${author}&max=20`,
-      {
-        method: "GET",
-      }
-    )
+    await fetch(`https://pensador-api.vercel.app/?term=${author}&max=20`, {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((json) => setMessage(json))
       .catch((err) => setErro(err));
@@ -153,28 +148,46 @@ export function OrderViewController() {
 
   async function getMessageByAuthor(author: string) {
     setLoading(true);
-    await fetch(
-      `https://pensador-api.vercel.app/?term=${author}&max=20`,
-      {
-        method: "GET",
-      }
-    )
+    await fetch(`https://pensador-api.vercel.app/?term=${author}&max=20`, {
+      method: "GET",
+    })
       .then((response) => response.json())
-      .then((json) => (json !== message ? setMessage(json) : updateMsg(author)))
+      .then((json) => setMessage(json))
       .catch((err) => setErro(err));
     setLoading(false);
-
-
   }
 
   // useEffect(()=> {
   //   getMessageByAuthor('Stevie Jobs')
   // }, [])
 
+  const [messageAuthor, setMessageAuthor] = useState();
+
+  async function GetMessageByAuthor(author: string) {
+    setLoading(true);
+    await fetch(`https://pensador-api.vercel.app/?term=${author}&max=20`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((json) => setMessageAuthor(json))
+      .catch((err) => setErro(err));
+    setLoading(false);
+
+    return messageAuthor;
+  }
+
+  // useEffect(() => {
+
+  //   GetMessageByAuthor('Stevie Jobs')
+  // })
+
+  // console.log(messageAuthor)
 
   return {
-    getMessageByAuthor,
+    // getMessageByAuthor,
     mainAuthors,
-    message, 
-  }
+    message,
+    GetMessageByAuthor,
+    messageAuthor,
+  };
 }

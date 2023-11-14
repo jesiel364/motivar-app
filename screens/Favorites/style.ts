@@ -1,7 +1,8 @@
 import styled from "styled-components/native";
 
 interface CustomProps {
-  theme: string;
+  theme?: string;
+  checkMode?: boolean;
 }
 
 export const Container = styled.View`
@@ -10,9 +11,11 @@ export const Container = styled.View`
     props.theme === "Light" ? "#fff" : "#282828"};
   align-items: center;
   justify-content: center;
+
+
 `;
 
-export const Item = styled.Pressable`
+export const Item = styled.TouchableOpacity`
   background-color: ${(props: CustomProps) =>
     props.theme === "Dark" ? "#363636" : "#f4f4f4"};
   margin: auto;
@@ -22,19 +25,40 @@ export const Item = styled.Pressable`
   margin-top: 16px;
   display: flex;
   flex-direction: row;
-  max-height: 116px;
+  /* max-height: auto; */
+  margin-right: ${(props: CustomProps) =>
+    props.checkMode ? "16px" : "4px"};
+  margin-left: ${(props: CustomProps) =>
+    props.checkMode ? "16px" : "4px"};
 `;
+
+export const ButtonClose= styled.Pressable`
+  background-color: ${(props: CustomProps) =>
+    props.theme === "Dark" ? "#363636" : "#f4f4f4"};
+  margin: auto;
+  padding: 16px;
+  border-radius: 8px;
+  /*min-width: 70px;*/
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  /*max-height: 30px;*/
+`
 
 export const Message = styled.Text`
   font-size: 18px;
-  color: ${(props:CustomProps) => (props.theme === "Dark" ? "#f4f4f4" : "#282828")};
-  
+  color: ${(props: CustomProps) =>
+    props.theme === "Dark" ? "#f4f4f4" : "#282828"};
+  width: 260px;
   font-weight: 400;
+  /* text-overflow: ellipsis; */
+
 `;
 
 export const Author = styled.Text`
   font-size: 14px;
-  color: ${(props:CustomProps) => (props.theme === "Dark" ? "#f4f4f4" : "#282828")};
+  color: ${(props: CustomProps) =>
+    props.theme === "Dark" ? "#f4f4f4" : "#282828"};
   font-weight: 600;
 `;
 

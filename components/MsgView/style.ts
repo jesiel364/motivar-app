@@ -6,6 +6,8 @@ interface CustomProps{
 
 export const Container = styled.View`
   flex: 1;
+  align-content: center;
+  justify-content: center;
   background-color: ${(props:CustomProps) => (props.theme === "Light" ? "#fff" : "#282828")};
 `;
 export const Card = styled.View`
@@ -36,6 +38,7 @@ export const Author = styled.Text`
   color: ${(props:CustomProps) => (props.theme === "Dark" ? "#f4f4f4" : "#282828")};
 
   font-weight: 600;
+  margin-top: 8px;
 `;
 
 export const ActionGroup = styled.View`

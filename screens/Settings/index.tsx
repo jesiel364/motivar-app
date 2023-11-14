@@ -6,6 +6,7 @@ import {
   View,
   Pressable,
   ToastAndroid,
+  TouchableOpacity,
 } from "react-native";
 import MotiCard from "../../components/MotiCard";
 import { useContext, useEffect, useState } from "react";
@@ -16,7 +17,7 @@ import Dark from "../../Global/dark";
 import { Appearance } from "react-native";
 import SettingsViewController from "./viewController";
 
-console.log(Appearance.getColorScheme);
+// console.log(Appearance.getColorScheme);
 
 const Settings = () => {
   //  const {theme, setTheme} = ViewController()
@@ -25,16 +26,18 @@ const Settings = () => {
 
   return (
     <SettingsContainer theme={theme}>
-      {settingList.map((item, index) => (
+
+      {settingList.map((item, ) => (
         <>
-          <Title theme={theme} key={item.title}>
+          <Title theme={theme} key={item.id}>
             {item.title}
           </Title>
-          {item.options.map((option, index) => (
+          
+          {item.options.map((option, ) => (
             <>
               <Option
                 theme={theme}
-                key={option.label}
+                key={option.id}
                 onPress={() => (option.callback ? option.callback() : null)}
               >
                 <Text

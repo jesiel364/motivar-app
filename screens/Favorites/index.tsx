@@ -99,7 +99,7 @@ const Favorites = ({ navigation }: any) => {
 
   return (
     <Container theme={theme}>
-      {data.length > 0 ? (
+      {data && data.length > 0 ? (
         <FlatList
           data={data}
           showsHorizontalScrollIndicator={false}

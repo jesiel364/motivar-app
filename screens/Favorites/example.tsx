@@ -88,21 +88,16 @@ const LongPressButton = ({
         onLongPress={() => handleLongPress()}
         theme={theme}
         checkMode={showCheck}
+        check={check}
         // onPressIn={handlePressIn}
         // style={{
         //   backgroundColor: isPressing ?  '#e0e0e0' : '#f4f4f4'
         // }}
         // onPressOut={handlePressOut}
       >
-        {showCheck ? (
-          <Checkbox
-            value={data}
-            onPress={(e: any) => {
-              e.preventDefault(), onCheckPress(data);
-            }}
-            status={check ? "checked" : "unchecked"}
-          />
-        ) : null}
+      
+      
+         
 
         {children}
       </Item>

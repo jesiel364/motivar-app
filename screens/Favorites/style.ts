@@ -18,6 +18,9 @@ export const Container = styled.View`
 export const Item = styled.TouchableOpacity`
   background-color: ${(props: CustomProps) =>
     props.theme === "Dark" ? "#363636" : "#f4f4f4"};
+  background-color: ${(props: CustomProps) =>
+    props.check && props.checkMode ? "rgba(127, 17, 224, .2)" : "#363636"};
+  
   margin: auto;
   padding: 16px;
   border-radius: 8px;
@@ -52,6 +55,8 @@ export const Message = styled.Text`
   width: 260px;
   font-weight: 400;
   /* text-overflow: ellipsis; */
+  color: ${(props: CustomProps) =>
+    props.check && props.checkMode ? "#363636" : "inherit"};
 
 `;
 
@@ -60,6 +65,8 @@ export const Author = styled.Text`
   color: ${(props: CustomProps) =>
     props.theme === "Dark" ? "#f4f4f4" : "#282828"};
   font-weight: 600;
+  color: ${(props: CustomProps) =>
+    props.check && props.checkMode ? "#363636" : "inherit"};
 `;
 
 export const TrashButton = styled.Text`

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Author, Item, Message } from "./style";
+import { Author, Check, Item, Message } from "./style";
 import { Checkbox } from "react-native-paper";
 import { MyContext } from "../../Global/Context";
 interface LongPressProps {
@@ -75,7 +75,7 @@ const LongPressButton = ({
         onCheckPress(data);
       }
     } else {
-      navigation.navigate("favoritesView", { data: data});
+      navigation.navigate("favoritesView", { data: data });
     }
   }
 
@@ -89,15 +89,16 @@ const LongPressButton = ({
         theme={theme}
         checkMode={showCheck}
         check={check}
+        // style={{
+        //   backgroundColor: showCheck && check ? 'red' : theme === "Dark" ? "#363636" : "#f4f4f4"
+        // }}
         // onPressIn={handlePressIn}
         // style={{
         //   backgroundColor: isPressing ?  '#e0e0e0' : '#f4f4f4'
         // }}
         // onPressOut={handlePressOut}
       >
-      
-      
-         
+        {/* { check && showCheck  ? <Check>[x]</Check> : null}  */}
 
         {children}
       </Item>

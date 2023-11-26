@@ -51,7 +51,7 @@ export default function MyTabs() {
           freezeOnBlur: true,
           tabBarActiveBackgroundColor: theme === "Light" ? "#363636" : "#fff",
           tabBarItemStyle: styles.tabItem,
-          tabBarShowLabel: false
+          tabBarShowLabel: true,
           
         })}
       >

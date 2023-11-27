@@ -43,7 +43,7 @@ export default function MyTabs() {
             }
   
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={32} color={color} />;
+            return <Ionicons name={iconName} size={24} color={color} />;
           },
           tabBarActiveTintColor: theme === "Light" ? "#FFF" : "#282828",
           tabBarInactiveTintColor: theme === "Light" ? "#282828" : "#fff",

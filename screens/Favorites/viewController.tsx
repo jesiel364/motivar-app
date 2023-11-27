@@ -2,15 +2,13 @@ import { useContext, useState, useEffect } from "react";
 import { MyContext } from "../../Global/Context";
 import { Share, Alert } from "react-native";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 
 const FavoritesViewController = () => {
   const { theme, total, selectedItems, setSelectedItems, setShowCheck } =
     useContext(MyContext);
 
-  // useEffect(()=> {
-  //   console.log(total)
-  // },
-  // [total])
+const navigation = useNavigation()
 
   function isLight() {
     if (theme === "Light") {
@@ -62,6 +60,9 @@ const FavoritesViewController = () => {
     handleFetch();
   }
 
+  const [check, setCheck] = useState(false);
+
+
   async function deleteMultiples() {
     if (selectedItems.length !== 0) {
       selectedItems.map((item) => {
@@ -78,6 +79,13 @@ const FavoritesViewController = () => {
 
   const [openModal, setOpenModal] = useState<boolean>(false);
 
+function onCloseCheckMode(navi){
+  setShowCheck(false) 
+  setSelectedItems([])
+  setCheck(false)
+  navi.navigate('favorites')
+}
+
   return {
     isLight,
     send,
@@ -90,6 +98,9 @@ const FavoritesViewController = () => {
     deleteMultiples,
     openModal,
     setOpenModal,
+    check, 
+    setCheck,
+    onCloseCheckMode
   };
 };
 

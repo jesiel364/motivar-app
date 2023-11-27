@@ -1,34 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ToastAndroid,
-  Button,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
-import { useEffect, useState, useCallback, useContext } from "react";
+import { Text, View, FlatList, Pressable } from "react-native";
+import { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MsgView from "../../components/MsgView";
-import AsyncStorage, {
-  useAsyncStorage,
-} from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from "@react-navigation/native";
+import { Checkbox } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import {
   Author,
   Container,
   EmptyComp,
   Img,
-  Item,
   Message,
   TrashButton,
-  ButtonClose,
 } from "./style";
 import emptyBlack from "../../assets/images/empty-black.png";
 import emptyWhite from "../../assets/images/empty-white.png";
@@ -64,20 +49,6 @@ const Favorites = ({ navigation }: any) => {
     navigation.navigate("favoritesView", { data: item });
   }
 
-  // function handleSwipe() {
-  //   ToastAndroid.show("Right", ToastAndroid.SHORT);
-  // }
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
-  // useEffect(() => {
-  //   console.log(selectedItems);
-  // }, [selectedItems]);
-
-  
-
   const {
     isLight,
     send,
@@ -92,6 +63,22 @@ const Favorites = ({ navigation }: any) => {
     setOpenModal,
   } = FavoritesViewController();
 
+  // const [list2, setList2] = useState<[{}]>([{}]);
+
+  // useEffect(() => {
+  //   data.map((item) => {
+  //     // console.log(item);
+  //     setList2([
+  //       {
+  //         ...item,
+  //         check: false
+  //       }
+  //     ]);
+  //   });
+  // }, [data]);
+
+  // console.log(list2);
+
   return (
     <Container theme={theme}>
       {data && data.length > 0 ? (
@@ -105,12 +92,13 @@ const Favorites = ({ navigation }: any) => {
                 setSelectedItems={setSelectedItems}
                 selectedItems={selectedItems}
                 handleItemPress={handlePress}
-                data={item}
+                data={data}
                 navigation={navigation}
                 setShowCheck={setShowCheck}
                 showCheck={showCheck}
                 setOpenModal={setOpenModal}
                 openModal={openModal}
+                list={data}
               >
                 <View
                   style={{
@@ -195,7 +183,7 @@ const Favorites = ({ navigation }: any) => {
   );
 };
 
-export default function FavoritesView() {
+export default function FavoritesView({ navigation }) {
   const {
     showCheck,
     setShowCheck,
@@ -206,7 +194,8 @@ export default function FavoritesView() {
     theme,
   } = useContext<any>(MyContext);
 
-  const { isLight, send, deleteMultiples } = FavoritesViewController();
+  const { isLight, send, deleteMultiples, onCloseCheckMode } =
+    FavoritesViewController();
 
   const headerStyle = {
     // backgroundColor: isLight() ? "#fff" : "#282828",
@@ -250,7 +239,7 @@ export default function FavoritesView() {
                     style={{
                       marginRight: 8,
                     }}
-                    onPress={()=> deleteMultiples()}
+                    onPress={() => deleteMultiples()}
                   >
                     <Ionicons
                       name="trash-outline"
@@ -258,9 +247,7 @@ export default function FavoritesView() {
                       color={theme === "Dark" ? "#c6c6c6" : "#282828"}
                     />
                   </Pressable>
-                  <Pressable
-                    onPress={() => (setShowCheck(false), setSelectedItems([]))}
-                  >
+                  <Pressable onPress={() => onCloseCheckMode(navigation)}>
                     <Ionicons
                       name="close-circle-outline"
                       size={30}

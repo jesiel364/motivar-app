@@ -25,14 +25,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { OrderViewController } from "../../screens/Orders/viewController";
 import { MyContext } from "../../Global/Context";
-import {
-  ActionGroup,
-  Author,
-  Card,
-  Container,
-  Message,
-  Title,
-} from "./style";
+import { ActionGroup, Author, Card, Container, Message, Title } from "./style";
 import { MsgViewController } from "./viewController";
 
 export default function MsgView({ route }) {
@@ -40,12 +33,17 @@ export default function MsgView({ route }) {
   const data = route.params?.data;
   const type = route.params?.type;
   const frases = route.params?.messages?.frases;
-  const [fav, setFav] = useState<boolean>(false)
+  // const [fav, setFav] = useState<boolean>(false)
 
-  const { isLight, messageAuthor, randomMessageByAuthor } = MsgViewController();
+  const {
+    isLight,
+    messageAuthor,
+    randomMessageByAuthor,
+    handleLikePress,
+    fav,
+  } = MsgViewController();
 
   const { author, setAuthor, theme } = useContext(MyContext);
-
 
   const showToast = (message: string) => {
     ToastAndroid.show(message, ToastAndroid.SHORT);
@@ -68,7 +66,9 @@ export default function MsgView({ route }) {
   }
 
   async function copyToClipboard() {
-    await Clipboard.setStringAsync(`"${randomMessageByAuthor.texto}" ${randomMessageByAuthor.autor}`);
+    await Clipboard.setStringAsync(
+      `"${randomMessageByAuthor.texto}" ${randomMessageByAuthor.autor}`
+    );
 
     showToast("Mensagem copiada!");
   }
@@ -77,7 +77,7 @@ export default function MsgView({ route }) {
     {
       label: "Like",
       icon: fav ? "heart" : "heart-outline",
-      callback: () =>  setFav(!fav),
+      callback: () => handleLikePress(randomMessageByAuthor),
     },
     {
       label: "Send",
@@ -99,7 +99,6 @@ export default function MsgView({ route }) {
     <Container theme={theme}>
       {type === "author" ? (
         <>
-
           <Card theme={theme}>
             {randomMessageByAuthor?.texto ? (
               <>

@@ -1,34 +1,19 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ToastAndroid,
-  Button,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
-import { useEffect, useState, useCallback, useContext } from "react";
+import { Text, View, FlatList, Pressable } from "react-native";
+import { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MsgView from "../../components/MsgView";
-import AsyncStorage, {
-  useAsyncStorage,
-} from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from "@react-navigation/native";
+import { Checkbox } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import {
   Author,
   Container,
   EmptyComp,
   Img,
-  Item,
   Message,
   TrashButton,
-  ButtonClose,
 } from "./style";
 import emptyBlack from "../../assets/images/empty-black.png";
 import emptyWhite from "../../assets/images/empty-white.png";
@@ -50,9 +35,6 @@ interface FavoritesProps {
 const Stack = createNativeStackNavigator();
 
 const Favorites = ({ navigation }: any) => {
-  const { getItem, setItem } = useAsyncStorage("@messages:favorites");
-
-  const [data, setData] = useState([]);
   const {
     showCheck,
     setShowCheck,
@@ -63,39 +45,39 @@ const Favorites = ({ navigation }: any) => {
     setTotal,
   } = useContext<any>(MyContext);
 
-  async function handleFetch() {
-    const response: any = await getItem();
-    const responseData = JSON.parse(response);
-    setData(responseData);
-  }
-
-  useEffect(() => {
-    handleFetch();
-  });
-
   function handlePress(item: Props) {
     navigation.navigate("favoritesView", { data: item });
   }
 
-  async function handleRemove(texto) {
-    const response = await getItem();
-    const previousData = response ? JSON.parse(response) : [];
-    const data = previousData.filter((item) => texto !== item.texto);
-    setItem(JSON.stringify(data));
-    // ToastAndroid.show("Item excluido", ToastAndroid.SHORT);
-    handleFetch();
-  }
+  const {
+    isLight,
+    send,
+    data,
+    deleteMultiples,
+    getItem,
+    handleFetch,
+    handleRemove,
+    openModal,
+    setData,
+    setItem,
+    setOpenModal,
+  } = FavoritesViewController();
 
-  function handleSwipe() {
-    ToastAndroid.show("Right", ToastAndroid.SHORT);
-  }
+  // const [list2, setList2] = useState<[{}]>([{}]);
 
   // useEffect(() => {
-  //   console.log(data);
+  //   data.map((item) => {
+  //     // console.log(item);
+  //     setList2([
+  //       {
+  //         ...item,
+  //         check: false
+  //       }
+  //     ]);
+  //   });
   // }, [data]);
 
-  const { isLight, send } = FavoritesViewController();
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  // console.log(list2);
 
   return (
     <Container theme={theme}>
@@ -110,12 +92,13 @@ const Favorites = ({ navigation }: any) => {
                 setSelectedItems={setSelectedItems}
                 selectedItems={selectedItems}
                 handleItemPress={handlePress}
-                data={item}
+                data={data}
                 navigation={navigation}
                 setShowCheck={setShowCheck}
                 showCheck={showCheck}
                 setOpenModal={setOpenModal}
                 openModal={openModal}
+                list={data}
               >
                 <View
                   style={{
@@ -200,7 +183,7 @@ const Favorites = ({ navigation }: any) => {
   );
 };
 
-export default function FavoritesView() {
+export default function FavoritesView({ navigation }) {
   const {
     showCheck,
     setShowCheck,
@@ -208,10 +191,11 @@ export default function FavoritesView() {
     setSelectedItems,
     total,
     setTotal,
-    theme
+    theme,
   } = useContext<any>(MyContext);
-  
-  const { isLight, send, } = FavoritesViewController();
+
+  const { isLight, send, deleteMultiples, onCloseCheckMode } =
+    FavoritesViewController();
 
   const headerStyle = {
     // backgroundColor: isLight() ? "#fff" : "#282828",
@@ -243,7 +227,7 @@ export default function FavoritesView() {
                 <>
                   <Text
                     style={{
-                      color:  theme === "Dark" ? "#c6c6c6" : "#282828",
+                      color: theme === "Dark" ? "#c6c6c6" : "#282828",
                       fontSize: 36,
                       marginRight: 8,
                       marginTop: 8,
@@ -255,7 +239,7 @@ export default function FavoritesView() {
                     style={{
                       marginRight: 8,
                     }}
-                    
+                    onPress={() => deleteMultiples()}
                   >
                     <Ionicons
                       name="trash-outline"
@@ -263,7 +247,7 @@ export default function FavoritesView() {
                       color={theme === "Dark" ? "#c6c6c6" : "#282828"}
                     />
                   </Pressable>
-                  <Pressable onPress={() => (setShowCheck(false), setSelectedItems([]))}>
+                  <Pressable onPress={() => onCloseCheckMode(navigation)}>
                     <Ionicons
                       name="close-circle-outline"
                       size={30}

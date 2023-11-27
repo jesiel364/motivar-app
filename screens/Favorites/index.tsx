@@ -50,9 +50,6 @@ interface FavoritesProps {
 const Stack = createNativeStackNavigator();
 
 const Favorites = ({ navigation }: any) => {
-  const { getItem, setItem } = useAsyncStorage("@messages:favorites");
-
-  const [data, setData] = useState([]);
   const {
     showCheck,
     setShowCheck,
@@ -63,39 +60,37 @@ const Favorites = ({ navigation }: any) => {
     setTotal,
   } = useContext<any>(MyContext);
 
-  async function handleFetch() {
-    const response: any = await getItem();
-    const responseData = JSON.parse(response);
-    setData(responseData);
-  }
-
-  useEffect(() => {
-    handleFetch();
-  });
-
   function handlePress(item: Props) {
     navigation.navigate("favoritesView", { data: item });
   }
 
-  async function handleRemove(texto) {
-    const response = await getItem();
-    const previousData = response ? JSON.parse(response) : [];
-    const data = previousData.filter((item) => texto !== item.texto);
-    setItem(JSON.stringify(data));
-    // ToastAndroid.show("Item excluido", ToastAndroid.SHORT);
-    handleFetch();
-  }
-
-  function handleSwipe() {
-    ToastAndroid.show("Right", ToastAndroid.SHORT);
-  }
+  // function handleSwipe() {
+  //   ToastAndroid.show("Right", ToastAndroid.SHORT);
+  // }
 
   // useEffect(() => {
   //   console.log(data);
   // }, [data]);
 
-  const { isLight, send } = FavoritesViewController();
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  // useEffect(() => {
+  //   console.log(selectedItems);
+  // }, [selectedItems]);
+
+  
+
+  const {
+    isLight,
+    send,
+    data,
+    deleteMultiples,
+    getItem,
+    handleFetch,
+    handleRemove,
+    openModal,
+    setData,
+    setItem,
+    setOpenModal,
+  } = FavoritesViewController();
 
   return (
     <Container theme={theme}>
@@ -208,10 +203,10 @@ export default function FavoritesView() {
     setSelectedItems,
     total,
     setTotal,
-    theme
+    theme,
   } = useContext<any>(MyContext);
-  
-  const { isLight, send, } = FavoritesViewController();
+
+  const { isLight, send, deleteMultiples } = FavoritesViewController();
 
   const headerStyle = {
     // backgroundColor: isLight() ? "#fff" : "#282828",
@@ -243,7 +238,7 @@ export default function FavoritesView() {
                 <>
                   <Text
                     style={{
-                      color:  theme === "Dark" ? "#c6c6c6" : "#282828",
+                      color: theme === "Dark" ? "#c6c6c6" : "#282828",
                       fontSize: 36,
                       marginRight: 8,
                       marginTop: 8,
@@ -255,7 +250,7 @@ export default function FavoritesView() {
                     style={{
                       marginRight: 8,
                     }}
-                    
+                    onPress={()=> deleteMultiples()}
                   >
                     <Ionicons
                       name="trash-outline"
@@ -263,7 +258,9 @@ export default function FavoritesView() {
                       color={theme === "Dark" ? "#c6c6c6" : "#282828"}
                     />
                   </Pressable>
-                  <Pressable onPress={() => (setShowCheck(false), setSelectedItems([]))}>
+                  <Pressable
+                    onPress={() => (setShowCheck(false), setSelectedItems([]))}
+                  >
                     <Ionicons
                       name="close-circle-outline"
                       size={30}

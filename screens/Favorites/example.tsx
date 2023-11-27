@@ -46,20 +46,22 @@ const LongPressButton = ({
     setShowCheck(true);
   }
 
-  function handlePress(item: any) {
-    if (!showCheck) {
-      handleItemPress(item);
-    } else {
-      setCheck(!check);
-      selectedItems.push(item);
-    }
-  }
+  // function handlePress(item: any) {
+  //   if (!showCheck) {
+  //     handleItemPress(item);
+  //   } else {
+  //     setCheck(!check);
+  //     selectedItems.push(item);
+  //   }
+  // }
 
   let [l, setL] = useState([]);
 
   function onCheckPress(data: any) {
-    setSelectedItems((prevItems) => [...prevItems, data]);
-    setCheck(!check);
+    if (!selectedItems.includes(data)) {
+      setSelectedItems((prevItems) => [...prevItems, data]);
+      setCheck(!check);
+    }
   }
   function onRemoveCheck(data: any) {
     const newData = selectedItems.filter((item) => item.texto !== data.texto);

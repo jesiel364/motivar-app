@@ -12,7 +12,7 @@ const SettingsViewController = () => {
     }
   }
 
-  console.log(theme);
+  // console.log(theme);
 
   const settingList = [
     {

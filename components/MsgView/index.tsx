@@ -133,7 +133,7 @@ export default function MsgView({ route }) {
           {/* <MotiCard props={data}></MotiCard> */}
           <Card theme={theme}>
             <Message theme={theme} selectable={true}>
-              {data.texto}ert
+              {data.texto}
             </Message>
 
             {/* <ActivityIndicator style={styles.loading} /> */}

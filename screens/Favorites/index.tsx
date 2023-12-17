@@ -41,8 +41,7 @@ const Favorites = ({ navigation }: any) => {
     theme,
     selectedItems,
     setSelectedItems,
-    total,
-    setTotal,
+
     
   } = useContext<any>(MyContext);
 

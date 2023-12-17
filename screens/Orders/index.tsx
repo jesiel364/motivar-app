@@ -48,7 +48,7 @@ const Orders = ({ navigation }: any) => {
 
     // GetMessageByAuthor("Jesus Cristo");
 
-    console.log(messageAuthor, author);
+    // console.log(messageAuthor, author);
     navigation.navigate("order", {
       title: author,
       messages: message,

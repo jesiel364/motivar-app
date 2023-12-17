@@ -66,7 +66,7 @@ const navigation = useNavigation()
   async function deleteMultiples() {
     if (selectedItems.length !== 0) {
       selectedItems.map((item) => {
-        console.log(item);
+        // console.log(item);
         handleRemove(item.texto);
       });
       setSelectedItems([]);

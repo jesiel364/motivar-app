@@ -18,6 +18,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@types/styled-components-react-native": "^5.2.2",
+    "eas-cli": "^5.9.2",
     "expo": "~49.0.10",
     "expo-clipboard": "~4.3.1",
     "expo-sharing": "~11.5.0",

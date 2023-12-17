@@ -1,15 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  Modal,
-  Vibration,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native";
+
 import { Author, Check, Item, Message } from "./style";
-import { Checkbox } from "react-native-paper";
 import { MyContext } from "../../Global/Context";
 import FavoritesViewController from "./viewController";
 interface LongPressProps {
@@ -25,6 +16,7 @@ interface LongPressProps {
   setSelectedItems: any;
   selectedItems: any;
   list: any;
+  item: any
 }
 
 const LongPressButton = ({
@@ -40,8 +32,10 @@ const LongPressButton = ({
   setSelectedItems,
   selectedItems,
   list,
+  item
 }: LongPressProps) => {
   const { showCheck, setShowCheck, theme } = useContext(MyContext);
+
 
   const { check, setCheck } = FavoritesViewController();
 
@@ -63,6 +57,8 @@ const LongPressButton = ({
     setCheck(!check);
   }
 
+  // console.log(data)
+
   function onPress() {
     if (showCheck) {
       if (check) {
@@ -71,7 +67,7 @@ const LongPressButton = ({
         onCheckPress(data);
       }
     } else {
-      navigation.navigate("favoritesView", { data: data });
+      navigation.navigate("favoritesView", { data: item });
     }
   }
 

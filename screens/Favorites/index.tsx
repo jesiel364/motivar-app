@@ -43,9 +43,13 @@ const Favorites = ({ navigation }: any) => {
     setSelectedItems,
     total,
     setTotal,
+    
   } = useContext<any>(MyContext);
 
+ 
+
   function handlePress(item: Props) {
+    // console.log(item)
     navigation.navigate("favoritesView", { data: item });
   }
 
@@ -99,6 +103,7 @@ const Favorites = ({ navigation }: any) => {
                 setOpenModal={setOpenModal}
                 openModal={openModal}
                 list={data}
+                item={item}
               >
                 <View
                   style={{

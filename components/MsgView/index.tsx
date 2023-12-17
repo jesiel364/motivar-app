@@ -17,13 +17,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
-import * as Sharing from "expo-sharing";
 import { useEffect, useState, useContext } from "react";
-import { FlatGrid } from "react-native-super-grid";
-import { SimpleGrid } from "react-native-super-grid";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { OrderViewController } from "../../screens/Orders/viewController";
+
 import { MyContext } from "../../Global/Context";
 import { ActionGroup, Author, Card, Container, Message, Title } from "./style";
 import { MsgViewController } from "./viewController";
@@ -34,6 +29,8 @@ export default function MsgView({ route }) {
   const type = route.params?.type;
   const frases = route.params?.messages?.frases;
   // const [fav, setFav] = useState<boolean>(false)
+
+  // console.log(data[0], "<== data")
 
   const {
     isLight,

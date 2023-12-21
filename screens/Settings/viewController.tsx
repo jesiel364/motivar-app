@@ -1,8 +1,15 @@
 import { useContext } from "react";
 import { MyContext } from "../../Global/Context";
+import {Linking } from 'react-native';
 
 const SettingsViewController = () => {
   const { theme, setTheme } = useContext(MyContext);
+
+  const openExternalLink = (url) => {
+    Linking.openURL(url)
+      .then(() => console.log('Link aberto com sucesso'))
+      .catch(() => console.error('Erro ao abrir o link'));
+  };
 
   function handleTheme() {
     if (theme === "Dark") {
@@ -12,7 +19,24 @@ const SettingsViewController = () => {
     }
   }
 
-  // console.log(theme);
+  const playStoreReviewURL = "https://play.google.com/store/apps/details?id=com.jesiel364.motivarapp"
+const email = "jesiel364@gmail.com"
+
+const sendMessage = 'Mensagem para Motivar - Frases Motivacionais'; 
+const feedback = 'Feedback - Reportar Erro'
+
+  const sendEmail = (subject:string) => {
+    const email = 'jesiel364@gmail.com';  // Substitua pelo seu endereço de e-mail
+    // Assunto do e-mail
+
+    // Cria o link "mailto"
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+
+    // Abre o link no cliente de e-mail padrão do dispositivo
+    Linking.openURL(mailtoLink)
+      .then(() => console.log('Cliente de e-mail aberto com sucesso'))
+      .catch(() => console.error('Erro ao abrir o cliente de e-mail'));
+  };
 
   const settingList = [
     {
@@ -66,17 +90,17 @@ const SettingsViewController = () => {
         // },
         {
           label: "Avalie o App",
-          callback: undefined,
+          callback: () => openExternalLink(playStoreReviewURL),
           id: 9,
         },
         {
           label: "Envie sua mensagem",
-          callback: undefined,
+          callback: () => sendEmail(sendMessage),
           id: 11,
         },
         {
           label: "Reportar erro",
-          callback: undefined,
+          callback: () => sendEmail(feedback),
           id: 12,
         },
       ],
@@ -93,6 +117,9 @@ const SettingsViewController = () => {
     handleTheme,
     settingList,
     textColor,
+    openExternalLink,
+    playStoreReviewURL,
+    email
   };
 };
 

@@ -19,7 +19,7 @@ export const Title = styled.Text`
   margin-right: auto;
 `;
 
-export const Option = styled.Pressable`
+export const Option = styled.TouchableOpacity`
   background-color: ${(props) =>
     props.theme === "Light" ? "#f4f4f4" : "#363636"};
   /* background-color: red; */

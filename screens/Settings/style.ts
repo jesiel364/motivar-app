@@ -29,3 +29,25 @@ export const Option = styled.TouchableOpacity`
   margin: 4px;
   border-radius: 8px;
 `;
+
+export const Version = styled.Text`
+  color: ${(props) => (props.theme === "Light" ? "#676767" : "#eee")};
+
+  font-size: 16px;
+  font-weight: 200;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: 8px;
+
+`;
+
+export const DEV = styled.Text`
+  color: ${(props) => (props.theme === "Light" ? "#676767" : "#eee")};
+
+  font-size: 16px;
+  font-weight: 200;
+  margin-top: 8px;
+  text-align: center;
+
+  
+`;

@@ -12,7 +12,7 @@ import MotiCard from "../../components/MotiCard";
 import { useContext, useEffect, useState } from "react";
 import ViewController from "../../ViewController";
 import { MyContext } from "../../Global/Context";
-import { SettingsContainer, Title, Option } from "./style";
+import { SettingsContainer, Title, Option, DEV, Version } from "./style";
 import Dark from "../../Global/dark";
 import { Appearance } from "react-native";
 import SettingsViewController from "./viewController";
@@ -56,6 +56,9 @@ const Settings = () => {
           ))}
         </>
       ))}
+
+      {/* <DEV theme={theme}>Jesiel</DEV> */}
+      <Version theme={theme}>V2.0.1</Version>
     </SettingsContainer>
   );
 };

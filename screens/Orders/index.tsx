@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Pressable } from "react-native";
+import { Pressable, TouchableOpacity } from "react-native";
 import { useEffect, useState, useContext } from "react";
 import { FlatGrid } from "react-native-super-grid";
 import { SimpleGrid } from "react-native-super-grid";
@@ -68,11 +68,11 @@ const Orders = ({ navigation }: any) => {
         data={mainAuthors}
         renderItem={({ item, index }) => (
           <>
-            <Pressable onPress={() => handlePress(item.authName)}>
+            <TouchableOpacity onPress={() => handlePress(item.authName)}>
               <AuthorItem theme={theme} key={index}>
                 {item.authName}
               </AuthorItem>
-            </Pressable>
+            </TouchableOpacity>
           </>
         )}
       />

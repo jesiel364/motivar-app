@@ -176,7 +176,7 @@ const MotiCard = (props: any) => {
           {frase ? (
             <S.ActionsGroup theme={theme}>
               {dataSource.map((item, index) => (
-                <Pressable
+                <TouchableOpacity
                   onPress={(e) => (item.callback ? item.callback() : null)}
                   key={index}
                 >
@@ -187,7 +187,7 @@ const MotiCard = (props: any) => {
                       color={theme === "Dark" ? "white" : "black"}
                     />
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               ))}
 
               {/* <TouchableOpacity

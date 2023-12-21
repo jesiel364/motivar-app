@@ -16,6 +16,7 @@ import { SettingsContainer, Title, Option, DEV, Version } from "./style";
 import Dark from "../../Global/dark";
 import { Appearance } from "react-native";
 import SettingsViewController from "./viewController";
+import Constants from "expo-constants";
 
 // console.log(Appearance.getColorScheme);
 
@@ -24,16 +25,17 @@ const Settings = () => {
   const { theme, setTheme, handleTheme, settingList, textColor } =
     SettingsViewController();
 
+  const appVersion = Constants.expoConfig?.version;
+
   return (
     <SettingsContainer theme={theme}>
-
-      {settingList.map((item, ) => (
+      {settingList.map((item) => (
         <>
           <Title theme={theme} key={item.id}>
             {item.title}
           </Title>
-          
-          {item.options.map((option, ) => (
+
+          {item.options.map((option) => (
             <>
               <Option
                 theme={theme}
@@ -58,7 +60,7 @@ const Settings = () => {
       ))}
 
       {/* <DEV theme={theme}>Jesiel</DEV> */}
-      <Version theme={theme}>V2.0.1</Version>
+      <Version theme={theme}>V{appVersion}</Version>
     </SettingsContainer>
   );
 };

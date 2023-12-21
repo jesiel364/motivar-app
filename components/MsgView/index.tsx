@@ -107,7 +107,7 @@ export default function MsgView({ route }) {
 
                 <ActionGroup theme={theme} style={styles.actions}>
                   {dataSource.map((item, index) => (
-                    <Pressable
+                    <TouchableOpacity
                       onPress={(e) => (item.callback ? item.callback() : null)}
                       key={index}
                     >
@@ -118,7 +118,7 @@ export default function MsgView({ route }) {
                           color={!isLight() ? "white" : "black"}
                         />
                       </Text>
-                    </Pressable>
+                    </TouchableOpacity>
                   ))}
                 </ActionGroup>
               </>
